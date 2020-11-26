@@ -1,0 +1,145 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
+    <script> document.documentElement.style.fontSize = document.documentElement.clientWidth / 750 * 40 + "px";</script>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>组织/企业认证申请</title>
+
+    <include file="../public/wxhead"/>
+
+    <style type="text/css">
+        body {
+            position: absolute;;
+            max-width: 750px;
+            margin: auto;
+        }
+
+        .fui-page.fui-page-from-center-to-left,
+        .fui-page-group.fui-page-from-center-to-left,
+        .fui-page.fui-page-from-center-to-right,
+        .fui-page-group.fui-page-from-center-to-right,
+        .fui-page.fui-page-from-right-to-center,
+        .fui-page-group.fui-page-from-right-to-center,
+        .fui-page.fui-page-from-left-to-center,
+        .fui-page-group.fui-page-from-left-to-center {
+            -webkit-animation: pageFromCenterToRight 0ms forwards;
+            animation: pageFromCenterToRight 0ms forwards;
+        }
+
+        .danmu {
+            display: none;
+            opacity: 0;
+        }
+
+
+    </style>
+
+
+</head>
+
+<body ontouchstart>
+
+<!--top-->
+<include file="../public/wxnav"/>
+<!--top-->
+
+<div id="companycertification" class="fui-content navbar" style="top: 50px;">
+    <div class="company">
+        <img src="__TMPL__/zbxh/public/assets/images/logo.png">
+
+        <p><input type="text" id="name" placeholder="组织/企业名称" oninput="if(value.length>30)value=value.slice(0,30)"></p>
+        <p><input type="text" id="linkman" placeholder="联系人姓名" oninput="if(value.length>10)value=value.slice(0,10)"></p>
+        <p><input type="number" id="phone" placeholder="手机号码" oninput="if(value.length>11)value=value.slice(0,11)"></p>
+        <p><input type="text" id="addr" placeholder="组织/企业地址" oninput="if(value.length>50)value=value.slice(0,50)"></p>
+        <p><input type="text" id="code" placeholder="认证码"
+                  oninput="if(value.length>10)value=value.slice(0,10)"></p>
+
+        <p>
+            <button class="button" v-on:click="subcompany();">提交</button>
+        </p>
+    </div>
+</div>
+<script>
+    var app = new Vue({
+        el: '#companycertification',
+        data: {}, created: function () {
+            var wxjsonstr = '{$jscode}';
+            var jsonobj = eval('(' + wxjsonstr + ')');
+            wx.config(jsonobj);
+            this.sharecontrol();
+        },
+        methods: {
+            subcompany: function () {
+                var name = $("#name").val();
+                var linkman = $("#linkman").val();
+                var phone = $("#phone").val();
+                var reg_phone = /1\d{10}/;
+                var addr = $("#addr").val();
+                var code = $("#code").val();
+                $('html,body').animate({scrollTop:0},1000);//回到顶端
+                if (name == "") {
+                    puopenwin("请输入组织/企业名称")
+                    return false;
+                }
+                if (linkman == "") {
+                    puopenwin("请输入联系人姓名")
+                    return false;
+                }
+                if (name == "") {
+                    puopenwin("请输入组织/企业名称")
+                    return false;
+                }
+                if (addr == "") {
+                    puopenwin("请输入组织/企业地址")
+                    return false;
+                } else if (!reg_phone.test(phone)) {   //验证手机是否符合格式
+                    puopenwin("手机号格式不对");
+                    return false;
+                } else if (code == "") {
+                    puopenwin("请输入认证吗，认证码请联系协会工作人员获取");
+                    return false;
+                } else {
+                    $.ajax({
+                        type: 'post',
+                        data: {
+                            name: name,
+                            linkman: linkman,
+                            phone: phone,
+                            addr: addr,
+                            code: code,
+                        },
+                        url: "{:url('/zbxh/wechatindex/subcompany')}",
+                        dataType: 'json',
+                        success: function (rs) {
+                            console.log(rs);
+                            if (rs.code == -1) {
+                                puopenwin("提交成功,请等待审核");
+                                window.location.href = "{:url('/zbxh/wechatindex/usercenter')}";
+                            } else {
+                                puopenwin(rs.msg);
+                            }
+                        }
+                    })
+                }
+            },
+            sharecontrol: function () {
+                wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
+                    wx.hideMenuItems({
+                        menuList: [
+                            'menuItem:share:appMessage',
+                            "menuItem:share:timeline",
+                            "menuItem:share:qq",
+                            "menuItem:share:QZone",
+                            "menuItem:copyUrl"
+                        ]
+                    });
+                });
+            }
+        }
+    })
+</script>
+</body>
+</html>
+		

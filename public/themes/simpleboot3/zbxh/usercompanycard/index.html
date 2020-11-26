@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
+    <script> document.documentElement.style.fontSize = document.documentElement.clientWidth / 750 * 40 + "px";</script>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>广西珠宝协会</title>
+
+    <include file="../public/wxhead"/>
+
+    <style type="text/css">
+
+        body {
+            background-color: #FFFFFF;
+        }
+
+        .fui-page.fui-page-from-center-to-left,
+        .fui-page-group.fui-page-from-center-to-left,
+        .fui-page.fui-page-from-center-to-right,
+        .fui-page-group.fui-page-from-center-to-right,
+        .fui-page.fui-page-from-right-to-center,
+        .fui-page-group.fui-page-from-right-to-center,
+        .fui-page.fui-page-from-left-to-center,
+        .fui-page-group.fui-page-from-left-to-center {
+            -webkit-animation: pageFromCenterToRight 0ms forwards;
+            animation: pageFromCenterToRight 0ms forwards;
+        }
+
+        .danmu {
+            display: none;
+            opacity: 0;
+        }
+
+        .swiper-container {
+            width: 100%;
+            height: 152px;
+        }
+
+        .swiper-container-horizontal > .swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction {
+            bottom: 25px;
+        }
+
+        .swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            background: #fff;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+    </style>
+
+
+</head>
+
+<body ontouchstart>
+
+<!--top-->
+<include file="../public/wxnav"/>
+<!--top-->
+
+
+<div id="user_company_card">
+</div>
+<!-- <include file="../public/wxfoot"/> -->
+
+<script>
+
+    var app = new Vue({
+        el: '#user_company_card',
+        data: {
+
+        },
+        created: function () {
+
+        },
+        mounted() {
+        },
+        filters: {
+            formatTimer: function (value) {
+                var date = new Date(value * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+                Y = date.getFullYear() + '-';
+                M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+                D = date.getDate() + ' ';
+                h = date.getHours() + ':';
+                m = date.getMinutes() + ':';
+                s = date.getSeconds();
+                return Y + M + D + h + m + s;
+            },
+        },
+        methods: {
+
+        }
+    })
+
+</script>
+</body>
+</html>
+		

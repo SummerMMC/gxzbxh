@@ -1,0 +1,80 @@
+<div id="wxmenu" class="navs">
+    <div class="catebox">
+
+        <a v-for="(item,key) in menu" v-if="item.topmenu.is_hit == 2" href="javascript:void(0);"
+           :class="[item.topmenu.id==mid?'red':'']"
+           v-on:click="selectmenu(item.topmenu.id);">{{item.topmenu.name}}</a>
+        <a v-for="(item,key) in menu" v-if="item.topmenu.is_hit == 1"
+           :href="'/zbxh/wechatotherindex/postlist?cid='+item.topmenu.id" :class="[item.topmenu.id==mid?'red':'']"
+           v-on:click="selectmenu(item.topmenu.id);">{{item.topmenu.name}}</a>
+    </div>
+    <div class="navs_sb">
+        <a v-for="item in sonmenu" :href="'/zbxh/wechatotherindex/postlist?cid='+item.id">{{item.name}}</a>
+    </div>
+</div>
+
+
+<script>
+    new Vue({
+        el: "#wxmenu",
+        data: {
+            mid: 4,
+            menu: [],
+            sonmenu: [],
+        },
+        created() {
+            this.mid = "{$topcid}";
+            console.log(this.mid);
+            this.getMenu();
+        },
+        methods: {
+            getMenu: function () {
+                var _self = this;
+                $.ajax({
+                    type: 'get',
+                    data: {},
+                    url: "{:url('/zbxh/index/getmenuajax')}",
+                    dataType: 'json',
+                    success: function (rs) {
+                        var tempmenulist = rs.data;
+                        var finalmenu = [];
+                        for (i = 0; i < tempmenulist.length; i++) {
+                            var topmenu;
+                            if (tempmenulist[i].parent_id == 0) {
+                                topmenu = tempmenulist[i];
+                                var temparra = [];
+                                for (j = 0; j < tempmenulist.length; j++) {
+                                    if (tempmenulist[j].parent_id == tempmenulist[i].id) {
+                                        temparra.push(tempmenulist[j]);
+                                    }
+                                }
+                                finalmenu.push({
+                                    'topmenu': topmenu,
+                                    'sonmenu': temparra
+                                })
+                            } else {
+                                continue;
+                            }
+                        }
+                        _self.menu = finalmenu;
+                        _self.sonmenu = finalmenu[0].sonmenu
+                        _self.selectmenu(_self.mid);
+                    }
+                })
+            },
+            selectmenu: function (id) {
+                this.mid = id;
+                for (i = 0; i < this.menu.length; i++) {
+                    if (this.menu[i].topmenu.id == id) {
+                        if (this.menu[i].sonmenu.length > 0) {
+                            this.menutag = id;
+                            this.sonmenu = this.menu[i].sonmenu;
+                        } else {
+                            this.sonmenu = [];
+                        }
+                    }
+                }
+            },
+        }
+    })
+</script>

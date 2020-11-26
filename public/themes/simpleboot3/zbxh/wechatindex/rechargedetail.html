@@ -1,0 +1,228 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
+    <script> document.documentElement.style.fontSize = document.documentElement.clientWidth / 750 * 40 + "px";</script>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>订单详情</title>
+
+    <include file="../public/wxhead"/>
+
+    <style type="text/css">
+        body {
+            position: absolute;;
+            max-width: 750px;
+            margin: auto;
+        }
+
+        .fui-navbar {
+            max-width: 750px;
+        }
+
+        .fui-navbar, .fui-footer {
+            max-width: 750px;
+        }
+
+        .fui-page.fui-page-from-center-to-left,
+        .fui-page-group.fui-page-from-center-to-left,
+        .fui-page.fui-page-from-center-to-right,
+        .fui-page-group.fui-page-from-center-to-right,
+        .fui-page.fui-page-from-right-to-center,
+        .fui-page-group.fui-page-from-right-to-center,
+        .fui-page.fui-page-from-left-to-center,
+        .fui-page-group.fui-page-from-left-to-center {
+            -webkit-animation: pageFromCenterToRight 0ms forwards;
+            animation: pageFromCenterToRight 0ms forwards;
+        }
+
+        .danmu {
+            display: none;
+            opacity: 0;
+        }
+
+        .buk {
+            padding: 5px 15px;
+            text-align: center;
+            background-color: #f90;
+            color: #FFFFFF;
+            border-radius: 4px;
+        }
+
+        .qfk {
+            padding: 5px 15px;
+            text-align: center;
+            background: red;
+            color: #FFFFFF;
+            border-radius: 4px;
+        }
+    </style>
+
+
+</head>
+
+<body ontouchstart>
+
+<div class='fui-page-group  ' id="rechargedetail">
+    <div class='fui-page order-list-page  fui-page-current '>
+        <!--        <div class="fui-header">-->
+        <!--            <div class="fui-header-left">-->
+        <!--                <a class="back"></a>-->
+        <!--            </div>-->
+        <!--            <div class="title">我的订单</div>-->
+        <!--        </div>-->
+
+        <div class='fui-content navbar order-list' style="top: 0;">
+
+            <div class='container'>
+                <div style="margin: 6% 0px 0px 3%; font-weight: bold;"> 课程信息：</div>
+                <table border="0" cellspacing="0" cellpadding="0" class="tsdttable" style="margin-top: 5px;">
+                    <tr>
+                        <td width="30%">驾校名称:</td>
+                        <td>{{rechargedetail.dname}}</td>
+                    </tr>
+                    <tr>
+                        <td width="30%">课程名称:</td>
+                        <td>{{rechargedetail.pname}}</td>
+                    </tr>
+                    <tr>
+                        <td>驾照类型</td>
+                        <td>{{rechargedetail.ptype}}</td>
+                    </tr>
+                    <tr>
+                        <td>班型费用</td>
+                        <td>￥{{rechargedetail.pprice}}</td>
+                    </tr>
+                    <tr>
+                        <td>接送方式</td>
+                        <td>{{rechargedetail.ppick_up}}</td>
+                    </tr>
+                    <tr>
+                        <td>学车时间</td>
+                        <td>{{rechargedetail.ptime_frame}}</td>
+                    </tr>
+                    <tr>
+                        <td>几人一车</td>
+                        <td>{{rechargedetail.pp_one_car}}人</td>
+                    </tr>
+                </table>
+
+                <div style="margin: 6% 0px 0px 3%; font-weight: bold;"> 订单信息：</div>
+                <table border="0" cellspacing="0" cellpadding="0" class="tsdttable" style="margin-top: 5px;">
+                    <tr>
+                        <td width="30%">报名人:</td>
+                        <td>{{rechargedetail.account}}</td>
+                    </tr>
+                    <tr>
+                        <td>联系电话</td>
+                        <td>{{rechargedetail.phone}}</td>
+                    </tr>
+                    <tr>
+                        <td>订单时间</td>
+                        <td>{{rechargedetail.ctime|formatTimer}}</td>
+                    </tr>
+                    <tr>
+                        <td>支付金额</td>
+                        <td>￥{{rechargedetail.money}}</td>
+                    </tr>
+                    <tr>
+                        <td>订单号</td>
+                        <td>{{rechargedetail.orderid}}</td>
+                    </tr>
+                    <tr v-if="rechargedetail.deposit_status == 1 || rechargedetail.deposit_status == 2 || rechargedetail.deposit_status == 3">
+                        <td>定金：</td>
+                        <td>¥{{rechargedetail.deposit}}</td>
+                    </tr>
+                    <tr v-if="rechargedetail.deposit_status == 1 || rechargedetail.deposit_status == 2 || rechargedetail.deposit_status == 3">
+                        <td> 补款：</td>
+                        <td>¥{{rechargedetail.supplement_mony}}</td>
+                    </tr>
+                    <tr v-if="rechargedetail.deposit_status == 1 || rechargedetail.deposit_status == 2 || rechargedetail.deposit_status == 3">
+                        <td> 已付定金：</td>
+                        <td>¥{{rechargedetail.real_deposit_pay}}</td>
+                    </tr>
+                    <tr v-if="rechargedetail.deposit_status == 1 || rechargedetail.deposit_status == 2 || rechargedetail.deposit_status == 3">
+                        <td> 已付补款：</td>
+                        <td>¥{{rechargedetail.real_sn_pay}}</td>
+                    </tr>
+                    <tr>
+                        <td>付款状态</td>
+                        <td>
+                            <div v-if="rechargedetail.status == 1">
+                                <span style="color: red;" v-if="rechargedetail.deposit_status == 1">
+                                    <a :href="'/jiaxiao/wechatindex/rechargeorder?payoid='+rechargedetail.id+'&paytag=bk'"
+                                       class="buk">去补款</a>
+                                </span>
+
+                                <span style="color: red;" v-else-if="rechargedetail.deposit_status == 3">
+                                    <a :href="'/jiaxiao/wechatindex/rechargeorder?payoid='+rechargedetail.id+'&paytag=dj'"
+                                       class="buk">支付定金</a>
+                                </span>
+
+                                <span style="color: red;" v-else>
+                                    <a :href="'/jiaxiao/wechatindex/rechargeorder?payoid='+rechargedetail.id+'&paytag=zf'"
+                                       class="qfk">去付款</a>
+                                </span>
+                            </div>
+                            <div v-if="rechargedetail.status == 2">
+                                <span style="color: #00B950;">已付款</span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+    </div>
+    <include file="../public/wxfoot"/>
+</div>
+<script>
+    var app = new Vue({
+        el: '#rechargedetail',
+        data: {
+            rechargedetail: {},
+            id: '{$id}',
+        },
+        created: function () {
+            this.rechargedetailData();
+        },
+        filters: {
+            formatTimer: function (value) {
+                var date = new Date(value * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+                Y = date.getFullYear() + '-';
+                M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+                D = date.getDate() + ' ';
+                h = date.getHours() + ':';
+                m = date.getMinutes() + ':';
+                s = date.getSeconds();
+                return Y + M + D + h + m + s;
+            }
+        },
+        methods: {
+            rechargedetailData: function () {
+                var _self = this;
+                openloading();
+                $.ajax({
+                    type: 'post',
+                    data: {id: _self.id},
+                    url: "{:url('/jiaxiao/wechatindex/getrechargedetail')}",
+                    dataType: 'json',
+                    success: function (rs) {
+                        console.log(rs);
+                        if (rs.code == -1) {
+                            _self.rechargedetail = rs.data[0];
+                            hideloading();
+                        }
+                    }
+                })
+            },
+            changestatus: function (tag) {
+                this.status = tag;
+                this.rechargelistData();
+            }
+        }
+    })
+</script>
+</body>
+</html>
+		

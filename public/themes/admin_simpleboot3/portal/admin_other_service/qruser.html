@@ -1,0 +1,100 @@
+<include file="public@header"/>
+<style type="text/css">
+    .pic-list li {
+        margin-bottom: 5px;
+    }
+</style>
+
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('AdminActivity/index')}">用户二维码</a></li>
+    </ul>
+    <form action="{:url('AdminActivity/saveuserqrcode')}" method="post"
+          class="form-horizontal js-ajax-form margin-top-20">
+        <div class="row">
+            <div class="col-md-9">
+                <foreach name="aresult" item="vo">
+                    <div style="float: left;">
+                        <div>
+                            <img src="/{$vo.qrcode}" width="100px;">
+                        </div>
+                        <div>{$vo.name}</div>
+                    </div>
+                </foreach>
+                <input type="hidden" name="post[aid]" value="{$activity.id}"/>
+                <input type="hidden" id="fqrcode" name="post[qrcode]"/>
+                <table class="table table-bordered">
+                    <tr>
+                        <th width="100">用户id<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="text" name="post[uid]"
+                                   id="uid" placeholder="请输入用户id"
+                                   oninput="if(value.length>20)value=value.slice(0,10)"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th width="100">活动地址<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="text" name="url"
+                                   id="url" placeholder="请输入活动地址"
+                                   oninput="if(value.length>20)value=value.slice(0,100)" value="{$activity.url}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th width="100"></th>
+                        <td>
+                            <div id="qrcode"></div>
+                            <a href="javascript:void(0);" onclick="createqrcode();">生成二维码</a>
+                        </td>
+                    </tr>
+                </table>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('ADD')}</button>
+                        <a class="btn btn-default" href="{:url('AdminDriving/index')}">{:lang('BACK')}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+<script type="text/javascript">
+    //编辑器路径定义
+    var editorURL = GV.WEB_ROOT;
+</script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript" src="__TMPL__/public/assets/js/qrcode.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+    });
+    var formtag = 0;
+
+    function createqrcode() {
+        $url = $("#url").val();
+        $uid = $("#uid").val();
+        $("#qrcode").html('');
+        if ($url == '' || $url == undefined) {
+            alert("活动地址不能为空");
+            return false;
+        }
+        if ($uid == '' || $uid == undefined) {
+            alert("用户ID不能为空");
+            return false;
+        }
+        var qrcode = new QRCode(document.getElementById("qrcode"), {
+            width: 320,//设置宽高
+            height: 320
+        });
+        qrcode.makeCode($url + "?pid=" + $uid);
+        var canvas = $('#qrcode').find("canvas").get(0);
+        var url = canvas.toDataURL('image/jpeg');
+        $("#fqrcode").val(url);
+    }
+</script>
+</body>
+</html>

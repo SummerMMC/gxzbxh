@@ -1,0 +1,287 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
+    <script> document.documentElement.style.fontSize = document.documentElement.clientWidth / 750 * 40 + "px";</script>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>模拟考试</title>
+
+    <include file="../public/wxhead"/>
+
+    <style type="text/css">
+        body {
+            position: absolute;;
+            max-width: 750px;
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body ontouchstart>
+<div id="examination" class='fui-page  shop-index-page fui-page-current member-page'
+     style="top: 0; background-color: #FFFFFF; ">
+    <div class="fui-content navbar">
+
+        <!--内容-->
+        <div class="tootime">{{countdownmsg}}</div>
+        <div class="p15s">
+            <div>
+                {{issuesindex+1}}/{{count}}题目：{{result.title}}
+            </div>
+            <div>
+                <div v-for="item in aresult" class="crightst">
+                    <label :class="selheightline == item.tag?'selheightline':''">
+                        <input type="radio" class="inputcts" value="item.tag" name="aitems"
+                               v-on:change="changeradio(item.tag)"/><i
+                            class="bui-radios"></i> {{item.title}}
+                    </label>
+                </div>
+            </div>
+            <div v-if="isshowimg == true" class="mt15">
+                <img :src="'/'+result.attachment" class="imagescs"/>
+            </div>
+            <div class="prev_nex">
+                <label v-on:click="backpage()" class="textstb">返回</label>
+                <label v-if="isshowsub == true" v-on:click="subexamination()" class="textstb">交卷</label>
+                <label v-if="isshownext == true" v-on:click="changequ()" class="textstb">下一题</label>
+            </div>
+            <div v-if="isshowresult == true" class="exambj">
+                <div>{{finaltag}}</div>
+            </div>
+        </div>
+        <!--内容-->
+
+    </div>
+</div>
+
+
+<include file="../public/wxfoot"/>
+
+
+</body>
+<script>
+    var app = new Vue({
+        el: '#examination',
+        data: {
+            issuesindex: 0,
+            count: 100,
+            result: [],
+            aresult: [],
+            isshownote: false,
+            isshowok: false,
+            isshowerro: false,
+            isshowimg: false,
+            isshownext: true,
+            checked: false,
+            qunumlist: [],
+            rightlist: [],
+            rightstr: '',
+            errorlist: [],
+            errorstr: '',
+            tempanswer: "",
+            finaltag: '',
+            isshowsub: true,
+            maxtime: 45 * 60,
+            countdownmsg: '',
+            timer: Object,
+            isshowresult: false,
+            openid: '{$openid}',
+            selheightline: '',
+            issub: 0,
+        },
+        created: function () {
+            openloading();
+            this.getexamination();
+            this.timer = setInterval(this.countdown, 1000);
+        },
+        filters: {
+            formatTimer: function (value) {
+                var date = new Date(value * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+                Y = date.getFullYear() + '-';
+                M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+                D = date.getDate() + ' ';
+                h = date.getHours() + ':';
+                m = date.getMinutes() + ':';
+                s = date.getSeconds();
+                return Y + M + D + h + m + s;
+            },
+            fomateanswer: function (v, aresult) {
+                if (v == 1) {
+                    if (aresult.length > 2) {
+                        return "A";
+                    } else {
+                        return "正确";
+                    }
+                } else if (v == 2) {
+                    if (aresult.length > 2) {
+                        return "B";
+                    } else {
+                        return "错误";
+                    }
+                } else if (v == 3) {
+                    return "C";
+                } else if (v == 4) {
+                    return "D";
+                }
+            }
+        },
+        methods: {
+            getexamination: function () {
+                var _self = this;
+                this.isshowok = false;
+                this.isshowerro = false;
+                this.isshownote = false;
+
+                $.ajax({
+                    type: 'post',
+                    data: {index: this.issuesindex + 1},
+                    url: "{:url('/jiaxiao/issues/getexamination')}",
+                    dataType: 'json',
+                    success: function (res) {
+                        console.log(res);
+                        var arra = [];
+                        if (res.code == -1) {
+                            _self.result = res.data.result[0];
+                            _self.aresult = res.data.aresult;
+                            _self.qunumlist = arra;
+                            if (res.data.result[0].attachment != null && res.data.result[0].attachment != undefined && res.data.result[0].attachment != '') {
+                                _self.isshowimg = true;
+                            } else {
+                                _self.isshowimg = false;
+                            }
+                            if (_self.issuesindex >= _self.count - 1) {
+                                _self.isshownext = false;
+                            }
+                            hideloading();
+                        }
+
+                    },
+                })
+            },
+            countdown: function () {
+                var minutes;
+                var seconds;
+                if (this.maxtime >= 0) {
+                    minutes = Math.floor(this.maxtime / 60);
+                    seconds = Math.floor(this.maxtime % 60);
+                    this.countdownmsg = "距离考试结束还有" + minutes + "分" + seconds + "秒"
+                    --this.maxtime;
+                } else {
+                    clearInterval(this.timer);
+                    puopenwin("答题时间到，请点击交卷或者返回！");
+                    this.isshownext = false;
+                }
+            },
+            changeradio: function (va) {
+                this.selheightline = '';
+                this.tempanswer = va;
+                this.selheightline = va;
+            },
+            changequ: function () {
+                this.selheightline = '';
+                if (this.tempanswer == '') {
+                    puopenwin("请答题！");
+                    return false;
+                }
+                var va = this.tempanswer;
+                if (va == this.result.answer) {
+                    this.rightlist.push(this.result.id);
+                    if (this.rightstr != '') {
+                        this.rightstr = this.rightstr + "#14" + this.result.id + '#13' + this.result.title + "#13" + this.result.answer;
+                    } else {
+                        this.rightstr = this.result.id + '#13' + this.result.title + "#13" + this.result.answer;
+                    }
+                } else {
+                    this.errorlist.push(this.result.id);
+                    if (this.errorstr != '') {
+                        this.errorstr = this.errorstr + "#14" + this.result.id + '#13' + this.result.title + "#13" + this.result.answer;
+                    } else {
+
+                        this.errorstr = this.result.id + '#13' + this.result.title + "#13" + this.result.answer
+                    }
+                }
+                $("input").filter(":radio").removeAttr("checked");
+                this.checked = false;
+                this.issuesindex = this.issuesindex + 1;
+                this.tempanswer = '';
+                this.getexamination();
+            },
+            subexamination: function () {
+                var _self = this;
+                //拼装最后一题的答题数据
+                var va = this.tempanswer;
+                if (va == '') {
+                    puopenwin('请答题！');
+                    return false;
+                }
+                if (va == this.result.answer) {
+                    this.rightlist.push(this.result.id);
+                    if (this.rightstr != '') {
+                        this.rightstr = this.rightstr + "#14" + this.result.id + '#13' + this.result.title + "#13" + this.result.answer;
+                    } else {
+                        this.rightstr = this.result.id + '#13' + this.result.title + "#13" + this.result.answer;
+                    }
+                } else {
+                    this.errorlist.push(this.result.id);
+                    if (this.errorstr != '') {
+                        this.errorstr = this.errorstr + "#14" + this.result.id + '#13' + this.result.title + "#13" + this.result.answer;
+                    } else {
+                        this.errorstr = this.result.id + '#13' + this.result.title + "#13" + this.result.answer;
+                    }
+                }
+                var rcont = this.rightlist.length;
+                var econt = this.errorlist.length;
+                layer.msg('确定要交卷吗？', {
+                    time: 0 //不自动关闭
+                    , btn: ['确定', '取消']
+                    , yes: function (index) {
+                        layer.close(index);
+                        _self.isshowsub = false;
+                        _self.finaltag = "您一共答对" + rcont + "题,答错" + econt + "题，满分100分，您的得分是" + rcont + "分";
+                        _self.isshowresult = true;
+                        _self.countdownmsg = '';
+                        _self.isshownext = false;
+                        clearInterval(_self.timer);
+                        $.ajax({
+                            type: 'post',
+                            data: {
+                                rightlist: _self.rightstr,
+                                errorlist: _self.errorstr,
+                                rcont: rcont,
+                                econt: econt,
+                                openid: _self.openid
+                            },
+                            url: "{:url('/jiaxiao/issues/subexamination')}",
+                            dataType: 'json',
+                            success: function (res) {
+                                if (res.code == -1) {
+                                    puopenwin('提交成功，可以在成绩查询中查询成绩！');
+                                    _self.issub = 1;
+                                }
+                            },
+                        })
+
+                    }
+                });
+            },
+            backpage: function () {
+                if (this.issub == 0) {
+                    layer.msg('返回将不保存当前模拟考试成绩，是否继续返回？', {
+                        time: 0 //不自动关闭
+                        , btn: ['确定', '取消']
+                        , yes: function (index) {
+                            layer.close(index);
+                            window.history.go(-1);
+                        }
+                    });
+                } else {
+                    window.history.go(-1);
+                }
+
+            }
+        }
+    })
+</script>
+</html>
+		

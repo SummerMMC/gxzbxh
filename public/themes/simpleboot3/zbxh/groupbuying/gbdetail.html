@@ -1,0 +1,348 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
+    <script> document.documentElement.style.fontSize = document.documentElement.clientWidth / 750 * 40 + "px";</script>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>拼团</title>
+
+    <include file="../public/wxhead"/>
+
+    <style type="text/css">
+        body {
+            position: absolute;;
+            max-width: 750px;
+            margin: auto;
+        }
+
+        .fui-navbar {
+            max-width: 750px;
+        }
+
+        .fui-navbar, .fui-footer {
+            max-width: 750px;
+        }
+
+        .fui-page.fui-page-from-center-to-left,
+        .fui-page-group.fui-page-from-center-to-left,
+        .fui-page.fui-page-from-center-to-right,
+        .fui-page-group.fui-page-from-center-to-right,
+        .fui-page.fui-page-from-right-to-center,
+        .fui-page-group.fui-page-from-right-to-center,
+        .fui-page.fui-page-from-left-to-center,
+        .fui-page-group.fui-page-from-left-to-center {
+            -webkit-animation: pageFromCenterToRight 0ms forwards;
+            animation: pageFromCenterToRight 0ms forwards;
+        }
+
+        .danmu {
+            display: none;
+            opacity: 0;
+        }
+
+
+        .baom {
+            overflow: hidden;
+        }
+
+        .inputst {
+            border: none;
+            border-bottom: solid 1px #DDDDDD;
+            height: 30px;
+            line-height: 30px;
+            margin-bottom: 10px;
+            padding-left: 5px;
+        }
+
+        .baom .stizm .iniputs {
+            width: 50%;
+            overflow: hidden;
+            float: left;
+            height: 30px;
+            line-height: 30px;
+            border: none;
+            border-bottom: solid 1px #DDDDDD;
+            padding-left: 5px;
+        }
+
+        .baom .stinyzmtt {
+            padding: 7px;
+        }
+
+        .stinput {
+            width: 100%;
+            margin-top: 10px;
+            border-radius: 15px;
+            padding: 6px;
+            margin-bottom: 10px;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .styyh {
+            padding: 7px;
+        }
+
+        .rights {
+            margin-top: 15px;
+        }
+
+        .rights a {
+            border: solid 1px red;
+            background: red;
+            color: #FFFFFF;
+            padding: 6px 20px;
+            border-radius: 5px;
+        }
+    </style>
+
+
+</head>
+
+<body ontouchstart>
+
+<div id="gbdetail">
+    <div class='fui-page  shop-index-page fui-page-current member-page' style="top: 0px; background-color: #fafafa; ">
+        <div class="fui-content navbar">
+            <!--内容-->
+            <div class="default-items">
+                <div class="fui-swipe-wrapper">
+                    <a class="fui-swipe-item" href="" data-nocache="true"><img :src="gbdetail.dthumbnail"
+                                                                               style="display: block; width: 100%; height: auto;"/></a>
+                </div>
+                <div class="jiaxiaomains">
+                    <h3>{{gbdetail.dname}} <span class="mordesty">¥{{gbdetail.g_price}}</span> <code class="titxst">¥{{gbdetail.pprice}}</code>
+                    </h3>
+                    <p>地址：{{gbdetail.daddr}}</p>
+                    <p>
+                        科目：{{gbdetail.pname}}
+                    </p>
+                    <p>
+                        学习时间：{{gbdetail.ptime_frame}}
+                    </p>
+                    <p>
+                        是否接送：{{gbdetail.ppick_up}}
+                    </p>
+
+                </div>
+                <div id="phone_div" :style="{display:(hasphone == 0 ? 'block':'none')}" class="baom">
+                    <input id="phone" type="number" oninput="if(value.length>11)value=value.slice(0,11)"
+                           placeholder="请输入您手机号码" class="inputst">
+                    <div class="stizm ct">
+                        <input id="code" type="text" placeholder="验证码" class="iniputs">
+                        <button class="stinyzmtt" v-on:click="sendMsn();" id="J_getCode">获取验证码</button>
+                        <button class="styyh" id="J_resetCode" style="display:none;"><span
+                                id="J_second">60</span>秒后重发
+                        </button>
+                    </div>
+                    <a href="javascript:void(0);" v-on:click="bingphone();" class="stinput ">绑定手机号码</a>
+                </div>
+            </div>
+            <div class="hengxian"></div>
+
+            <ul class="listjg">
+                <li>
+                    <div class="lefts">
+                        <p>还差<span class="mordesty">{{gbdetail.sy_p_count}}</span>人成团</p>
+                        <p class="fonts12">活动结束时间：{{gbdetail.f_time|formatTimer}}</p>
+                    </div>
+                    <div class="rights" v-if="gbdetail.sy_p_count != 0">
+                        <div v-if="is_join == 0">
+                            <a href="javascript:void(0);" v-on:click="joingroubuying();">去参团 > </a>
+                        </div>
+                        <div v-if="is_join == 1">
+                            <a href="javascript:void(0);">您已参团 > </a>
+                        </div>
+                    </div>
+                </li>
+                <div class="ttctst">
+                    已参团：
+                    <div v-for="gr in gbdetail.recharge">
+                        <span>{{gr.account|formatName}}--￥{{gbdetail.g_price}}；</span>
+                    </div>
+                    <div v-for="pu in gbdetail.virtual_name">
+                        <span>{{pu.name}}--￥{{gbdetail.g_price}}；</span>
+                    </div>
+                </div>
+            </ul>
+            <div class="hengxian"></div>
+            <div>
+                <h3 class="titlest">—— 团购简介 ——</h3>
+                <div class="pl3">
+                    {{gbdetail.note}}
+                </div>
+            </div>
+        </div>
+        <!--内容-->
+    </div>
+</div>
+
+<script>
+    var app = new Vue({
+        el: '#gbdetail',
+        data: {
+            gbdetail: {},
+            status: 1,
+            id: "{$id}",
+            hasphone: "{$hasphone}",
+            is_join: 1,
+        },
+        created: function () {
+            this.gbdetailData();
+            var wxjsonstr = '{$jscode}';
+            var jsonobj = eval('(' + wxjsonstr + ')');
+            wx.config(jsonobj);
+        },
+        filters: {
+            formatTimer: function (value) {
+                var date = new Date(value * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+                Y = date.getFullYear() + '-';
+                M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+                D = date.getDate() + ' ';
+                h = date.getHours() + ':';
+                m = date.getMinutes() + ':';
+                s = date.getSeconds();
+                return Y + M + D + h + m + s;
+            },
+            formatName: function (value) {
+                var namestr = value.substr(0, 2);
+                return namestr + "**";
+            }
+        },
+        methods: {
+            gbdetailData: function () {
+                var _self = this;
+                $.ajax({
+                    type: 'post',
+                    data: {id: _self.id},
+                    url: "{:url('/jiaxiao/groupbuying/getgbdetail')}",
+                    dataType: 'json',
+                    success: function (rs) {
+                        console.log(rs);
+                        if (rs.code == -1) {
+                            _self.gbdetail = rs.data;
+                            _self.is_join = rs.data.is_join;
+                            wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
+                                wx.updateAppMessageShareData({
+                                    title: rs.data.name + "-[团购还差" + rs.data.sy_p_count + "人]", // 分享标题
+                                    desc: rs.data.note, // 分享描述
+                                    link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                                    imgUrl: rs.data.dthumbnail, // 分享图标
+                                    success: function () {
+                                        // 设置成功
+                                    }
+                                })
+                            });
+                            wx.updateTimelineShareData({
+                                title: rs.data.name + "-[团购还差" + rs.data.sy_p_count + "人]", // 分享标题
+                                link: window.location.href, // 分享链接，该链接域名必须与当前企业的可信域名一致
+                                imgUrl: rs.data.dthumbnail, // 分享图标
+                                success: function () {
+                                    // 用户确认分享后执行的回调函数
+                                },
+                                cancel: function () {
+                                    // 用户取消分享后执行的回调函数
+                                }
+                            });
+                        }
+                    }
+                })
+            },
+            joingroubuying: function () {
+                var _self = this;
+                if (this.hasphone == 0) {
+                    puopenwin("请绑定手机号码！");
+                    return false;
+                }
+                window.location.href = '/jiaxiao/groupbuying/joingroubuying?id=' + this.id;
+            },
+            sendMsn: function () {
+                var phone = $("#phone").val();
+                var reg_phone = /1\d{10}/;
+
+
+                if (phone == "") {
+                    puopenwin("请输入正确手机号")
+                    return false;
+                } else if (!reg_phone.test(phone)) {   //验证手机是否符合格式
+                    puopenwin("手机号格式不对");
+                    return false;
+                } else {
+                    $('#J_getCode').hide();
+                    $('#J_resetCode').show();
+                    var second = 60;
+                    var timer = null;
+                    $('#J_second').html('60');
+
+                    timer = setInterval(function () {
+                        second -= 1;
+                        if (second > 0) {
+                            $('#J_second').html(second);
+                        } else {
+                            clearInterval(timer);
+                            $('#J_getCode').show();
+                            $('#J_resetCode').hide();
+                        }
+                    }, 1000);
+
+                    $.ajax({
+                        type: 'post',
+                        data: {
+                            phone: phone,
+                        },
+                        url: "{:url('/jiaxiao/wechatindex/sendmsgpass')}",
+                        dataType: 'json',
+                        success: function (rs) {
+                            console.log(rs);
+                            if (rs.code == -1) {
+                                puopenwin(rs.msg);
+                            } else {
+                                puopenwin(rs.msg);
+                            }
+                        }
+                    })
+                }
+            },
+            bingphone: function () {
+                var _self = this;
+                var phone = $("#phone").val();
+                var code = $("#code").val();
+                var reg_phone = /1\d{10}/;
+                if (phone == "") {
+                    puopenwin("请输入正确手机号")
+                    return false;
+                }
+                if (!reg_phone.test(phone)) {   //验证手机是否符合格式
+                    puopenwin("手机号格式不对");
+                    return false;
+                }
+                if (code == '') {
+                    puopenwin("请输入验证码")
+                    return false;
+                }
+                $.ajax({
+                    type: 'post',
+                    data: {
+                        phone: phone,
+                        code: code,
+                    },
+                    url: "{:url('/jiaxiao/wechatindex/bingphone')}",
+                    dataType: 'json',
+                    success: function (rs) {
+                        console.log(rs);
+                        if (rs.code == -1) {
+                            _self.hasphone = 1;
+                            puopenwin("号码绑定成功！");
+                        } else {
+                            puopenwin(rs.msg);
+                        }
+                    }
+                })
+            }
+        }
+    })
+</script>
+
+</body>
+</html>

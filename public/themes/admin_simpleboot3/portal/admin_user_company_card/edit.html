@@ -1,0 +1,143 @@
+<include file="public@header"/>
+<style type="text/css">
+    .pic-list li {
+        margin-bottom: 5px;
+    }
+</style>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('AdminUserCompanyCard/index')}">组织/企业名片</a></li>
+        <li class="active"><a href="{:url('AdminUserCompanyCard/add')}">审核名片</a></li>
+    </ul>
+    <form action="{:url('AdminUserCompanyCard/addPost')}" method="post"
+          class="form-horizontal js-ajax-form margin-top-20">
+        <div class="row">
+            <div class="col-md-9">
+                <table class="table table-bordered">
+                    <tr>
+                        <th style="width: 120px">头像</th>
+                        <td>
+                            <a href="{$avatar}" target="_blank"><img src="{$avatar}" width="80" height="80"
+                                                                 style="border-radius:30px"></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>组织/企业名称</th>
+                        <td>
+                            {$user.cname}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>部门</th>
+                        <td>
+                            {$user.department}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>职位</th>
+                        <td>
+                            {$user.position}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>姓名</th>
+                        <td>
+                            {$user.real_name}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>手机</th>
+                        <td>
+                            {$user.mobile}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>微信</th>
+                        <td>
+                            {$cucardobj.wechat}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>地址</th>
+                        <td>
+                            {$user.caddr}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>组织/企业简介</th>
+                        <td>
+                            {$cucardobj.note}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>组织/企业相册</th>
+                        <td>
+                            <foreach name="xiangcelist" item="vo">
+                                <a href="{$vo}" target="_blank"><img style="width: 50px;" src="{$vo}"/></a>
+                            </foreach>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            不通过原因：
+                        </th>
+                        <td>
+                            <textarea id="checknote" cols="80" rows="5"><if condition="$cucardobj.checknote != ''">{$cucardobj.checknote}</if></textarea>
+                        </td>
+                    </tr>
+                </table>
+                <hook name="portal_admin_article_edit_view_main"/>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <a href="javascript:void(0);" onclick="check(2);" class="btn btn-primary">通过</a>
+                        <a href="javascript:void(0);" onclick="check(3);" class="btn btn-primary">不通过</a>
+                        <a class="btn btn-default" href="{:url('AdminUserCompanyCard/index')}">{:lang('BACK')}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+    });
+
+    /**
+     * 提交企业信息
+     */
+    function check(status) {
+        var note = "";
+        if (status == 3) {
+            note = $("#checknote").val();
+            console.log(note);
+            if (note == "" || note == undefined) {
+                alert("请输入不通过原因");
+                return false
+            }
+        }
+        $.ajax({
+            type: 'post',
+            data: {
+                id: "{$cucardobj.id}",
+                note: note,
+                status: status,
+            },
+            url: "{:url('portal/AdminUserCompanyCard/check')}",
+            dataType: 'json',
+            success: function (rs) {
+                if (rs.code == 1) {
+                    alert("操作成功");
+                } else {
+                    alert("操作失败");
+                }
+            }
+        })
+
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="javascript:;">所有教练</a></li>
+        <li><a href="{:url('AdminCoach/add')}">添加教练</a></li>
+    </ul>
+    <form class="well form-inline margin-top-20" method="post" action="{:url('AdminCoach/index')}">
+        分类:
+        <select class="form-control" name="category" style="width: 140px;">
+            <option value='0'>全部</option>
+            <foreach name="category" item="vo">
+                <option value="{$vo.id}">{$vo.name}</option>
+            </foreach>
+        </select> &nbsp;&nbsp;
+        教练状态:
+        <select class="form-control" name="user_status" style="width: 80px;">
+            <option value="1">正常</option>
+            <option value="0">禁用</option>
+        </select>
+        <input type="submit" class="btn btn-primary" value="搜索"/>
+        <a class="btn btn-danger" href="{:url('AdminCoach/index')}">清空</a>
+    </form>
+    <form class="js-ajax-form" action="" method="post">
+        <div class="table-actions">
+            <!--
+            <notempty name="category">
+                <button class="btn btn-primary btn-sm js-articles-move" type="button">批量移动</button>
+            </notempty>
+            <button class="btn btn-primary btn-sm js-articles-copy" type="button">批量复制</button>
+            -->
+            <button class="btn btn-danger btn-sm js-ajax-submit" type="submit"
+                    data-action="{:url('AdminCoach/forbidden')}" data-subcheck="true" data-msg="您确定禁用吗？">
+                禁用
+            </button>
+            <button class="btn btn-danger btn-sm js-ajax-submit" type="submit"
+                    data-action="{:url('AdminCoach/startuse')}" data-subcheck="true" data-msg="您确定启用吗？">
+                启用
+            </button>
+        </div>
+        <table class="table table-hover table-bordered table-list">
+            <tr>
+                <th width="15"><label><input type="checkbox" class="js-check-all" data-direction="x"
+                                             data-checklist="js-check-x"></label></th>
+                <th width="50">ID</th>
+                <th>教练名称</th>
+                <th>驾校</th>
+                <th>教练驾龄</th>
+                <th width="70">状态</th>
+                <th width="90">操作</th>
+            </tr>
+            <foreach name="coach" item="vo">
+                <tr>
+                    <td>
+                        <input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[]"
+                               value="{$vo.id}" title="ID:{$vo.id}">
+                    </td>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.uname}</td>
+                    <td>{$vo.pname}</td>
+                    <td>{$vo.driving_years}</td>
+                    <td>
+                        <if condition="$vo.ustatus == 0">禁用</if>
+                        <if condition="$vo.ustatus == 1">正常</if>
+                        <if condition="$vo.ustatus == 2">未认证</if>
+                    </td>
+                    <td>
+                        <a href="{:url('AdminCoach/edit',array('id'=>$vo['id']))}">编辑</a>
+                    </td>
+                </tr>
+            </foreach>
+        </table>
+        <div class="table-actions">
+            <button class="btn btn-danger btn-sm js-ajax-submit" type="submit"
+                    data-action="{:url('AdminCoach/forbidden')}" data-subcheck="true" data-msg="您确定禁用吗？">
+                禁用
+            </button>
+            <button class="btn btn-danger btn-sm js-ajax-submit" type="submit"
+                    data-action="{:url('AdminCoach/startuse')}" data-subcheck="true" data-msg="您确定启用吗？">
+                启用
+            </button>
+        </div>
+        <ul class="pagination">{$page|default=''}</ul>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+<script>
+
+    function reloadPage(win) {
+        win.location.reload();
+    }
+
+    $(function () {
+
+    });
+</script>
+</body>
+</html>

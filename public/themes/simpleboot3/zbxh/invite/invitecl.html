@@ -1,0 +1,489 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
+    <script> document.documentElement.style.fontSize = document.documentElement.clientWidth / 750 * 40 + "px";</script>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>在线约车</title>
+
+    <include file="../public/wxhead"/>
+
+    <style type="text/css">
+        body {
+            position: absolute;;
+            max-width: 750px;
+            margin: auto;
+        }
+
+        .selinvite {
+            color: red;
+        }
+
+        .seldate {
+            color: red;
+        }
+
+        .selinstructor {
+            color: red;
+        }
+
+        .invitlist label.seldate {
+            background-color: #00c356;
+            color: #FFFFFF;
+        }
+
+        .invitlist {
+            /* height: 280px;
+            overflow-x: scroll; */
+        }
+
+        .invitlist label {
+            width: 17%;
+            height: 60px;
+            text-align: center;
+            border-radius: 10px;
+            border: solid 1px #dddddd;
+            margin: 1.4%;
+            display: inline-block;
+            padding-top: 7px;
+        }
+
+        .question_title {
+            margin-left: 1.5%;
+            margin-top: 20px;
+        }
+
+        .listitd {
+            width: 100%;
+            border-bottom: solid 1px #e9e9e9;
+            padding: 3%;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .listitd span {
+            width: 70px;
+            float: right;
+            background: url(http://qiniu-jiaxiao.henbaoli.com/image/fxiang.png) right center no-repeat;
+        }
+
+        .listitd i {
+            margin-left: 15px;
+        }
+
+        .selinvite span {
+            width: auto;
+            background: none;
+        }
+
+        .jl_csst {
+            width: 100%;
+            overflow: hidden;
+            margin-top: 10px;
+            color: #666666;
+        }
+
+        .jl_csst dt {
+            width: 20%;
+            float: left;
+            margin-left: 3%;
+        }
+
+        .jl_csst dd {
+            width: 70%;
+            float: left;
+        }
+
+        .jl_csst .jltop {
+            border-bottom: solid 1px #E1E1E1;
+            padding: 5px;
+            overflow: hidden;
+        }
+
+        .jl_csst .jlmc {
+            color: #000000;
+            float: left;
+            margin-top: 20px;
+        }
+
+        .jl_csst .jlmc img {
+            vertical-align: middle;
+            width: 20px;
+        }
+
+        .jl_csst .jliang {
+            float: right;
+            text-align: center;
+        }
+
+        .jl_csst .jljialing {
+            margin-top: 5px;
+        }
+
+        .jl_csst .jljialing span {
+            margin-left: 35px;
+        }
+    </style>
+</head>
+
+<body ontouchstart>
+<div class='fui-page  shop-index-page fui-page-current member-page' style="top: 0; background-color: #fafafa;"
+     id="invitecl">
+    <!-- v-on:click="changeinstructor(item.openid);"
+             :class="item.openid == instructor_openid?'selinstructor':''"-->
+    <div class="fui-content navbar">
+        <div v-for="item in instructor">
+            <dl class="jl_csst">
+                <dt>
+                    <img src="http://qiniu-jiaxiao.henbaoli.com/image/jl_touxiang.png">
+                </dt>
+                <dd>
+                    <div class="jltop">
+                        <div class="jlmc">
+                            {{item.real_name}}
+                            <img src="http://qiniu-jiaxiao.henbaoli.com/image/jl_rz.png">
+                        </div>
+                        <div class="jliang">
+                            <a :href="'tel:'+item.mobile">
+                                <img src="http://qiniu-jiaxiao.henbaoli.com/image/jl_moidest.png">
+                                </br>联系教练</a>
+                        </div>
+                    </div>
+                    <div class="jljialing">
+                        执教车型:C1/C2
+                        <span> {{item.driving_years}}年驾龄 </span>
+                    </div>
+                </dd>
+
+
+            </dl>
+            <div></div>
+        </div>
+
+        <!--        <div>{{nextdata}}</div>-->
+
+        <div class="question_title mt10" v-if="nextisweek == 2">上午</div>
+
+        <div id="am" v-if="nextisweek == 2">
+            <div id="8" v-on:click="saveinvite(8,1);" class="listitd">
+                <span id="inote_8">可预约</span>8点-9点
+            </div>
+            <div id="1" v-on:click="saveinvite(1,1);" class="listitd">
+                <span id="inote_1">可预约</span>9点-10点
+            </div>
+            <div id="2" v-on:click="saveinvite(2,1);" class="listitd">
+                <span id="inote_2">可预约</span>10点-11点
+            </div>
+            <div id="3" v-on:click="saveinvite(3,1);" class="listitd">
+                <span id="inote_3">可预约</span>11点-12点
+            </div>
+        </div>
+
+        <div class="question_title mt10">下午</div>
+        <div id="pm">
+            <div id="9" v-on:click="saveinvite(9,2);" class="listitd">
+                <span id="inote_9">可预约</span>13点-14点
+            </div>
+            <div id="4" v-on:click="saveinvite(4,2);" class="listitd">
+                <span id="inote_4">可预约</span>14点-15点
+            </div>
+            <div id="5" v-on:click="saveinvite(5,2);" class="listitd">
+                <span id="inote_5">可预约</span>15点-16点
+
+            </div>
+            <div id="6" v-on:click="saveinvite(6,2);" class="listitd">
+                <span id="inote_6">可预约</span>16点-17点
+            </div>
+            <div id="7" v-on:click="saveinvite(7,2);" class="listitd">
+                <span id="inote_7">可预约</span>17点-18点
+            </div>
+        </div>
+        <!--内容-->
+        <div class="invitlist">
+            <div class="question_title mt10">预约日期</div>
+            <label v-for="(item,key) in datecount" :id="'datenum_'+item.datenum"
+                   :class="item.datenum == nextnum?'seldate':''"
+                   v-on:click="changedata(item.isweek,item.datetag,item.datenum,key)">
+                {{item.datenum}}
+                <div v-if="item.week == 0">星期日</div>
+                <div v-if="item.week == 1">星期一</div>
+                <div v-if="item.week == 2">星期二</div>
+                <div v-if="item.week == 3">星期三</div>
+                <div v-if="item.week == 4">星期四</div>
+                <div v-if="item.week == 5">星期五</div>
+                <div v-if="item.week == 6">星期六</div>
+            </label>
+        </div>
+        <!--内容-->
+    </div>
+</div>
+<include file="../public/wxfoot"/>
+</body>
+<script>
+    var app = new Vue({
+        el: '#invitecl',
+        data: {
+            datecount: [],
+            nextdata: '',
+            nextnum: '',
+            nextisweek: '',
+            instructor: [],
+            key: 0,
+            instructor_openid: '',
+            student_openid: '{$openid}',
+            invite: [],
+            student_obj: {},
+        }, created: function () {
+            openloading();
+            this.getDateCount();
+            this.getstudent_obj();
+        },
+        methods: {
+            //获取学员信息
+            getstudent_obj() {
+                var _slef = this;
+                $.ajax({
+                    type: 'post',
+                    data: {},
+                    url: "{:url('/jiaxiao/Invite/getstudent')}",
+                    dataType: 'json',
+                    success: function (rs) {
+                        if (rs.code == -1) {
+                            _slef.student_obj = rs.data;
+                        } else {
+                            puopenwin(rs.msg);
+                        }
+                    }
+                })
+            },
+            //切换教练
+            changeinstructor: function (openid) {
+                var _self = this;
+                this.instructor_openid = openid;
+                $.ajax({
+                    type: 'post',
+                    data: {
+                        instructor_openid: this.instructor_openid,
+                        nextdata: this.nextdata,
+                    },
+                    url: "{:url('/jiaxiao/Invite/changeinstructor')}",
+                    dataType: 'json',
+                    success: function (rs) {
+                        if (rs.code == -1) {
+                            _self.invite = rs.data;
+                            var invitearray = rs.data;
+                            $("#1").removeClass("selinvite");
+                            $("#2").removeClass("selinvite");
+                            $("#3").removeClass("selinvite");
+                            $("#4").removeClass("selinvite");
+                            $("#5").removeClass("selinvite");
+                            $("#6").removeClass("selinvite");
+                            $("#7").removeClass("selinvite");
+                            $("#8").removeClass("selinvite");
+                            $("#9").removeClass("selinvite");
+                            $("#inote_" + 1).html("可预约");
+                            $("#inote_" + 2).html("可预约");
+                            $("#inote_" + 3).html("可预约");
+                            $("#inote_" + 4).html("可预约");
+                            $("#inote_" + 5).html("可预约");
+                            $("#inote_" + 6).html("可预约");
+                            $("#inote_" + 7).html("可预约");
+                            $("#inote_" + 8).html("可预约");
+                            $("#inote_" + 9).html("可预约");
+                            for (i = 0; i < invitearray.length; i++) {
+                                $("#" + invitearray[i].invite_type).addClass("selinvite");
+                                if (invitearray[i].student_openid == _self.student_openid) {
+                                    $("#inote_" + invitearray[i].invite_type).html("您已预约，点击即可取消");
+                                } else {
+                                    $("#inote_" + invitearray[i].invite_type).html("已被预约，请选择其他时段");
+                                }
+                            }
+                            _self.getallinvite();
+                        } else {
+                            puopenwin(rs.msg);
+                        }
+                    }
+                })
+            },
+            getallinvite: function () {
+                var _self = this;
+                $.ajax({
+                    type: 'post',
+                    data: {},
+                    url: "{:url('/jiaxiao/Invite/getallinvite')}",
+                    dataType: 'json',
+                    success: function (rs) {
+                        if (rs.code == -1) {
+                            var invitearray = rs.data;
+                            for (i = 0; i < invitearray.length; i++) {
+                                for (j = 0; j < _self.datecount.length; j++) {
+                                    if (invitearray[i].date_num == _self.datecount[j].datenum) {
+                                        $("#datenum_" + invitearray[i].date_num).addClass("seldate");
+                                    }
+                                }
+                            }
+                        } else {
+                            puopenwin(rs.msg);
+                        }
+                    }
+                })
+            },
+            //获取教练
+            getinstructor: function () {
+                var _self = this;
+                $.ajax({
+                    type: 'post',
+                    data: {},
+                    url: "{:url('/jiaxiao/Invite/getinstructor')}",
+                    dataType: 'json',
+                    success: function (rs) {
+                        if (rs.code == -1) {
+                            if (rs.data.length > 0) {
+                                _self.instructor = rs.data;
+                                _self.instructor_openid = rs.data[0].openid;
+                                _self.changeinstructor(_self.instructor_openid);
+                            }
+                        } else {
+                            puopenwin(rs.msg);
+                        }
+                    }
+                })
+            },
+            //获取日历
+            getDateCount: function () {
+                var _self = this;
+
+                $.ajax({
+                    type: 'post',
+                    data: {},
+                    url: "{:url('/jiaxiao/Invite/getDateCount')}",
+                    dataType: 'json',
+                    success: function (rs) {
+                        if (rs.code == -1) {
+                            _self.datecount = rs.data.dcresult;
+                            _self.nextdata = rs.data.nextdata;
+                            _self.nextnum = rs.data.nextnum;
+                            _self.nextisweek = rs.data.nextisweek;
+                            _self.getinstructor();
+                            hideloading();
+                        } else {
+                            hideloading();
+                            puopenwin(rs.msg);
+                        }
+                    }
+                })
+            },
+            //切换日期
+            changedata: function (isweek, datetag, datenum, key) {
+                this.nextnum = datenum;
+                this.nextdata = datetag;
+                this.key = key;
+                var _self = this;
+                openloading();
+                $.ajax({
+                    type: 'post',
+                    data: {
+                        nextdata: this.nextdata,
+                    },
+                    url: "{:url('/jiaxiao/Invite/getinstructorbystudentopenid')}",
+                    dataType: 'json',
+                    success: function (rs) {
+                        if (rs.code == -1) {
+                            if (rs.data.result.length > 0) {
+                                _self.instructor_openid = rs.data.result[0].instructor_openid;
+                            }
+                            _self.nextisweek = rs.data.isweek;
+                            _self.changeinstructor(_self.instructor_openid);
+                            hideloading();
+                        } else {
+                            puopenwin(rs.msg);
+                            hideloading();
+                        }
+                    }
+                })
+            },
+            //保存预约
+            saveinvite: function (invite_type, time_type) {
+                var _self = this;
+                console.log(this.student_obj.mobile);
+                if (this.student_obj.mobile == "") {
+                    puopenwin("为了方便教练联系，请在个人中心里绑定手机号码!");
+                    return false;
+                }
+                if (this.instructor_openid == '') {
+                    puopenwin("尚未选择教练，请联系客服选择教练!");
+                    return false;
+                }
+                for (i = 0; i < this.invite.length; i++) {
+                    if (invite_type == this.invite[i].invite_type && this.invite[i].student_openid == this.student_openid) {
+                        layer.msg('此时段已经被您预约，是否取消预约？', {
+                            time: 0 //不自动关闭
+                            , btn: ['确定', '取消']
+                            , yes: function (index) {
+                                layer.close(index);
+                                $.ajax({
+                                    type: 'post',
+                                    data: {
+                                        id: _self.invite[i].id
+                                    },
+                                    url: "{:url('/jiaxiao/Invite/deleteinvite')}",
+                                    dataType: 'json',
+                                    success: function (res) {
+                                        if (res.code == -1) {
+                                            puopenwin('取消预约成功！');
+                                            _self.getinstructor();
+                                        }
+                                    },
+                                })
+
+                            }
+                        });
+                        return false;
+                    }
+                }
+                for (i = 0; i < this.invite.length; i++) {
+                    if (invite_type == this.invite[i].invite_type) {
+                        puopenwin("此时段已经被预约，请选择其他时段");
+                        return false;
+                    }
+                }
+                if (this.invite.length == this.student_obj.lianchetime) {
+                    puopenwin("当前已有约练车，请准时到达训练场地。");
+                    return false;
+                } else {
+                    layer.msg('确定要预约吗？', {
+                        time: 0 //不自动关闭
+                        , btn: ['确定', '取消']
+                        , yes: function (index) {
+                            layer.close(index);
+                            $.ajax({
+                                type: 'post',
+                                data: {
+                                    invite_type: invite_type,
+                                    time_type: time_type,
+                                    data: _self.datecount[_self.key],
+                                    date_num: _self.nextnum,
+                                    instructor_openid: _self.instructor_openid,
+                                },
+                                url: "{:url('/jiaxiao/Invite/saveinvite')}",
+                                dataType: 'json',
+                                success: function (res) {
+                                    if (res.code == -1) {
+                                        puopenwin('预约成功！');
+                                        _self.getinstructor();
+                                    } else {
+                                        puopenwin(res.msg);
+                                    }
+                                },
+                            })
+
+                        }
+                    });
+                }
+            }
+        }
+    })
+</script>
+</html>
+		

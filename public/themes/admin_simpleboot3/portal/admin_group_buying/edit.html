@@ -1,0 +1,141 @@
+<include file="public@header"/>
+<style type="text/css">
+    .pic-list li {
+        margin-bottom: 5px;
+    }
+</style>
+
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('AdminGroupBuying/index')}">团购</a></li>
+    </ul>
+    <form action="{:url('AdminGroupBuying/editPost')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
+        <input type="hidden" name="id" value="{$gbdata['id']}">
+        <div class="row">
+            <div class="col-md-9">
+                <table class="table table-bordered">
+                    <tr>
+                        <th width="100">驾校<span class="form-required">*</span></th>
+                        <td>
+                            <select id="sid" name="post[sid]" style="width: 300px;"
+                                    onchange="getpid(this.options[this.options.selectedIndex].value);">
+                                <option value="0">请选择</option>
+                                <foreach name="school" item="vo">
+                                    <option value="{$vo.id}">{$vo.name}</option>
+                                </foreach>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th width="100">产品<span class="form-required">*</span></th>
+                        <td>
+                            <div id="pdiv"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>活动名称<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="text" name="post[name]"
+                                   id="name" placeholder="请输入活动名称" value="{$gbdata['name']}"
+                                   oninput="if(value.length>20)value=value.slice(0,20)"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>拼团价格<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="number" name="post[g_price]"
+                                   id="g_price" placeholder="请输入拼团价格" value="{$gbdata['g_price']}"
+                                   oninput="if(value.length>5)value=value.slice(0,5)"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>拼团描述<span class="form-required">*</span></th>
+                        <td>
+                            <textarea id="note" name="post[note]" cols="50">{$gbdata['note']}</textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>拼团人数<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="number" name="post[p_count]"
+                                   id="p_count" placeholder="请输入拼团人数" value="{$gbdata['p_count']}"
+                                   oninput="if(value.length>2)value=value.slice(0,2)"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>虚拟人数<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="number" name="post[virtual_p_count]"
+                                   id="virtual_p_count" placeholder="请输入虚拟人数" value="{$gbdata['virtual_p_count']}"
+                                   oninput="if(value.length>2)value=value.slice(0,2)"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>拼团时限<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="text" name="post[p_time]" value="{$gbdata['p_time']}"
+                                   id="p_time" placeholder="请输入拼团时限(小时)" maxlength="2"/>
+                        </td>
+                    </tr>
+                </table>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('EDIT')}</button>
+                        <a class="btn btn-default" href="{:url('AdminDriving/index')}">{:lang('BACK')}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+<script type="text/javascript">
+    //编辑器路径定义
+    var editorURL = GV.WEB_ROOT;
+</script>
+<script type="text/javascript">
+    $(function () {
+        $("#sid ").val("{$gbdata['sid']}")
+        getpid("{$gbdata['sid']}");
+    })
+
+    /**
+     * 获取驾校下的产品
+     */
+    function getpid(v) {
+        if (v != 0) {
+            $.ajax({
+                type: 'post',
+                data: {
+                    sid: v
+                },
+                url: "{:url('portal/AdminGroupBuying/getpid')}",
+                dataType: 'json',
+                success: function (rs) {
+                    console.log(rs);
+                    if (rs.code == 1) {
+                        if (rs.data.length <= 0) {
+                            alert("驾校无产品，请添加");
+                        } else {
+                            var html = "";
+                            for (i = 0; i < rs.data.length; i++) {
+                                if (rs.data[i].id == "{$gbdata['pid']}") {
+                                    html += "<div><input type='radio' name='post[pid]' checked value='" + rs.data[i].id + "'>产品ID：" + rs.data[i].id + "-产品名称：" + rs.data[i].name + "-产品价格：" + rs.data[i].price + "</div>"
+                                } else {
+                                    html += "<div><input type='radio' name='post[pid]' value='" + rs.data[i].id + "'>产品ID：" + rs.data[i].id + "-产品名称：" + rs.data[i].name + "-产品价格：" + rs.data[i].price + "</div>"
+                                }
+                            }
+                            $("#pdiv").html(html);
+                        }
+                    } else {
+                        alert("操作失败");
+                    }
+                }
+            })
+        }
+    }
+</script>
+</body>
+</html>

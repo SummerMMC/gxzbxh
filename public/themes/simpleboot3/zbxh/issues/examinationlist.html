@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
+    <script> document.documentElement.style.fontSize = document.documentElement.clientWidth / 750 * 40 + "px";</script>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>成绩查询</title>
+
+    <include file="../public/wxhead"/>
+
+    <style type="text/css">
+        body {
+            position: absolute;;
+            max-width: 750px;
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body ontouchstart>
+<div id="examinationlist" class='fui-page  shop-index-page fui-page-current member-page'
+     style="top: 0; background-color: #fafafa; ">
+    <div class="fui-content navbar">
+        <!--内容-->
+        <div class="listexam">
+            <label class="eam01">答题时间</label>
+            <label class="eam02">答对</label>
+            <label class="eam03">答错</label>
+            <label class="eam04">得分</label>
+            <label class="eam05">操作</label>
+        </div>
+        <div v-for="item in list" class="listexam">
+            <label class="eam01">{{item.ctime|formatTimer}}</label>
+            <label class="eam02">{{item.rcount}}</label>
+            <label class="eam03">{{item.ecount}}</label>
+            <label class="eam04">{{item.rcount}}</label>
+            <label class="eam05" v-on:click="deleteitem(item.id)">删除</label>
+        </div>
+        <!--内容-->
+    </div>
+</div>
+
+
+<include file="../public/wxfoot"/>
+
+
+</body>
+<script>
+    var app = new Vue({
+        el: '#examinationlist',
+        data: {
+            list: [],
+            openid: '{$openid}',
+        },
+        created: function () {
+            openloading();
+            this.getexaminationlist();
+        },
+        filters: {
+            formatTimer: function (value) {
+                var date = new Date(value * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+                Y = date.getFullYear() + '-';
+                M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+                D = date.getDate() + ' ';
+                h = date.getHours() + ':';
+                m = date.getMinutes() + ':';
+                s = date.getSeconds();
+                return Y + M + D + h + m + s;
+            }
+        },
+        methods: {
+            getexaminationlist: function () {
+                var _self = this;
+
+                $.ajax({
+                    type: 'post',
+                    data: {
+                        openid: this.openid
+                    },
+                    url: "{:url('/jiaxiao/issues/getexaminationlist')}",
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res.code == -1) {
+                            _self.list = res.data;
+                            hideloading();
+                        }
+                    },
+                })
+            },
+            deleteitem: function (id) {
+                var _self = this;
+                layer.msg('确定要删除吗？', {
+                    time: 0 //不自动关闭
+                    , btn: ['确定', '取消']
+                    , yes: function (index) {
+                        layer.close(index);
+                        $.ajax({
+                            type: 'post',
+                            data: {
+                                id: id
+                            },
+                            url: "{:url('/jiaxiao/issues/delexamination')}",
+                            dataType: 'json',
+                            success: function (res) {
+                                if (res.code == -1) {
+                                    puopenwin('删除成功！');
+                                    _self.getexaminationlist();
+                                }
+                            },
+                        })
+
+                    }
+                });
+            }
+        }
+    })
+</script>
+</html>
+		

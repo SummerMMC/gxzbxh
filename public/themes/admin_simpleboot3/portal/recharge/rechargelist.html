@@ -1,0 +1,253 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="javascript:void(0);" onclick="changediv('list');" id='rechargelist_a'
+                              style="color: red">充值管理</a></li>
+        </li>
+    </ul>
+    <div id="rechargelist">
+        <form class="well form-inline margin-top-20" method="post" action="{:url('portal/recharge/rechargelist')}">
+            订单号：
+            <input class="form-control" type="text" id="orderid" name="orderid" style="width: 200px;"
+                   value="{:input('request.orderid')}"
+                   placeholder="请输入订单号">
+            交易订单号：
+            <input class="form-control" type="text" id="service_orderid" name="service_orderid" style="width: 200px;"
+                   value="{:input('request.service_orderid')}"
+                   placeholder="请输入交易订单号">
+            用户编号：
+            <input class="form-control" type="text" id="uid" name="uid" style="width: 200px;"
+                   value="{:input('request.uid')}"
+                   placeholder="请输入用户编号">
+            用户账号：
+            <input class="form-control" type="text" name="account" style="width: 200px;"
+                   value="{:input('request.account')}"
+                   placeholder="请输入用户账号">
+            用户手机
+            <input class="form-control" type="number" name="phone" style="width: 200px;"
+                   value="{:input('request.phone')}"
+                   placeholder="请输入用户手机">
+            <br>
+            开始时间：<input type="text" class="demo-input" placeholder="请选择日期" id="start_time"
+                        value="{:input('request.start_time')}" name="start_time" lay-key="1">
+            结束时间：<input type="text" class="demo-input" placeholder="请选择日期" id="end_time"
+                        value="{:input('request.end_time')}" name="end_time" lay-key="2">
+            状态：
+            <select name="status">
+                <option value="">请选择</option>
+                <option value="1">待付款</option>
+                <option value="4">待补款</option>
+                <option value="2">通过</option>
+                <option value="0">取消</option>
+            </select>
+            数据量
+            <input class="form-control" type="number" name="limit" style="width: 200px;"
+                   value="{:input('request.limit')}"
+                   placeholder="请输入显示数据量">
+            <input type="submit" class="btn btn-primary" value="搜索"/>
+            <a class="btn btn-danger" href="{:url('cartoon/recharge/rechargelist')}">清空</a>
+        </form>
+        <form method="post" class="js-ajax-form">
+            <table class="table table-hover table-bordered">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>用户id</th>
+                    <th>用户账号</th>
+                    <th>手机</th>
+                    <th>支付定金</th>
+                    <th>支付金额</th>
+                    <th>补款时间</th>
+                    <th>订单号</th>
+                    <th>交易订单号</th>
+                    <th>状态</th>
+                    <th>补款状态</th>
+                    <th>创建时间</th>
+                    <th>充值渠道</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <foreach name="recharge" item="vo">
+                    <tr>
+                        <td>{$vo.id}</td>
+                        <td>{$vo.uid}</td>
+                        <td>{$vo.account}</td>
+                        <td>{$vo.phone}</td>
+                        <td>{$vo.deposit}</td>
+                        <td>{$vo.money}</td>
+                        <td>
+                            <if condition="!empty($vo.balance_due_time)">{:date('Y-m-d H:i:s',$vo.balance_due_time)}
+                            </if>
+                        </td>
+                        <td>{$vo.orderid}</td>
+                        <td>{$vo.service_orderid}</td>
+                        <td>
+                            <if condition="$vo.status == 1">待付款</if>
+                            <if condition="$vo.status == 4">待补款</if>
+                            <if condition="$vo.status == 2">已付款</if>
+                            <if condition="$vo.status == 0">取消</if>
+                        </td>
+                        <td>
+                            <if condition="$vo.deposit_status == 1">待补款</if>
+                            <if condition="$vo.deposit_status == 2">已补款</if>
+                            <if condition="$vo.deposit_status == 3">待付定金</if>
+                            <if condition="$vo.deposit_status == 0">无</if>
+                        </td>
+                        <td>{:date('Y-m-d H:i:s',$vo.ctime)}</td>
+                        <td>
+                            <if condition="$vo.re_type == 'wx'">微信</if>
+                            <if condition="$vo.re_type == 'al'">支付宝</if>
+                        </td>
+                        <td>
+                            <if condition="$vo.status == 1">
+                                <if condition="$vo.deposit_status == 3">
+                                    <a href="javascript:subStatus(3,'{$vo.id}','{$vo.money}','{$vo.uid}');">交付定金</a>&nbsp;&nbsp;&nbsp;
+                                </if>
+                                <if condition="$vo.deposit_status == 1">
+                                    <a href="javascript:subStatus(1,'{$vo.id}','{$vo.money}','{$vo.uid}');">交付补款</a>&nbsp;&nbsp;&nbsp;
+                                </if>
+                                <a href="javascript:subStatus(0,'{$vo.id}','{$vo.money}','{$vo.uid}');">全款支付</a>&nbsp;&nbsp;&nbsp;
+                                <!--<a href="javascript:subStatus(3,'{$vo.id}','{$vo.money}','{$vo.uid}');">拒绝</a>&nbsp;&nbsp;&nbsp;-->
+                            </if>
+                        </td>
+                    </tr>
+                </foreach>
+                </tbody>
+            </table>
+            <div class="pagination">{$page}</div>
+        </form>
+    </div>
+    <div id="recharge_set">
+    </div>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+<script src="http://qiniu-jiaxiao.henbaoli.com/js/layer/layer.js"></script>
+<script>
+    $(function () {
+        $("#recharge_set").hide();
+        $("#recharge_combox").hide();
+    });
+
+
+    /**
+     *格式化状态
+     * */
+    function formatstatus(str) {
+        if (str == '0') {
+            return '关闭';
+        } else {
+            return '开启';
+        }
+    }
+
+    /**
+     * 修改充值状态
+     */
+    function subStatus(tag, id, money, uid) {
+        if (tag == 3) {
+            var win = layer.open({
+                title: "提示",
+                content: "是否已交定金",
+                btn: ['确认', '取消'],
+                yes: function (index, layero) {
+                    $.ajax({
+                        type: 'post',
+                        data: {status: tag, id: id, uid: uid},
+                        url: "{:url('portal/recharge/subStatus')}",
+                        dataType: 'json',
+                        success: function (rs) {
+                            console.log(rs);
+                            var page = "{:input('request.page')}";
+                            var hrf = "";
+                            if (rs.status == -1) {
+                                if (page != null && page != "") {
+                                    hrf += "&page=" + page;
+                                }
+                                window.location.href = "{:url('portal/recharge/rechargelist')}" + hrf;
+                            } else {
+                                alert("操作失败");
+                            }
+
+                        }
+                    })
+                    layer.close(win);
+                },
+                btn2: function (index, layero) {
+                    layer.close(win);
+                }, cancel: function () {
+                    //右上角关闭回调
+                }
+            });
+        } else if (tag == 1) {
+            var win = layer.open({
+                title: "提示",
+                content: "是否已补款？",
+                btn: ['确认', '取消'],
+                yes: function (index, layero) {
+                    $.ajax({
+                        type: 'post',
+                        data: {status: tag, id: id, money: money, uid: uid},
+                        url: "{:url('portal/recharge/subStatus')}",
+                        dataType: 'json',
+                        success: function (rs) {
+                            console.log(rs);
+                            var page = "{:input('request.page')}";
+                            var hrf = "";
+                            if (rs.status == -1) {
+                                if (page != null && page != "") {
+                                    hrf += "&page=" + page;
+                                }
+                                window.location.href = "{:url('portal/recharge/rechargelist')}" + hrf;
+                            } else {
+                                alert("操作失败");
+                            }
+                        }
+                    })
+                    layer.close(win);
+                },
+                btn2: function (index, layero) {
+                    layer.close(win);
+                }, cancel: function () {
+                    //右上角关闭回调
+                }
+            });
+        } else if (tag == 0) {
+            var win = layer.open({
+                title: "提示",
+                content: "是否已收全款?",
+                btn: ['确认', '取消'],
+                yes: function (index, layero) {
+                    $.ajax({
+                        type: 'post',
+                        data: {status: tag, id: id, uid: uid},
+                        url: "{:url('portal/recharge/subStatus')}",
+                        dataType: 'json',
+                        success: function (rs) {
+                            var page = "{:input('request.page')}";
+                            var hrf = "";
+                            if (rs.status == -1) {
+                                if (page != null && page != "") {
+                                    hrf += "&page=" + page;
+                                }
+                                window.location.href = "{:url('portal/recharge/rechargelist')}" + hrf;
+                            } else {
+                                alert("操作失败");
+                            }
+                        }
+                    })
+                    layer.close(win);
+                },
+                btn2: function (index, layero) {
+                    layer.close(win);
+                }, cancel: function () {
+                    //右上角关闭回调
+                }
+            });
+        }
+    }
+</script>
+</body>
+</html>

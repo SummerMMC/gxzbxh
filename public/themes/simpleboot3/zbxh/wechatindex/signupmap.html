@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
+    <script> document.documentElement.style.fontSize = document.documentElement.clientWidth / 750 * 40 + "px";</script>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>报名地点</title>
+
+    <include file="../public/wxhead"/>
+
+
+    <style type="text/css">
+        body {
+            position: absolute;;
+            max-width: 750px;
+            margin: auto;
+            background-color: #FFFFFF;
+        }
+    </style>
+
+
+</head>
+
+<body ontouchstart>
+
+<div class='' style="top: 0; background-color: #fafafa; "
+     id="schoolmap">
+    <div class="">
+        <!--内容-->
+        <div id="container" style=" height: 363px;"></div>
+        <div style="height: 40px;width: 100%; color: #FFFFFF; line-height: 40px; background-color: #f90; text-align: center;" onclick="getrout();">获取线路</div>
+        <!--内容-->
+    </div>
+</div>
+
+<script>
+    var map;//百度地图实例
+    var local;
+    var point;
+    var schoollng = "108.43286807595929";
+    var schoolslat = "22.810533463279913";
+    var selflng = "{$selflng}";
+    var selflat = "{$selflat}";
+    var selfponint;
+    var puschoolpoint;
+
+    $(function () {
+        showmap()
+    });
+
+    function showmap() {
+        console.log(selflng);
+        console.log(selflat);
+        var x = selflng;
+        var y = selflat;
+        var ggPoint = new BMap.Point(x, y);
+        var convertor = new BMap.Convertor();
+        var pointArr = [];
+        pointArr.push(ggPoint);
+        convertor.translate(pointArr, 1, 5, translateCallback)
+
+    }
+
+    //坐标转换完之后的回调函数
+    translateCallback = function (data) {
+        if (data.status === 0) {
+            map = new BMap.Map("container");          // 创建地图实例
+            // 创建点坐标
+            var schoolpoint = new BMap.Point(schoollng, schoolslat);
+            point = new BMap.Point(schoolpoint);
+            map.centerAndZoom(point, 13);
+            var marker = new BMap.Marker(data.points[0]);
+            selfponint = data.points[0];
+            map.addOverlay(marker);
+            var marker1 = new BMap.Marker(schoolpoint);
+            map.addOverlay(marker1);
+            map.setCenter(schoolpoint);
+            puschoolpoint = schoolpoint
+            var opts = {type: BMAP_NAVIGATION_CONTROL_SMALL};
+            map.addControl(new BMap.NavigationControl(opts));
+            var opts = {
+                width: 200,     // 信息窗口宽度
+                height: 40,     // 信息窗口高度
+                title: "", // 信息窗口标题
+                enableMessage: true,//设置允许信息窗发送短息
+                message: ""
+            }
+            var distance = (map.getDistance(data.points[0], schoolpoint)).toFixed(0);
+            var juli = '';
+            if (distance < 1000) {
+                juli = (distance + "米");
+            } else if (distance > 1000) {
+                juli = (Math.round(distance / 100) / 10).toFixed(1) + "公里";
+            }
+            var infoWindow = new BMap.InfoWindow("统一报名地址：广西壮族自治区南宁市青秀区品城驾校。<br>联系人：蒙校长<br><a href='tel:1825485858'>[点击立即联系：1825485858]</a><br>距离：" + juli + ' 。', {
+                height: 100,
+                width: 100
+            });  // 创建信息窗口对象
+            map.openInfoWindow(infoWindow, schoolpoint); //开启信息窗口
+        }
+    }
+
+    function getrout() {
+        var routePolicy = [BMAP_DRIVING_POLICY_LEAST_TIME, BMAP_DRIVING_POLICY_LEAST_DISTANCE, BMAP_DRIVING_POLICY_AVOID_HIGHWAYS];
+        var driving = new BMap.DrivingRoute(map, {
+            renderOptions: {map: map, autoViewport: true},
+            policy: routePolicy[0]
+        });
+        driving.search(selfponint, puschoolpoint);
+    }
+
+</script>
+
+
+</body>
+</html>
+		

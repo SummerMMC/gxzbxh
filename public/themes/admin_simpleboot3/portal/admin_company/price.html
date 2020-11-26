@@ -1,0 +1,381 @@
+<include file="public@header"/>
+<style type="text/css">
+    .pic-list li {
+        margin-bottom: 5px;
+    }
+</style>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('AdminCompany/index')}">驾校管理</a></li>
+    </ul>
+    <div class="row" id="renddiv">
+        <foreach name="price" item="vo">
+            <div class="col-md-12">
+                <table class="table table-bordered">
+                    <tr>
+                        <th width="100">课程名称<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="text" name="post[name]"
+                                   id="{$vo.id}-name" placeholder="请输入课程名称" maxlength="20" value="{$vo.name}"/>
+                        </td>
+                        <th width="100">驾照类型<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="text" name="post[type]"
+                                   id="{$vo.id}-type" placeholder="请输入驾照类型" maxlength="20" value="{$vo.type}"/>
+                        </td>
+                        <th width="100">班型费用<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="number" name="post[type]"
+                                   id="{$vo.id}-price" placeholder="请输入班型费用" maxlength="3" value="{$vo.price}"/>
+                        </td>
+                        <th width="100">接送方式<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="text" name="post[type]"
+                                   id="{$vo.id}-pick_up" placeholder="请输入接送方式" maxlength="50" value="{$vo.pick_up}"/>
+                        </td>
+                        <th width="100">学车时间<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="text" name="post[type]"
+                                   id="{$vo.id}-time_frame" placeholder="请输入学车时间" maxlength="50"
+                                   value="{$vo.time_frame}"/>
+                        </td>
+                        <th width="100">几人一车<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="text" name="post[type]"
+                                   id="{$vo.id}-p_one_car" placeholder="请输入几人一车" maxlength="10" value="{$vo.p_one_car}"/>
+                        </td>
+                        <th width="100">班型描述<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="text" name="post[type]"
+                                   id="{$vo.id}-note" placeholder="请输入班型描述" maxlength="100" value="{$vo.note}"/>
+                        </td>
+                        <td>
+                            <a href="javascript:void(0);" onclick="updateprice('{$vo.id}');">更新</a>
+                            <a href="javascript:void(0);" onclick="deleteprice('{$vo.id}');">删除</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </foreach>
+
+    </div>
+    <div>-------------------------------------------------------------------</div>
+    <form action="{:url('AdminCompany/addPost')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-bordered">
+                    <tr>
+                        <th width="100">课程名称<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="text" name="post[name]"
+                                   id="name" placeholder="请输入课程名称" maxlength="20"/>
+                        </td>
+                        <th width="100">驾照类型<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="text" name="post[type]"
+                                   id="type" placeholder="请输入驾照类型" maxlength="20"/>
+                        </td>
+                        <th width="100">班型费用<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="number" name="post[type]"
+                                   id="price" placeholder="请输入班型费用" maxlength="3"/>
+                        </td>
+                        <th width="100">接送方式<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="text" name="post[type]"
+                                   id="pick_up" placeholder="请输入接送方式" maxlength="50"/>
+                        </td>
+                        <th width="100">学车时间<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="text" name="post[type]"
+                                   id="time_frame" placeholder="请输入学车时间" maxlength="50"/>
+                        </td>
+                        <th width="100">几人一车<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="text" name="post[type]"
+                                   id="p_one_car" placeholder="请输入几人一车" maxlength="10"/>
+                        </td>
+                        <th width="100">班型描述<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="text" name="post[type]"
+                                   id="note" placeholder="请输入班型描述" maxlength="100"/>
+                        </td>
+                    </tr>
+                </table>
+                <hook name="portal_admin_article_edit_view_main"/>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <a href="javascript:void(0);" onclick="javascript:addpice();" class="btn btn-primary">{:lang('ADD')}</a>
+                        <a class="btn btn-default" href="{:url('AdminCompany/index')}">{:lang('BACK')}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+<script type="text/javascript">
+    //编辑器路径定义
+    var editorURL = GV.WEB_ROOT;
+</script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+        $('.btn-cancel-thumbnail').click(function () {
+            $('#thumbnail-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
+            $('#thumbnail').val('');
+        });
+
+    });
+
+    /**
+     * 提交教练信息
+     */
+    function addpice() {
+        var name = $('#name').val();
+        var type = $('#type').val();
+        var price = $('#price').val();
+        var pick_up = $('#pick_up').val();
+        var time_frame = $("#time_frame").val();
+        var p_one_car = $("#p_one_car").val();
+        var note = $("#note").val();
+
+        $.ajax({
+            type: 'post',
+            data: {
+                type: type,
+                name: name,
+                price: price,
+                pick_up: pick_up,
+                time_frame: time_frame,
+                p_one_car: p_one_car,
+                note: note,
+                did: "{$driving.id}"
+            },
+            url: "{:url('portal/AdminCompany/addpice')}",
+            dataType: 'json',
+            success: function (rs) {
+                console.log(rs);
+                if (rs.code == 1) {
+                    alert("操作成功");
+                    var html = "";
+                    for (i = 0; i < rs.data.length; i++) {
+                        html += "<div class='col-md-12'>" +
+                            "                <table class='table table-bordered'>" +
+                            "                    <tr>" +
+                            "                        <th width='100'>课程名称<span class='form-required'>*</span></th>" +
+                            "                        <td>" +
+                            "                            <input class='form-control' type='text' name='post[name]'" +
+                            "                                   id='" + rs.data[i].id + "-name' placeholder='请输入课程名称' maxlength='20' value='" + rs.data[i].name + "'/>" +
+                            "                        </td>" +
+                            "                        <th width='100'>驾照类型<span class='form-required'>*</span></th>" +
+                            "                        <td>" +
+                            "                            <input class='form-control' type='text' name='post[type]'" +
+                            "                                   id='" + rs.data[i].id + "-type' placeholder='请输入驾照类型' maxlength='20' value='" + rs.data[i].type + "'/>" +
+                            "                        </td>" +
+                            "                        <th width='100'>班型费用<span class='form-required'>*</span></th>" +
+                            "                        <td>" +
+                            "                            <input class='form-control' type='number' name='post[type]'" +
+                            "                                   id='" + rs.data[i].id + "-price' placeholder='请输入班型费用' maxlength='3' value='" + rs.data[i].price + "'/>" +
+                            "                        </td>" +
+                            "                        <th width='100'>接送方式<span class='form-required'>*</span></th>" +
+                            "                        <td>" +
+                            "                            <input class='form-control' type='text' name='post[type]'" +
+                            "                                   id='" + rs.data[i].id + "-pick_up' placeholder='请输入接送方式' maxlength='50' value='" + rs.data[i].pick_up + "'/>" +
+                            "                        </td>" +
+                            "                        <th width='100'>学车时间<span class='form-required'>*</span></th>" +
+                            "                        <td>" +
+                            "                            <input class='form-control' type='text' name='post[type]'" +
+                            "                                   id='" + rs.data[i].id + "-time_frame' placeholder='请输入学车时间' maxlength='50' value='" + rs.data[i].time_frame + "'/>" +
+                            "                        </td>" +
+                            "                        <th width='100'>几人一车<span class='form-required'>*</span></th>" +
+                            "                        <td>" +
+                            "                            <input class='form-control' type='text' name='post[type]'" +
+                            "                                   id='" + rs.data[i].id + "-p_one_car' placeholder='请输入几人一车' maxlength='10' maxlength='50' value='" + rs.data[i].p_one_car + "'/>" +
+                            "                        </td>" +
+                            "                        <th width='100'>班型描述<span class='form-required'>*</span></th>" +
+                            "                        <td>" +
+                            "                            <input class='form-control' type='text' name='post[type]'" +
+                            "                                   id='" + rs.data[i].id + "-note' placeholder='请输入班型描述' maxlength='100' value='" + rs.data[i].note + "'/>" +
+                            "                        </td>" +
+                            "                        <td>" +
+                            "                            <a href='javascript:void(0);' onclick='updateprice(" + rs.data[i].id + ");'>更新</a>" +
+                            "                            <a href='javascript:void(0);' onclick='deleteprice(" + rs.data[i].id + ");'>删除</a>" +
+                            "                        </td>" +
+                            "                    </tr>" +
+                            "                </table>" +
+                            "            </div>"
+                    }
+                    $("#renddiv").html('');
+                    $("#renddiv").html(html);
+                } else {
+                    alert("操作失败");
+                }
+            }
+        })
+
+    }
+
+    function updateprice(id) {
+        console.log(id);
+
+        var name = $('#' + id + '-name').val();
+        var type = $('#' + id + '-type').val();
+        var price = $('#' + id + '-price').val();
+        var pick_up = $('#' + id + '-pick_up').val();
+        var time_frame = $('#' + id + '-time_frame').val();
+        var p_one_car = $('#' + id + '-p_one_car').val();
+        var note = $('#' + id + '-note').val();
+
+        $.ajax({
+            type: 'post',
+            data: {
+                type: type,
+                name: name,
+                price: price,
+                pick_up: pick_up,
+                time_frame: time_frame,
+                p_one_car: p_one_car,
+                note: note,
+                id: id,
+                did: "{$driving.id}"
+            },
+            url: "{:url('portal/AdminCompany/updatepice')}",
+            dataType: 'json',
+            success: function (rs) {
+                console.log(rs);
+                if (rs.code == 1) {
+                    alert("操作成功");
+                    var html = "";
+                    for (i = 0; i < rs.data.length; i++) {
+                        html += "<div class='col-md-12'>" +
+                            "                <table class='table table-bordered'>" +
+                            "                    <tr>" +
+                            "                        <th width='100'>课程名称<span class='form-required'>*</span></th>" +
+                            "                        <td>" +
+                            "                            <input class='form-control' type='text' name='post[name]'" +
+                            "                                   id='" + rs.data[i].id + "-name' placeholder='请输入课程名称' maxlength='20' value='" + rs.data[i].name + "'/>" +
+                            "                        </td>" +
+                            "                        <th width='100'>驾照类型<span class='form-required'>*</span></th>" +
+                            "                        <td>" +
+                            "                            <input class='form-control' type='text' name='post[type]'" +
+                            "                                   id='" + rs.data[i].id + "-type' placeholder='请输入驾照类型' maxlength='20' value='" + rs.data[i].type + "'/>" +
+                            "                        </td>" +
+                            "                        <th width='100'>班型费用<span class='form-required'>*</span></th>" +
+                            "                        <td>" +
+                            "                            <input class='form-control' type='number' name='post[type]'" +
+                            "                                   id='" + rs.data[i].id + "-price' placeholder='请输入班型费用' maxlength='3' value='" + rs.data[i].price + "'/>" +
+                            "                        </td>" +
+                            "                        <th width='100'>接送方式<span class='form-required'>*</span></th>" +
+                            "                        <td>" +
+                            "                            <input class='form-control' type='text' name='post[type]'" +
+                            "                                   id='" + rs.data[i].id + "-pick_up' placeholder='请输入接送方式' maxlength='50' value='" + rs.data[i].pick_up + "'/>" +
+                            "                        </td>" +
+                            "                        <th width='100'>学车时间<span class='form-required'>*</span></th>" +
+                            "                        <td>" +
+                            "                            <input class='form-control' type='text' name='post[type]'" +
+                            "                                   id='" + rs.data[i].id + "-time_frame' placeholder='请输入学车时间' maxlength='50' value='" + rs.data[i].time_frame + "'/>" +
+                            "                        </td>" +
+                            "                        <th width='100'>几人一车<span class='form-required'>*</span></th>" +
+                            "                        <td>" +
+                            "                            <input class='form-control' type='text' name='post[type]'" +
+                            "                                   id='" + rs.data[i].id + "-p_one_car' placeholder='请输入几人一车' maxlength='10' maxlength='50' value='" + rs.data[i].p_one_car + "'/>" +
+                            "                        </td>" +
+                            "                        <th width='100'>班型描述<span class='form-required'>*</span></th>" +
+                            "                        <td>" +
+                            "                            <input class='form-control' type='text' name='post[type]'" +
+                            "                                   id='" + rs.data[i].id + "-note' placeholder='请输入班型描述' maxlength='100' value='" + rs.data[i].note + "'/>" +
+                            "                        </td>" +
+                            "                        <td>" +
+                            "                            <a href='javascript:void(0);' onclick='updateprice(" + rs.data[i].id + ");'>更新</a>" +
+                            "                            <a href='javascript:void(0);' onclick='deleteprice(" + rs.data[i].id + ");'>删除</a>" +
+                            "                        </td>" +
+                            "                    </tr>" +
+                            "                </table>" +
+                            "            </div>"
+                    }
+                    $("#renddiv").html('');
+                    $("#renddiv").html(html);
+                } else {
+                    alert("操作失败");
+                }
+            }
+        })
+    }
+
+    function deleteprice(id) {
+        $.ajax({
+            type: 'post',
+            data: {
+                id: id,
+                did: "{$driving.id}"
+            },
+            url: "{:url('portal/AdminCompany/deletepice')}",
+            dataType: 'json',
+            success: function (rs) {
+                console.log(rs);
+                if (rs.code == 1) {
+                    alert("操作成功");
+                    var html = "";
+                    for (i = 0; i < rs.data.length; i++) {
+                        html += "<div class='col-md-12'>" +
+                            "                <table class='table table-bordered'>" +
+                            "                    <tr>" +
+                            "                        <th width='100'>课程名称<span class='form-required'>*</span></th>" +
+                            "                        <td>" +
+                            "                            <input class='form-control' type='text' name='post[name]'" +
+                            "                                   id='" + rs.data[i].id + "-name' placeholder='请输入课程名称' maxlength='20' value='" + rs.data[i].name + "'/>" +
+                            "                        </td>" +
+                            "                        <th width='100'>驾照类型<span class='form-required'>*</span></th>" +
+                            "                        <td>" +
+                            "                            <input class='form-control' type='text' name='post[type]'" +
+                            "                                   id='" + rs.data[i].id + "-type' placeholder='请输入驾照类型' maxlength='20' value='" + rs.data[i].type + "'/>" +
+                            "                        </td>" +
+                            "                        <th width='100'>班型费用<span class='form-required'>*</span></th>" +
+                            "                        <td>" +
+                            "                            <input class='form-control' type='number' name='post[type]'" +
+                            "                                   id='" + rs.data[i].id + "-price' placeholder='请输入班型费用' maxlength='3' value='" + rs.data[i].price + "'/>" +
+                            "                        </td>" +
+                            "                        <th width='100'>接送方式<span class='form-required'>*</span></th>" +
+                            "                        <td>" +
+                            "                            <input class='form-control' type='text' name='post[type]'" +
+                            "                                   id='" + rs.data[i].id + "-pick_up' placeholder='请输入接送方式' maxlength='50' value='" + rs.data[i].pick_up + "'/>" +
+                            "                        </td>" +
+                            "                        <th width='100'>学车时间<span class='form-required'>*</span></th>" +
+                            "                        <td>" +
+                            "                            <input class='form-control' type='text' name='post[type]'" +
+                            "                                   id='" + rs.data[i].id + "-time_frame' placeholder='请输入学车时间' maxlength='50' value='" + rs.data[i].time_frame + "'/>" +
+                            "                        </td>" +
+                            "                        <th width='100'>几人一车<span class='form-required'>*</span></th>" +
+                            "                        <td>" +
+                            "                            <input class='form-control' type='text' name='post[type]'" +
+                            "                                   id='" + rs.data[i].id + "-p_one_car' placeholder='请输入几人一车' maxlength='10' maxlength='50' value='" + rs.data[i].p_one_car + "'/>" +
+                            "                        </td>" +
+                            "                        <th width='100'>班型描述<span class='form-required'>*</span></th>" +
+                            "                        <td>" +
+                            "                            <input class='form-control' type='text' name='post[type]'" +
+                            "                                   id='" + rs.data[i].id + "-note' placeholder='请输入班型描述' maxlength='100' value='" + rs.data[i].note + "'/>" +
+                            "                        </td>" +
+                            "                        <td>" +
+                            "                            <a href='javascript:void(0);' onclick='updateprice(" + rs.data[i].id + ");'>更新</a>" +
+                            "                            <a href='javascript:void(0);' onclick='deleteprice(" + rs.data[i].id + ");'>删除</a>" +
+                            "                        </td>" +
+                            "                    </tr>" +
+                            "                </table>" +
+                            "            </div>"
+                    }
+                    $("#renddiv").html('');
+                    $("#renddiv").html(html);
+                } else {
+                    alert("操作失败");
+                }
+            }
+        })
+    }
+</script>
+</body>
+</html>

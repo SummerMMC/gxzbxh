@@ -1,0 +1,86 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="javascript:;">所有报名</a></li>
+    </ul>
+    <form class="well form-inline margin-top-20" method="post" action="{:url('AdminDrivingApply/index')}">
+        电话号码：<input name="phone" value="{$phone}">
+        姓名：<input name="name" value="{$name}">
+        回访状态:
+        <select class="form-control" id="status" name="status" style="width: 80px;">
+            <option value="0">未回访</option>
+            <option value="1">已回访</option>
+        </select>
+        <input type="submit" class="btn btn-primary" value="搜索"/>
+        <a class="btn btn-danger" href="{:url('AdminDrivingApply/index')}">清空</a>
+    </form>
+    <form class="js-ajax-form" action="" method="post">
+        <div class="table-actions">
+            <!--
+            <notempty name="category">
+                <button class="btn btn-primary btn-sm js-articles-move" type="button">批量移动</button>
+            </notempty>
+            <button class="btn btn-primary btn-sm js-articles-copy" type="button">批量复制</button>
+            -->
+        </div>
+        <table class="table table-hover table-bordered table-list">
+            <tr>
+                <th width="15"><label><input type="checkbox" class="js-check-all" data-direction="x"
+                                             data-checklist="js-check-x"></label></th>
+                <th width="50">ID</th>
+                <th>名称</th>
+                <th>电话</th>
+                <th>科目</th>
+                <th>区域</th>
+                <th>报名时间</th>
+                <th width="70">状态</th>
+                <th width="190">操作</th>
+            </tr>
+            <foreach name="user" item="vo">
+                <tr>
+                    <td>
+                        <input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[]"
+                               value="{$vo.id}" title="ID:{$vo.id}">
+                    </td>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.name}</td>
+                    <td>{$vo.phone}</td>
+                    <td>{$vo.subject}</td>
+                    <td>
+                        <if condition="$vo.area == 1">西乡塘区</if>
+                        <if condition="$vo.area == 2">江南区</if>
+                        <if condition="$vo.area == 3">兴宁区</if>
+                        <if condition="$vo.area == 4">青秀区</if>
+                        <if condition="$vo.area == 5">其他驾校</if>
+                    </td>
+                    <td>{:date('Y-m-d',$vo.ctime)}</td>
+                    <td>
+                        <if condition="$vo.status == 0">未回访</if>
+                        <if condition="$vo.status == 1">已回访</if>
+                    </td>
+                    <td>
+                        <a href="{:url('AdminDrivingApply/update',array('id'=>$vo['id']))}">回访</a>
+                    </td>
+                </tr>
+            </foreach>
+        </table>
+        <div class="table-actions">
+        </div>
+        <ul class="pagination">{$page|default=''}</ul>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+<script>
+
+    function reloadPage(win) {
+        win.location.reload();
+    }
+
+    $(function () {
+        $("#status").val('{$status}');
+    });
+</script>
+</body>
+</html>

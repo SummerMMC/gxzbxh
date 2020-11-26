@@ -1,0 +1,319 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
+    <script> document.documentElement.style.fontSize = document.documentElement.clientWidth / 750 * 40 + "px";</script>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>科目一</title>
+
+    <include file="../public/wxhead"/>
+
+    <style type="text/css">
+        body {
+            position: absolute;;
+            max-width: 750px;
+            margin: auto;
+            background: #FFFFFF;
+        }
+
+        body a {
+            color: #333333;
+        }
+
+        .listico {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            background-color: #ffffff;
+            margin-top: 10px;
+            border-bottom: 1px #f3f3f3 solid;
+        }
+
+        .icnost {
+            width: 25px;
+            height: 25px;
+            margin-left: 10px;
+            margin-right: 15px;
+        }
+
+        .listop {
+            width: 100%;
+        }
+
+        .listop a {
+            border-bottom: 1px #sf3f3f3 solid;
+        }
+
+        .listop a div {
+            padding: 15px;
+            font-size: 15px;
+        }
+
+        .listop a span {
+            float: right;
+            color: #009281;
+        }
+
+        .indesimgiss {
+            width: 50px;
+            height: 50px;
+        }
+
+
+    </style>
+</head>
+
+<body ontouchstart>
+<div id="issueslist" class='fui-page  shop-index-page fui-page-current member-page'
+     style="top: 0; background-color: #fafafa; ">
+    <div class="fui-content navbar">
+        <!--tab-->
+        <div id="tab">
+            <div class="tab_menu set_tag">
+                <ul>
+                    <li class="selected">科目一</li>
+                    <li>科目二</li>
+                    <li>科目三</li>
+                </ul>
+            </div>
+            <div class="tab_box">
+                <!--科目一-->
+                <div class="tab_mainst">
+                    <div class="listop">
+                        <a href="{:url('/jiaxiao/issues/issuesdetail',array('type'=>1))}">
+                            <div>
+                                <span>678</span>
+                                第1章 道路交通安全法律、法规和规章
+                            </div>
+                        </a>
+                    </div>
+                    <div class="listop">
+                        <a href="{:url('/jiaxiao/issues/issuesdetail',array('type'=>2))}">
+                            <div>
+                                <span>374</span>
+                                第2章 道路交通信号
+                            </div>
+                        </a>
+                    </div>
+                    <div class="listop">
+                        <a href="{:url('/jiaxiao/issues/issuesdetail',array('type'=>3))}">
+                            <div>
+                                <span>270</span>
+                                第3章 安全行车、文明驾驶基础知识
+                            </div>
+                        </a>
+                    </div>
+                    <div class="listop">
+                        <a href="{:url('/jiaxiao/issues/issuesdetail',array('type'=>4))}">
+                            <div>
+                                <span>130</span>
+                                第4章 机动车驾驶操作相关基础知识
+                            </div>
+                        </a>
+                    </div>
+                    <div class="h10ps"></div>
+                    <div class="navty">
+                        <a href="{:url('/jiaxiao/issues/examination')}">
+                            <div>
+                                <img src="http://qiniu-jiaxiao.henbaoli.com/image/carType01.png" mode="aspectFit"
+                                     class="indesimgiss"/>
+                            </div>
+                            <div>模拟考试</div>
+                        </a>
+                        <a href="{:url('/jiaxiao/issues/examinationlist')}">
+                            <div>
+                                <img src="http://qiniu-jiaxiao.henbaoli.com/image/carType02.png" mode="aspectFit"
+                                     class="indesimgiss"/>
+                            </div>
+                            <div>成绩查询</div>
+                        </a>
+                        <a href="{:url('/jiaxiao/issues/mistakeslist')}">
+                            <div>
+                                <img src="http://qiniu-jiaxiao.henbaoli.com/image/carType03.png" mode="aspectFit"
+                                     class="indesimgiss"/>
+                            </div>
+                            <div>错题查询</div>
+                        </a>
+                    </div>
+                </div>
+                <!--科目一-->
+                <!--科目二-->
+                <div class="hidecss tab_mainst">
+                    <div id="">
+                        <ul class="issue_list">
+                            <li>
+                                <a href="{:url('/jiaxiao/issues/issues2detail',array('id'=>1))}">
+                                    <img src="http://qiniu-jiaxiao.henbaoli.com/image/mun01_d.png">
+                                    <p>倒车入库</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{:url('/jiaxiao/issues/issues2detail',array('id'=>2))}">
+                                    <img src="http://qiniu-jiaxiao.henbaoli.com/image/mun01_c.png">
+                                    <p>侧方停车</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{:url('/jiaxiao/issues/issues2detail',array('id'=>3))}">
+                                    <img src="http://qiniu-jiaxiao.henbaoli.com/image/mun01_b.png">
+                                    <p>半坡定点起步</p>
+                                </a>
+                            </li>
+
+
+                            <li>
+                                <a href="{:url('/jiaxiao/issues/issues2detail',array('id'=>4))}">
+                                    <img src="http://qiniu-jiaxiao.henbaoli.com/image/mun01_z.png">
+                                    <p>直角转弯</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{:url('/jiaxiao/issues/issues2detail',array('id'=>5))}">
+                                    <img src="http://qiniu-jiaxiao.henbaoli.com/image/mun01_qx.png">
+                                    <p>曲线行驶</p>
+                                </a>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+                <!--科目二-->
+                <!--科目三-->
+                <div class="hidecss tab_mainst">
+                    <div id="km3">
+                        <ul class="issue_list">
+                            <li>
+                                <a href="{:url('/jiaxiao/issues/issues3detail',array('id'=>1))}">
+                                    <img src="http://qiniu-jiaxiao.henbaoli.com/image/san/bgcd.png">
+                                    <p>变更车道</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{:url('/jiaxiao/issues/issues3detail',array('id'=>2))}">
+                                    <img src="http://qiniu-jiaxiao.henbaoli.com/image/san/cc.png">
+                                    <p>超车</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{:url('/jiaxiao/issues/issues3detail',array('id'=>3))}">
+                                    <img src="http://qiniu-jiaxiao.henbaoli.com/image/san/dt.png">
+                                    <p>掉头</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{:url('/jiaxiao/issues/issues3detail',array('id'=>4))}">
+                                    <img src="http://qiniu-jiaxiao.henbaoli.com/image/san/hc.png">
+                                    <p>会车</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{:url('/jiaxiao/issues/issues3detail',array('id'=>5))}">
+                                    <img src="http://qiniu-jiaxiao.henbaoli.com/image/san/jjdcz.png">
+                                    <p>加减档操作</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{:url('/jiaxiao/issues/issues3detail',array('id'=>6))}">
+                                    <img src="http://qiniu-jiaxiao.henbaoli.com/image/san/kbtc.png">
+                                    <p>靠边停车</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{:url('/jiaxiao/issues/issues3detail',array('id'=>7))}">
+                                    <img src="http://qiniu-jiaxiao.henbaoli.com/image/san/lkyzw.png">
+                                    <p>路口右转弯</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{:url('/jiaxiao/issues/issues3detail',array('id'=>8))}">
+                                    <img src="http://qiniu-jiaxiao.henbaoli.com/image/san/lkzzw.png">
+                                    <p>路口左转弯</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{:url('/jiaxiao/issues/issues3detail',array('id'=>9))}">
+                                    <img src="http://qiniu-jiaxiao.henbaoli.com/image/san/mnyjcjdgsy.png">
+                                    <p>模拟夜间场景灯光使用</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{:url('/jiaxiao/issues/issues3detail',array('id'=>10))}">
+                                    <img src="http://qiniu-jiaxiao.henbaoli.com/image/san/qb.png">
+                                    <p>起步</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{:url('/jiaxiao/issues/issues3detail',array('id'=>11))}">
+                                    <img src="http://qiniu-jiaxiao.henbaoli.com/image/san/sczb.png">
+                                    <p>上车准备</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{:url('/jiaxiao/issues/issues3detail',array('id'=>12))}">
+                                    <img src="http://qiniu-jiaxiao.henbaoli.com/image/san/tgggqcz.png">
+                                    <p>通过公共汽车站</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{:url('/jiaxiao/issues/issues3detail',array('id'=>13))}">
+                                    <img src="http://qiniu-jiaxiao.henbaoli.com/image/san/tglk.png">
+                                    <p>通过路口</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{:url('/jiaxiao/issues/issues3detail',array('id'=>14))}">
+                                    <img src="http://qiniu-jiaxiao.henbaoli.com/image/san/tgrxhd.png">
+                                    <p>通过有人行横道</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{:url('/jiaxiao/issues/issues3detail',array('id'=>15))}">
+                                    <img src="http://qiniu-jiaxiao.henbaoli.com/image/san/tgxxqy.png">
+                                    <p>通过学校区域</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{:url('/jiaxiao/issues/issues3detail',array('id'=>16))}">
+                                    <img src="http://qiniu-jiaxiao.henbaoli.com/image/san/zzxs.png">
+                                    <p>直线行驶</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{:url('/jiaxiao/issues/issues3detail',array('id'=>17))}">
+                                    <img src="http://qiniu-jiaxiao.henbaoli.com/image/san/wzb.png">
+								
+                                    <p>完整版</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!--科目三-->
+            </div>
+        </div>
+
+        <!--end tab-->
+
+
+    </div>
+</div>
+
+
+<include file="../public/wxfoot"/>
+
+<script type="text/javascript">
+    $(function () {
+        var div_li = $(".tab_menu ul li");
+        div_li.click(function () {
+            $(this).addClass("selected").siblings().removeClass("selected");
+            var index = div_li.index(this);
+            $(".tab_box > div").eq(index).show().siblings().hide();
+        })
+
+    })
+</script>
+
+</body>
+</html>
+		

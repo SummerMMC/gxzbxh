@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
+    <script> document.documentElement.style.fontSize = document.documentElement.clientWidth / 750 * 40 + "px";</script>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>错题列表</title>
+
+    <include file="../public/wxhead"/>
+
+    <style type="text/css">
+        body {
+            position: absolute;;
+            max-width: 750px;
+            margin: auto;
+        }
+		.cuowu{ width: 100%; height: 30px; text-align: center; line-height: 30px; background-color: #f90; color: #FFFFFF; position:absolute; bottom: 2.5rem; z-index: 9999;}
+		.fui-navbar ~ .fui-content, .fui-content.navbar {
+		    bottom: 0.5rem;
+		    padding-bottom: 3.9rem;
+		}
+    </style>
+</head>
+
+<body ontouchstart>
+<div id="examinationlist" class='fui-page  shop-index-page fui-page-current member-page'
+     style="top: 0; background-color: #fafafa; ">
+    <div class="fui-content navbar">
+       
+        <!--内容-->
+        <div class="mislist">
+            <label class="withdstt ctfont" style="width: 79%;">题目</label>
+            <label class="rightsyst ctfont" style="width: 20%;">错误次数</label>
+        </div>
+        <div v-for="item in list" class="">
+            <a href="javascript:void(0);" v-on:click="gotodetail(item.qid)" class="mislist">
+                <label class="withdstt">{{item.title}}</label>
+                <label class="rightsyst">{{item.qcount}} </label>
+            </a>
+        </div>
+
+        <!--内容-->
+
+    </div>
+    <div v-on:click="cleanlist();" class="cuowu">
+        清除错题
+    </div>
+</div>
+
+
+
+<include file="../public/wxfoot"/>
+
+
+</body>
+<script>
+    var app = new Vue({
+        el: '#examinationlist',
+        data: {
+            list: [],
+            openid: '{$openid}',
+        },
+        created: function () {
+            openloading();
+            this.getmistakeslist();
+        },
+        filters: {
+            formatTimer: function (value) {
+                var date = new Date(value * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+                Y = date.getFullYear() + '-';
+                M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+                D = date.getDate() + ' ';
+                h = date.getHours() + ':';
+                m = date.getMinutes() + ':';
+                s = date.getSeconds();
+                return Y + M + D + h + m + s;
+            }
+        },
+        methods: {
+            getmistakeslist: function () {
+                var _self = this;
+
+                $.ajax({
+                    type: 'post',
+                    data: {
+                        openid: this.openid
+                    },
+                    url: "{:url('/jiaxiao/issues/getmistakeslist')}",
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res.code == -1) {
+                            _self.list = res.data;
+                            hideloading();
+                        }
+                    },
+                })
+            },
+            gotodetail: function (id) {
+                window.location.href = '/jiaxiao/issues/mistakesdetail?id=' + id;
+            },
+            cleanlist: function () {
+                var self = this;
+                layer.msg('是否清除所有错题数据？', {
+                    time: 0 //不自动关闭
+                    , btn: ['确定', '取消']
+                    , yes: function (index) {
+                        layer.close(index);
+                        $.ajax({
+                            type: 'post',
+                            data: {},
+                            url: "{:url('/jiaxiao/issues/cleanmistakeslist')}",
+                            dataType: 'json',
+                            success: function (res) {
+                                if (res.code == -1) {
+                                    puopenwin('清除成功！');
+                                    openloading();
+                                    self.getmistakeslist();
+                                }
+                            },
+                        })
+
+                    }
+                });
+            }
+        }
+    })
+</script>
+</html>
+		

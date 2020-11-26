@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
+    <script> document.documentElement.style.fontSize = document.documentElement.clientWidth / 750 * 40 + "px";</script>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>错题详情</title>
+
+    <include file="../public/wxhead"/>
+
+    <style type="text/css">
+        body {
+            position: absolute;;
+            max-width: 750px;
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body ontouchstart>
+<div id="mistakesdetail" class='fui-page  shop-index-page fui-page-current member-page'
+     style="top: 0; background-color: #fafafa; ">
+    <div class="fui-content navbar">
+        <!--内容-->
+        <div class="question">
+            <div>
+                题目：{{result.title}}
+            </div>
+            <div>
+                <div v-for="item in aresult" class="crightst">
+                    <label :class="selheightline == item.tag?'selheightline':''">
+                        <input type="radio" class="inputcts" value="item.tag" name="aitems"
+                               v-on:change="changeradio(item.tag)"/><i
+                            class="bui-radios"></i> {{item.title}}
+                    </label>
+                </div>
+            </div>
+            <div v-if="isshowimg == true" class="mt15">
+                <img :src="'/'+result.attachment" class="imagescs"></img>
+            </div>
+            <div class="resultok">
+                <div :style="{display:(isshowok == true?'block':'none')}">回答正确！</div>
+                <div :style="{display:(isshowerro == true?'block':'none')}">
+                    <span class="red">回答错误!</span>
+                    正确答案是：{{result.answer|fomateanswer(aresult)}}
+                </div>
+            </div>
+            <div :style="{display:(isshownote == true?'block':'none')}">
+                <div class="question_title">官方讲解</div>
+                <div class="question_main"> {{result.note}}</div>
+            </div>
+        </div>
+        <!--内容-->
+    </div>
+</div>
+
+
+<include file="../public/wxfoot"/>
+
+
+</body>
+<script>
+    var app = new Vue({
+        el: '#mistakesdetail',
+        data: {
+            id: "{$id}",
+            type: '',
+            issuesindex: 0,
+            count: 0,
+            result: [],
+            aresult: [],
+            isshownote: false,
+            isshowok: false,
+            isshowerro: false,
+            isshowimg: false,
+            checked: false,
+            qunumlist: [],
+            selheightline: '',
+        },
+        created: function () {
+            openloading();
+            this.getmistakesbyid(this.id);
+        },
+        filters: {
+            formatTimer: function (value) {
+                var date = new Date(value * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+                Y = date.getFullYear() + '-';
+                M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+                D = date.getDate() + ' ';
+                h = date.getHours() + ':';
+                m = date.getMinutes() + ':';
+                s = date.getSeconds();
+                return Y + M + D + h + m + s;
+            },
+            fomateanswer: function (v, aresult) {
+                if (v == 1) {
+                    if (aresult.length > 2) {
+                        return "A";
+                    } else {
+                        return "正确";
+                    }
+                } else if (v == 2) {
+                    if (aresult.length > 2) {
+                        return "B";
+                    } else {
+                        return "错误";
+                    }
+                } else if (v == 3) {
+                    return "C";
+                } else if (v == 4) {
+                    return "D";
+                }
+            }
+        },
+        methods: {
+            getmistakesbyid: function (id) {
+                var _self = this;
+                this.isshowok = false;
+                this.isshowerro = false;
+                this.isshownote = false;
+
+                $.ajax({
+                    type: 'post',
+                    data: {
+                        id: id,
+                    },
+                    url: "{:url('/jiaxiao/issues/getmistakesbyid')}",
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res.code == -1) {
+                            _self.result = res.data.result;
+                            _self.aresult = res.data.aresult;
+                            if (res.data.result.attachment != null && res.data.result.attachment != undefined && res.data.result.attachment != '') {
+                                _self.isshowimg = true;
+                            } else {
+                                _self.isshowimg = false;
+                            }
+                            hideloading();
+                        }
+                    },
+                })
+            },
+            changeradio: function (va) {
+                this.selheightline = '';
+                if (va == this.result.answer) {
+                    this.isshowok = true;
+                    this.isshowerro = false;
+                    this.isshownote = true;
+                } else {
+                    this.isshowok = false;
+                    this.isshowerro = true;
+                    this.isshownote = true;
+                }
+                this.selheightline = va;
+            },
+        }
+    })
+</script>
+</html>
+		

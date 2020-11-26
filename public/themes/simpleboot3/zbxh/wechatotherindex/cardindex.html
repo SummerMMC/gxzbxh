@@ -1,0 +1,225 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
+    <script> document.documentElement.style.fontSize = document.documentElement.clientWidth / 750 * 40 + "px";</script>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>广西珠宝协会</title>
+
+    <include file="../public/wxhead"/>
+
+    <style type="text/css">
+
+        body {
+            background-color: #FFFFFF;
+        }
+
+        .fui-page.fui-page-from-center-to-left,
+        .fui-page-group.fui-page-from-center-to-left,
+        .fui-page.fui-page-from-center-to-right,
+        .fui-page-group.fui-page-from-center-to-right,
+        .fui-page.fui-page-from-right-to-center,
+        .fui-page-group.fui-page-from-right-to-center,
+        .fui-page.fui-page-from-left-to-center,
+        .fui-page-group.fui-page-from-left-to-center {
+            -webkit-animation: pageFromCenterToRight 0ms forwards;
+            animation: pageFromCenterToRight 0ms forwards;
+        }
+
+        .fui-navbar ~ .fui-content, .fui-content.navbar {
+            bottom: 0rem;
+            padding-bottom: 0.2rem;
+        }
+
+
+    </style>
+
+
+</head>
+
+<body ontouchstart>
+
+<!--top-->
+<!--top-->
+<div id="cardindex" class="fui-content navbar" :style="{top: 0+'px'}">
+    <div class="logo_mp"><img src="__TMPL__/zbxh/public/assets/images/logo.png"></div>
+    <div class="cardin">
+
+        <div class="mains">
+            <if condition="!empty($avatar)">
+                <div class="cardin_top" v-on:click="showimg('{$avatar}')">
+                    <img src="{$avatar}" width="80" height="80"
+                         style="border-radius:5px">
+                </div>
+            </if>
+
+            <ul class="listmain">
+                <if condition="$user.job != 9">
+                    <if condition="$user.job == 1">
+                        <li class="diclsst"><span>广西珠宝协会会长</span>协会职务</li>
+                    </if>
+                    <if condition="$user.job == 2">
+                        <li class="diclsst"><span>广西珠宝协会监事长</span>协会职务</li>
+                    </if>
+                    <if condition="$user.job == 3">
+                        <li class="diclsst"><span>广西珠宝协会执行会长</span>协会职务</li>
+                    </if>
+                    <if condition="$user.job == 4">
+                        <li class="diclsst"><span>广西珠宝协会常务会长</span>协会职务</li>
+                    </if>
+                    <if condition="$user.job == 5">
+                        <li class="diclsst"><span>广西珠宝协会副会长</span>协会职务</li>
+                    </if>
+                    <if condition="$user.job == 6">
+                        <li class="diclsst"><span>广西珠宝协会理事</span>协会职务</li>
+                    </if>
+                    <if condition="$user.job == 7">
+                        <li class="diclsst"><span>广西珠宝协会监事</span>协会职务</li>
+                    </if>
+                    <if condition="$user.job == 8">
+                        <li class="diclsst"><span>广西珠宝协会会员</span>协会职务</li>
+                    </if>
+                </if>
+                <if condition="!empty($user.cname)">
+                    <li class="diclsst"><span>{$user.cname}</span>组织/企业名称</li>
+                </if>
+                <if condition="!empty($user.department)">
+                    <li><span>{$user.department}</span>部门</li>
+                </if>
+                <if condition="!empty($user.position)">
+                    <li><span>{$user.position}</span>职位</li>
+                </if>
+                <if condition="!empty($user.real_name)">
+                    <li><span>{$user.real_name}</span>姓名</li>
+                </if>
+                <if condition="!empty($user.mobile)">
+                    <a href="tel:{$user.mobile}">
+                        <li><span><img src="__TMPL__/zbxh/public/assets/images/sji.png"
+                                       class="sjittys">{$user.mobile}</span>手机
+                        </li>
+                    </a>
+                </if>
+                <if condition="!empty($user.wechat)">
+                    <li><span>{$cucardobj.wechat}</span>微信</li>
+                </if>
+                <if condition="!empty($user.caddr)">
+                    <li class="diclsst"><span>{$user.caddr}</span>地址</li>
+                </if>
+            </ul>
+            <if condition="!empty($cucardobj.note)">
+                <div class="textareacts">
+                    组织/企业简介
+                    <div class="cardnote" style="margin-top: 5px;">{$cucardobj.note}</div>
+                </div>
+            </if>
+            <if condition="!empty($xiangcelist)">
+                <div class="titlstccy"> 组织/企业相册</div>
+                <ul class="xiangc" style="margin-bottom: 25px;">
+                    <foreach name="xiangcelist" item="vo">
+                        <li v-on:click="showimg('{$vo}');">
+                            <img src="{$vo}"/>
+                        </li>
+                    </foreach>
+                </ul>
+            </if>
+            <div style="text-align: center; margin-top: 10px;padding-top: 5px;"><img width="150px;"
+                                                                                     src="__TMPL__/zbxh/public/assets/images/qrcode.jpg">
+            </div>
+            <div style="text-align: center;">扫描二维码关注更多信息</div>
+        </div>
+    </div>
+    <div style="height: 30px;"></div>
+</div>
+
+<script>
+    var app = new Vue({
+        el: '#cardindex',
+        data: {
+            imgsrc: "",
+            show: 0,
+            winh: 0,
+            winw: 0,
+        },
+        created: function () {
+            var wxjsonstr = '{$jscode}';
+            var jsonobj = eval('(' + wxjsonstr + ')');
+            wx.config(jsonobj);
+            this.wxshare();
+        },
+        mounted() {
+        },
+        filters: {
+            formatTimer: function (value) {
+                var date = new Date(value * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+                Y = date.getFullYear() + '-';
+                M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+                D = date.getDate() + ' ';
+                h = date.getHours() + ':';
+                m = date.getMinutes() + ':';
+                s = date.getSeconds();
+                return Y + M + D + h + m + s;
+            },
+        },
+        methods: {
+            showimg: function (src) {
+                layer.photos({
+                    photos: {
+                        "title": "", //相册标题
+                        "id": 1, //相册id
+                        "start": 0, //初始显示的图片序号，默认0
+                        "data": [   //相册包含的图片，数组格式
+                            {
+                                "alt": "",
+                                "pid": 2, //图片id
+                                "src": src, //原图地址
+                                "thumb": src //缩略图地址
+                            }
+                        ]
+                    } //格式见API文档手册页
+                    , anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机
+                });
+            },
+            wxshare: function () {
+                wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
+                    var cname = "{$user.cname}";
+                    var department = "{$user.department}";
+                    var position = "{$user.position}";
+                    var str = "";
+                    if (cname != "" && cname != null) {
+                        str += cname;
+                    }
+                    if (department != "" && department != null) {
+                        str += "-" + department;
+                    }
+                    if (position != "" && position != null) {
+                        str += "-" + position;
+                    }
+                    wx.updateAppMessageShareData({
+                        title: "{$user.real_name}", // 分享标题
+                        desc: str, // 分享描述
+                        link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                        imgUrl: "{$avatar}", // 分享图标
+                        success: function () {
+                            // 设置成功
+                        }
+                    });
+                    wx.updateTimelineShareData({
+                        title: "{$user.cname}", // 分享标题
+                        link: window.location.href, // 分享链接，该链接域名必须与当前企业的可信域名一致
+                        imgUrl: "{$avatar}", // 分享图标
+                        success: function () {
+                            // 用户确认分享后执行的回调函数
+                        },
+                        cancel: function () {
+                            // 用户取消分享后执行的回调函数
+                        }
+                    });
+                });
+            },
+        }
+    })
+</script>
+</body>
+</html>
+		

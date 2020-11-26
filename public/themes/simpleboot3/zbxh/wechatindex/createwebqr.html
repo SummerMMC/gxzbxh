@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
+    <script> document.documentElement.style.fontSize = document.documentElement.clientWidth / 750 * 40 + "px";</script>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>推广二维码</title>
+
+    <include file="../public/wxhead"/>
+
+    <style type="text/css">
+        body {
+            position: absolute;;
+            max-width: 750px;
+            margin: auto;
+			background-color: #FFFFFF;
+        }
+		.danmu {
+		    display: none;
+		    opacity: 0;
+		}
+		.titlestsy{ text-align: center; margin-top: 30px; font-size: 18px;  font-weight: bold; border-bottom:none;}
+		.buttcstsst{ width: 80%; margin: 0 auto; margin-top: 40px;}
+		.buttcst{ width: 100%;  border-radius: 8px; height: 40px; line-height: 40px; background-color: #f90; border:solid 1px #f90; color: #FFFFFF;}
+		.ermmamian{ width: 100%; text-align: center;}
+        .ermma{ width: 65%; margin: 0 auto; background-color: #FFFFFF;  text-align: center; margin-top: 30px; } 
+    </style>
+
+   
+		
+	
+</head>
+
+<body ontouchstart>
+<div id="createwebqr">
+    <div class="titlestsy">我的推广二维码</div>
+    <div class="ermmamian" ><img v-if="user.tuiguang_qr != '0'" :src="'/'+user.tuiguang_qr" class="ermma"/></div>
+    <div id="code" style="display: none;">
+    </div>
+    <div v-if="user.tuiguang_qr == '0'"  class="buttcstsst" >
+        <button v-on:click="getwebqr();"  class="buttcst">生成二维码</button>
+    </div>
+    <include file="../public/wxfoot"/>
+</div>
+
+</body>
+<script type="text/javascript" src="__TMPL__/jiaxiao/public/assets/js/qrcode.min.js"></script>
+<script>
+    var app = new Vue({
+        el: '#createwebqr',
+        data: {
+            user: Object,
+        },
+        created: function () {
+            this.getuser();
+        },
+        filters: {},
+        methods: {
+            getuser: function () {
+                var _self = this;
+                $.ajax({
+                    type: 'post',
+                    data: {},
+                    url: "{:url('/jiaxiao/wechatindex/getuser')}",
+                    dataType: 'json',
+                    success: function (rs) {
+                        console.log(rs);
+                        if (rs.code == -1) {
+                            _self.user = rs.data;
+                        }
+                    }
+                })
+            },
+            getwebqr: function () {
+                var _self = this;
+                var qrcode = new QRCode(document.getElementById("code"), {
+                    width: 320,//设置宽高
+                    height: 320
+                });
+                qrcode.makeCode("http://jiaxiao.henbaoli.com/jiaxiao/wechatindex/index?pid=" + this.user.id);
+                var canvas = $('#code').find("canvas").get(0);
+                var url = canvas.toDataURL('image/jpeg');
+                $.ajax({
+                    type: 'post',
+                    data: {img: url},
+                    url: "{:url('/jiaxiao/wechatindex/getwebqr')}",
+                    dataType: 'json',
+                    success: function (rs) {
+                        console.log(rs);
+                        if (rs.code == -1) {
+                            _self.user.tuiguang_qr = rs.data.img
+                        }
+                    }
+                })
+            }
+        }
+    })
+</script>
+</html>
+		

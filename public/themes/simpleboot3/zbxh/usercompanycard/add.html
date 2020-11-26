@@ -1,0 +1,421 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
+    <script> document.documentElement.style.fontSize = document.documentElement.clientWidth / 750 * 40 + "px";</script>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>广西珠宝协会</title>
+
+    <include file="../public/wxhead"/>
+
+    <style type="text/css">
+
+        body {
+            background-color: #FFFFFF;
+        }
+
+        .fui-page.fui-page-from-center-to-left,
+        .fui-page-group.fui-page-from-center-to-left,
+        .fui-page.fui-page-from-center-to-right,
+        .fui-page-group.fui-page-from-center-to-right,
+        .fui-page.fui-page-from-right-to-center,
+        .fui-page-group.fui-page-from-right-to-center,
+        .fui-page.fui-page-from-left-to-center,
+        .fui-page-group.fui-page-from-left-to-center {
+            -webkit-animation: pageFromCenterToRight 0ms forwards;
+            animation: pageFromCenterToRight 0ms forwards;
+        }
+
+        .danmu {
+            display: none;
+            opacity: 0;
+        }
+
+    </style>
+
+
+</head>
+
+<body ontouchstart>
+
+<!--top-->
+<include file="../public/wxnav"/>
+<!--top-->
+
+
+<div id="user_company_card_add" class="fui-content navbar" style="top: 45px;">
+    <div style=" background-color: green; color: #FFFFFF; text-align: center; font-size: 12px; padding: 2px;">此页面为编辑页面，请勿转发！</div>
+    <div class="adduser">
+        <h3>基本资料</h3>
+        <div class="addtouxiang" v-on:click="chooseImageavatar">
+            <img id="avatar" src="" onerror="this.src='__TMPL__/zbxh/public/assets/images/xiangc.png'" width="60"
+                 height="60"
+                 style="border-radius:10px">
+            <img src="__TMPL__/zbxh/public/assets/images/xiangji.png" class="ctimg">
+        </div>
+        <ul class="addcsslist">
+            <li>
+                <if condition="$user.job == '' || $user.job == null">
+                    <else/>
+                    <if condition="$user.job != 9">
+                        <if condition="$user.job == 1">
+                            <input id="job" type="text" class="ippnt" disabled="disabled"
+                                   oninput="if(value.length>10)value=value.slice(0,10)" value="广西珠宝协会会长">
+                        </if>
+                        <if condition="$user.job == 2">
+                            <input id="job" type="text" class="ippnt" disabled="disabled"
+                                   oninput="if(value.length>10)value=value.slice(0,10)" value="广西珠宝协会监事长">
+                        </if>
+                        <if condition="$user.job == 3">
+                            <input id="job" type="text" class="ippnt" disabled="disabled"
+                                   oninput="if(value.length>10)value=value.slice(0,10)" value="广西珠宝协会执行会长">
+                        </if>
+                        <if condition="$user.job == 4">
+                            <input id="job" type="text" class="ippnt" disabled="disabled"
+                                   oninput="if(value.length>10)value=value.slice(0,10)" value="广西珠宝协会常务会长">
+                        </if>
+                        <if condition="$user.job == 5">
+                            <input id="job" type="text" class="ippnt" disabled="disabled"
+                                   oninput="if(value.length>10)value=value.slice(0,10)" value="广西珠宝协会副会长">
+                        </if>
+                        <if condition="$user.job == 6">
+                            <input id="job" type="text" class="ippnt" disabled="disabled"
+                                   oninput="if(value.length>10)value=value.slice(0,10)" value="广西珠宝协会理事">
+                        </if>
+                        <if condition="$user.job == 7">
+                            <input id="job" type="text" class="ippnt" disabled="disabled"
+                                   oninput="if(value.length>10)value=value.slice(0,10)" value="广西珠宝协会监事">
+                        </if>
+                        <if condition="$user.job == 8">
+                            <input id="job" type="text" class="ippnt" disabled="disabled"
+                                   oninput="if(value.length>10)value=value.slice(0,10)" value="广西珠宝协会会员">
+                        </if>
+                    </if>
+                </if>
+            </li>
+            <li>
+                <if condition="$user.cname == '' || $user.cname == null">
+                    <input id="name" type="text" class="ippnt" placeholder="姓名"
+                           oninput="if(value.length>10)value=value.slice(0,10)" value="{$user.user_nickname}">
+                    <else/>
+                    <input id="name" type="text" class="ippnt" placeholder="姓名"
+                           oninput="if(value.length>10)value=value.slice(0,10)" value="{$user.real_name}">
+                </if>
+            </li>
+            <li>
+                <if condition="$user.cname == '' || $user.cname == null">
+                    <input id="cname" type="text" class="ippnt" placeholder="组织/企业名称" disabled="disabled"
+                           oninput="if(value.length>10)value=value.slice(0,10)" value="组织/企业">
+                    <else/>
+                    <input id="cname" type="text" class="ippnt" placeholder="组织/企业名称" disabled="disabled"
+                           oninput="if(value.length>10)value=value.slice(0,10)" value="{$user.cname}">
+                </if>
+            </li>
+            <li><input id="department" type="text" class="ippnt" placeholder="部门"
+                       oninput="if(value.length>20)value=value.slice(0,20)" value="{$user.department}"></li>
+            <li><input id="position" type="text" class="ippnt" placeholder="职位" value="{$user.position}"
+                       oninput="if(value.length>20)value=value.slice(0,20)"></li>
+        </ul>
+    </div>
+    <div class="adduser">
+        <h3>联系方式</h3>
+        <ul class="addcsslist">
+            <li>
+                <if condition="$user.mobile == '' || $user.mobile == null">
+                    <input id="phone" type="number" class="ippnt" placeholder="手机"
+                           oninput="if(value.length>11)value=value.slice(0,11)">
+                    <else/>
+                    <input id="phone" type="number" class="ippnt" placeholder="手机"
+                           oninput="if(value.length>11)value=value.slice(0,11)" value="{$user.mobile}">
+                </if>
+            </li>
+            <li></li>
+            <li><input id="wechat" type="text" class="ippnt" placeholder="微信"
+                       oninput="if(value.length>20)value=value.slice(0,20)" value="{$cucardobj.wechat}"></li>
+            <li>
+                <if condition="$user.caddr == '' || $user.caddr == null">
+                    <input id="addr" type="text" class="ippnt" placeholder="地址" disabled="disabled"
+                           oninput="if(value.length>50)value=value.slice(0,50)">
+                    <else/>
+                    <input id="addr" type="text" class="ippnt" placeholder="地址"
+                           oninput="if(value.length>11)value=value.slice(0,50)" value="{$user.caddr}"
+                           disabled="disabled">
+                </if>
+
+            </li>
+        </ul>
+    </div>
+    <div class="adduser">
+        <h3>简介</h3>
+        <ul class="addcsslist">
+            <li><textarea id="note" class="textaress">{$cucardobj.note}</textarea></li>
+        </ul>
+    </div>
+    <div class="adduser" style="margin-left: 3%;">
+        <h3 style="margin-left: 1%;">组织/企业相册</h3>
+        <ul class="xiangc">
+            <li class="ttcsy" v-on:click="chooseImagexiangce();">
+                <p><img src="__TMPL__/zbxh/public/assets/images/xiangc.png"></p>
+                上传图片
+            </li>
+            <li v-for="(item,key) in xiangcelist">
+                <img :src="item">
+                <div class="coleost" v-on:click="deleteimg(key);">X</div>
+            </li>
+        </ul>
+        <div style="text-align: center;color: red;margin-top: 10px;">最多只能上传6张图片</div>
+    </div>
+    <if condition="$cucard['has'] == 'no'">
+        <button class="button bbtoo" v-on:click="subcard();">提交审核</button>
+        <else/>
+        <if condition="$cucard['status'] == 1">
+            <div style="text-align: center;margin-top: 16px;color: red;">待审核</div>
+            <button class="button bbtoo" v-on:click="editcard();">重新提交</button>
+        </if>
+        <if condition="$cucard['status'] == 2">
+            <div style="text-align: center;margin-top: 16px;color: green;">审核通过</div>
+            <button class="button bbtoo" style="background-color: green;" v-on:click="opencard();">转发名片</button>
+            <button class="button bbtoo" v-on:click="editcard();">重新提交</button>
+        </if>
+        <if condition="$cucard['status'] == 3">
+            <div style="text-align: center;margin-top: 16px;color: red;">审核不通过,请咨询管理员</div>
+            <div style="text-align: center;margin-top: 16px;color: red;">不通过原因：{$cucardobj.checknote}</div>
+            <button class="button bbtoo" v-on:click="editcard();">重新提交</button>
+        </if>
+    </if>
+
+</div>
+
+
+<script>
+
+    var app = new Vue({
+        el: '#user_company_card_add',
+        data: {
+            avatar: "",
+            xiangcelist: [],
+            xiangcelistedit: [],
+        },
+        created: function () {
+            var wxjsonstr = '{$jscode}';
+            var jsonobj = eval('(' + wxjsonstr + ')');
+            wx.config(jsonobj);
+            this.sharecontrol();
+            this.avatar = '{$avatar}';
+            $("#avatar").attr('src', this.avatar);
+            var templist = '{$xiangcelist}';
+            if (templist != "" && templist != undefined) {
+                var u = eval('(' + templist + ')');
+                this.xiangcelist = u;
+            }
+            var templistedit = '{$xiangcelistedit}';
+            if (templistedit != "" && templistedit != undefined) {
+                var u = eval('(' + templistedit + ')');
+                this.xiangcelistedit = u;
+            }
+        },
+        mounted() {
+        },
+        filters: {
+            formatTimer: function (value) {
+                var date = new Date(value * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+                Y = date.getFullYear() + '-';
+                M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+                D = date.getDate() + ' ';
+                h = date.getHours() + ':';
+                m = date.getMinutes() + ':';
+                s = date.getSeconds();
+                return Y + M + D + h + m + s;
+            },
+        },
+        methods: {
+            chooseImageavatar: function () {
+                var _self = this;
+                wx.chooseImage({
+                    count: 1, // 最多可以选择的图片张数，默认9
+                    sizeType: ['original'], // original 原图，compressed 压缩图，默认二者都有
+                    sourceType: ['album', 'camera'], // album 从相册选图，camera 使用相机，默认二者都有
+                    success: function (res) {
+                        var localIds = res.localIds; // 返回选定照片的本地ID列表（手机上操作就是手机端的ID列表，是一个数组），localId可以作为img标签的src属性显示图片
+                        wx.getLocalImgData({
+                            localId: localIds[0].toString(),
+                            success: function (res) {
+                                const localData = res.localData;
+                                let imageBase64 = '';
+                                if (localData.indexOf('data:image') == 0) {
+                                    //苹果的直接赋值，默认生成'data:image/jpeg;base64,'的头部拼接
+                                    imageBase64 = localData;
+                                } else {
+                                    //此处是安卓中的唯一得坑！在拼接前需要对localData进行换行符的全局替换
+                                    //此时一个正常的base64图片路径就完美生成赋值到img的src中了
+                                    imageBase64 = 'data:image/jpeg;base64,' + localData.replace(/\n/g, '');
+                                }
+                                if (imageBase64 != "") {
+                                    _self.avatar = imageBase64;
+                                    $("#avatar").attr('src', imageBase64);
+                                }
+                            },
+                            fail: function (e) {
+                                console.log(e)
+                            }
+                        });
+                    },
+                    fail: function () {
+                    },
+                    complete: function () {
+                    }
+                });
+            },
+            chooseImagexiangce: function () {
+                var self = this;
+                wx.chooseImage({
+                    count: 6, // 最多可以选择的图片张数，默认9
+                    sizeType: ['original'], // original 原图，compressed 压缩图，默认二者都有
+                    sourceType: ['album', 'camera'], // album 从相册选图，camera 使用相机，默认二者都有
+                    success: function (res) {
+                        var localIds = res.localIds; // 返回选定照片的本地ID列表（手机上操作就是手机端的ID列表，是一个数组），localId可以作为img标签的src属性显示图片
+                        for (i = 0; i < localIds.length; i++) {
+                            wx.getLocalImgData({
+                                localId: localIds[i].toString(),
+                                success: function (res) {
+                                    const localData = res.localData;
+                                    let imageBase64 = '';
+                                    if (localData.indexOf('data:image') == 0) {
+                                        //苹果的直接赋值，默认生成'data:image/jpeg;base64,'的头部拼接
+                                        imageBase64 = localData;
+                                    } else {
+                                        //此处是安卓中的唯一得坑！在拼接前需要对localData进行换行符的全局替换
+                                        //此时一个正常的base64图片路径就完美生成赋值到img的src中了
+                                        imageBase64 = 'data:image/jpeg;base64,' + localData.replace(/\n/g, '');
+                                    }
+                                    if (self.xiangcelist.length > 5) {
+                                        $('html,body').animate({scrollTop:0},1000);//回到顶端
+                                        puopenwin("最多只能上传6张图片")
+                                        return false;
+                                    }
+                                    ;
+                                    if (imageBase64 != "") {
+                                        self.xiangcelist.push(imageBase64);
+                                        self.xiangcelistedit.push(imageBase64);
+                                    }
+                                }
+                            });
+                        }
+                    },
+                    fail: function () {
+                    },
+                    complete: function () {
+                    }
+                });
+            },
+            subcard: function () {
+                var _self = this;
+                var name = $("#name").val();
+                var department = $("#department").val();
+                var position = $("#position").val();
+                var phone = $("#phone").val();
+                var wechat = $("#wechat").val();
+                var note = $("#note").val();
+                $('html,body').animate({scrollTop:0},1000);//回到顶端
+                layer.msg('此名片需要审核才能使用，是否提交审核？', {
+                    time: 0 //不自动关闭
+                    , btn: ['确定', '取消']
+                    , yes: function (index) {
+                        layer.close(index);
+                        $.ajax({
+                            type: 'post',
+                            data: {
+                                avatar: _self.avatar,
+                                xiangcelist: _self.xiangcelist,
+                                name: name,
+                                department: department,
+                                position: position,
+                                phone: phone,
+                                wechat: wechat,
+                                note: note,
+                            },
+                            url: "{:url('/zbxh/usercompanycard/subcard')}",
+                            dataType: 'json',
+                            success: function (res) {
+                                if (res.code == -1) {
+                                    puopenwin('审核已提交，请耐心等待！');
+                                    window.location.reload();
+                                } else {
+                                    puopenwin(res.msg);
+                                }
+                            },
+                        })
+
+                    }
+                });
+            },
+            editcard: function () {
+                var _self = this;
+                var name = $("#name").val();
+                var department = $("#department").val();
+                var position = $("#position").val();
+                var phone = $("#phone").val();
+                var wechat = $("#wechat").val();
+                var note = $("#note").val();
+                $('html,body').animate({scrollTop:0},1000);//回到顶端
+                layer.msg('是否重新提交审核？', {
+                    time: 0 //不自动关闭
+                    , btn: ['确定', '取消']
+                    , yes: function (index) {
+                        layer.close(index);
+                        $.ajax({
+                            type: 'post',
+                            data: {
+                                id: '{$cucardobj.id}',
+                                avatar: _self.avatar,
+                                xiangcelist: _self.xiangcelistedit,
+                                name: name,
+                                department: department,
+                                position: position,
+                                phone: phone,
+                                wechat: wechat,
+                                note: note,
+                            },
+                            url: "{:url('/zbxh/usercompanycard/editcard')}",
+                            dataType: 'json',
+                            success: function (res) {
+                                if (res.code == -1) {
+                                    puopenwin('审核已提交，请耐心等待！');
+                                    window.location.reload();
+                                } else {
+                                    puopenwin(res.msg);
+                                }
+                            },
+                        })
+
+                    }
+                });
+            },
+            opencard: function () {
+                window.location.href = "/zbxh/wechatotherindex/cardindex?uid={$user.uid}"
+            },
+            deleteimg: function (key) {
+                this.xiangcelist.splice(key, 1)
+                this.xiangcelistedit.splice(key, 1)
+            },
+            sharecontrol: function () {
+                wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
+                    wx.hideMenuItems({
+                        menuList: [
+                            'menuItem:share:appMessage',
+                            "menuItem:share:timeline",
+                            "menuItem:share:qq",
+                            "menuItem:share:QZone",
+                            "menuItem:copyUrl"
+                        ]
+                    });
+                });
+            }
+        }
+    })
+
+</script>
+</body>
+</html>
+		

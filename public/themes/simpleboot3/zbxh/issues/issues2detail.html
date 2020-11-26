@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
+    <script> document.documentElement.style.fontSize = document.documentElement.clientWidth / 750 * 40 + "px";</script>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>科目二</title>
+
+    <include file="../public/wxhead"/>
+
+    <style type="text/css">
+        body {
+            position: absolute;;
+            max-width: 750px;
+            margin: auto;
+            background: #FFFFFF;
+        }
+
+        .titles {
+            margin: 15px;
+            font-weight: bold;
+        }
+
+        .mianst {
+            font-size: 14px;
+            color: #777777;
+            margin: 0px 15px;
+            line-height: 25px;
+        }
+
+    </style>
+    <link href="http://qiniu-jiaxiao.henbaoli.com/videojs/video-js-cdn.css" rel="stylesheet" type="text/css">
+</head>
+
+<body ontouchstart>
+<div id="issues2detail" class='fui-page  shop-index-page fui-page-current member-page'
+     style="top: 0; background-color: #fafafa; ">
+    <div class="fui-content navbar">
+        <!--内容-->
+        <video id="example_video_1" class="video-js vjs-default-skin vjs-big-play-centered" controls
+               preload="auto" autoplay="true"
+               poster="" data-setup="{}" x5-playsinline="true" playsinline="true"
+               webkit-playsinline="true"
+               x-webkit-airplay="true"
+               x5-video-orientation="portraint"
+               style="object-fit: contain;">
+            <p class="vjs-no-js"><a href="http://videojs.com/html5-video-support/" target="_blank">supports
+                HTML5 video</a></p>
+        </video>
+
+        <div id="tagid"></div>
+        <!--内容-->
+    </div>
+
+</div>
+
+
+<include file="../public/wxfoot"/>
+<script src='http://qiniu-jiaxiao.henbaoli.com/videojs/video.min.js'></script>
+<script src='http://qiniu-jiaxiao.henbaoli.com/videojs/videojs-contrib-hls.min.js'></script>
+<script>
+    $(function () {
+        var id = "{$id}";
+        var options = {
+            muted: false,
+            controls: true,
+            preload: 'auto',
+        };
+        var player = videojs('example_video_1', options, function onPlayerReady() {
+            // videojs.log('播放器已经准备好了!');
+            // In this context, `this` is the player that was created by Video.js.<br>  // 注意，这个地方的上下文， `this` 指向的是Video.js的实例对像player
+            this.aspectRatio("16:9");
+            if (id == 1) {
+                this.src([
+                    {
+                        type: "application/x-mpegURL",
+                        src: "http://qiniu-jiaxiao.henbaoli.com/video/dcrk/1591253633.m3u8"
+                    },
+                ]);
+                $("#tagid").html('<div class="titles">小车倒车入库</div> <p class="mianst">倒车入库是驾驶员考试中的一个考核点，即操纵车辆从两侧正确倒入车库。考核驾驶员是否能正确判断车辆倒车轨迹， 操控车辆完成入库。</p>');
+            } else if (id == 2) {
+                this.src([
+                    {
+                        type: "application/x-mpegURL",
+                        src: "http://qiniu-jiaxiao.henbaoli.com/video/cftc/index.m3u8"
+                    },
+                ]);
+                $("#tagid").html('<div class="titles">小车侧方停车</div> <p class="mianst">考核驾驶员将车辆正确停入道路右侧车位的能力。机动车驾驶人驾驶车辆在车轮不轧碰车道边线、库位边线的情况下，通过一进一退的方式，将车辆停入右侧车位中。</p>');
+            } else if (id == 3) {
+                this.src([
+                    {
+                        type: "application/x-mpegURL",
+                        src: "http://qiniu-jiaxiao.henbaoli.com/video/bpqb/index.m3u8"
+                    },
+                ]);
+                $("#tagid").html('<div class="titles">小车坡道定点停车起步</div> <p class="mianst">考核驾驶员上坡路段驾御车辆的能力，能正确地在固定地点靠边停稳车辆，准确使用挡位和离合器，再平稳起步。</p>');
+            } else if (id == 4) {
+                this.src([
+                    {
+                        type: "application/x-mpegURL",
+                        src: "http://qiniu-jiaxiao.henbaoli.com/video/zjzw/index.m3u8"
+                    },
+                ]);
+                $("#tagid").html('<div class="titles">小车直角转弯</div> <p class="mianst">考核驾驶员在运动中正确操纵转向装置，准确判断内外轮差的能力，按规定的线路行驶，由左向右或由右向左直角转弯，一次通过，中途不得停车，车轮不得碰轧车道边线。</p>');
+            } else if (id == 5) {
+                this.src([
+                    {
+                        type: "application/x-mpegURL",
+                        src: "http://qiniu-jiaxiao.henbaoli.com/video/qxxs/index.m3u8"
+                    },
+                ]);
+               
+				$("#tagid").html('<div class="titles">曲线行驶</div> <p class="mianst">考试要求是车辆在规定宽度的S型路面上行驶，不得挤压路边缘线，方向运用自如。目的是为了培养机动车驾驶人转向的运用及对车轮的把控。</p>');
+            }
+            this.on("error", function () {
+                puopenwin("加载失败，请刷新页面！");
+                videojs.log("加载失败，请刷新页面！");
+            });
+        });
+
+    });
+</script>
+</body>
+</html>
+		

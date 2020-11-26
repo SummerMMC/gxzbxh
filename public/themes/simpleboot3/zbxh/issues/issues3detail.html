@@ -1,0 +1,221 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
+    <script> document.documentElement.style.fontSize = document.documentElement.clientWidth / 750 * 40 + "px";</script>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>科目二</title>
+
+    <include file="../public/wxhead"/>
+
+    <style type="text/css">
+        body {
+            position: absolute;;
+            max-width: 750px;
+            margin: auto;
+            background: #FFFFFF;
+        }
+
+        .titles {
+            margin: 15px;
+            font-weight: bold;
+        }
+
+        .mianst {
+            font-size: 14px;
+            color: #777777;
+            margin: 0px 15px;
+            line-height: 25px;
+        }
+
+    </style>
+    <link href="http://qiniu-jiaxiao.henbaoli.com/videojs/video-js-cdn.css" rel="stylesheet" type="text/css">
+</head>
+
+<body ontouchstart>
+<div id="issues2detail" class='fui-page  shop-index-page fui-page-current member-page'
+     style="top: 0; background-color: #fafafa; ">
+    <div class="fui-content navbar">
+        <!--内容-->
+        <video id="example_video_1" class="video-js vjs-default-skin vjs-big-play-centered" controls
+               preload="auto" autoplay="true"
+               poster="" data-setup="{}" x5-playsinline="true" playsinline="true"
+               webkit-playsinline="true"
+               x-webkit-airplay="true"
+               x5-video-orientation="portraint"
+               style="object-fit: contain;">
+            <p class="vjs-no-js"><a href="http://videojs.com/html5-video-support/" target="_blank">supports
+                HTML5 video</a></p>
+        </video>
+
+        <div id="tagid"></div>
+        <!--内容-->
+    </div>
+
+</div>
+
+
+<include file="../public/wxfoot"/>
+<script src='http://qiniu-jiaxiao.henbaoli.com/videojs/video.min.js'></script>
+<script src='http://qiniu-jiaxiao.henbaoli.com/videojs/videojs-contrib-hls.min.js'></script>
+<script>
+    $(function () {
+        var id = "{$id}";
+        var options = {
+            muted: false,
+            controls: true,
+            preload: 'auto',
+        };
+        var player = videojs('example_video_1', options, function onPlayerReady() {
+            // videojs.log('播放器已经准备好了!');
+            // In this context, `this` is the player that was created by Video.js.<br>  // 注意，这个地方的上下文， `this` 指向的是Video.js的实例对像player
+            this.aspectRatio("16:9");
+            if (id == 1) {
+                this.src([
+                    {
+                        type: "application/x-mpegURL",
+                        src: "http://qiniu-jiaxiao.henbaoli.com/video/san/bgcd/index.m3u8"
+                    },
+                ]);
+                $("#tagid").html('<div class="titles">变更车道</div> <p class="mianst">变更车道简称并线，机动车驾驶人需根据道路状况和交通流量情况，选择变道的地点、时机，掌握正确的变道方法。</p>');
+            } else if (id == 2) {
+                this.src([
+                    {
+                        type: "application/x-mpegURL",
+                        src: "http://qiniu-jiaxiao.henbaoli.com/video/san/cc/index.m3u8"
+                    },
+                ]);
+                $("#tagid").html('<div class="titles">超车</div> <p class="mianst">超车是考核机动车驾驶人正确选择路段和时机，在确保安全情况下超越前车的能力。</p>');
+            } else if (id == 3) {
+                this.src([
+                    {
+                        type: "application/x-mpegURL",
+                        src: "http://qiniu-jiaxiao.henbaoli.com/video/san/dt/index.m3u8"
+                    },
+                ]);
+                $("#tagid").html('<div class="titles">掉头</div> <p class="mianst">汽车掉头是指汽车行驶方向作180度改变。此项目是考核机动车驾驶人利用道路路幅，确定转向掉头和转向速度的能力。</p>');
+            } else if (id == 4) {
+                this.src([
+                    {
+                        type: "application/x-mpegURL",
+                        src: "http://qiniu-jiaxiao.henbaoli.com/video/san/hc/index.m3u8"
+                    },
+                ]);
+                $("#tagid").html('<div class="titles">会车</div> <p class="mianst">会车，是指相向行驶的车辆在同一条道路上的某一地点交错通过，这个瞬间的动作就被称之为会车。科目三会车考核驾驶员面对不同路况的应变能力。</p>');
+            } else if (id == 5) {
+                this.src([
+                    {
+                        type: "application/x-mpegURL",
+                        src: "http://qiniu-jiaxiao.henbaoli.com/video/san/jjdcz/index.m3u8"
+                    },
+                ]);
+                $("#tagid").html('<div class="titles">加减档操作</div> <p class="mianst">科目三加减挡位操作考核驾驶员换挡能力，根据路况和车速，合理加减挡，换挡及时、平顺。</p>');
+            } else if (id == 6) {
+                this.src([
+                    {
+                        type: "application/x-mpegURL",
+                        src: "http://qiniu-jiaxiao.henbaoli.com/video/san/kbtc/index.m3u8"
+                    },
+                ]);
+                $("#tagid").html('<div class="titles">靠边停车</div> <p class="mianst">靠边停车是科目三中一个指标很明确的考核项目，要求学员驾驶车辆使之靠边停下。考试员发出“靠边停车”指令，考生听到命令后准备停车。</p>');
+            } else if (id == 7) {
+                this.src([
+                    {
+                        type: "application/x-mpegURL",
+                        src: "http://qiniu-jiaxiao.henbaoli.com/video/san/lkyzw/index.m3u8"
+                    },
+                ]);
+                $("#tagid").html('<div class="titles">路口右转弯</div> <p class="mianst">路口右转弯是路考中的一个项目，主要考核机动车驾驶员通过路口右转弯时处理各种交通状况的应变能力。</p>');
+            } else if (id == 8) {
+                this.src([
+                    {
+                        type: "application/x-mpegURL",
+                        src: "http://qiniu-jiaxiao.henbaoli.com/video/san/lkzzw/index.m3u8"
+                    },
+                ]);
+                $("#tagid").html('<div class="titles">路口左转弯</div> <p class="mianst">路口左转弯是路考中的一个项目，主要考核机动车驾驶员通过路口左转弯时处理各种交通状况的应变能力。</p>');
+            } else if (id == 9) {
+                this.src([
+                    {
+                        type: "application/x-mpegURL",
+                        src: "http://qiniu-jiaxiao.henbaoli.com/video/san/mnyjcjdgsy/index.m3u8"
+                    },
+                ]);
+                $("#tagid").html('<div class="titles">模拟夜间场景灯光使用</div> <p class="mianst">主要考核驾驶人在特殊条件下使用灯光的能力。要求遇路口、急弯、人行横道、车辆故障、事故、无法移动以及雾天行驶等情况时，能够正确使用灯光。</p>');
+            } else if (id == 10) {
+                this.src([
+                    {
+                        type: "application/x-mpegURL",
+                        src: "http://qiniu-jiaxiao.henbaoli.com/video/san/qb/index.m3u8"
+                    },
+                ]);
+                $("#tagid").html('<div class="titles">起步</div> <p class="mianst">起步是科目三考试中较为重要的环节，起步之前需要充分做好准备工作，当听到语音提示“请起步”后，发动汽车，使汽车开始走动。</p>');
+            } else if (id == 11) {
+                this.src([
+                    {
+                        type: "application/x-mpegURL",
+                        src: "http://qiniu-jiaxiao.henbaoli.com/video/san/sczb/index.m3u8"
+                    },
+                ]);
+                $("#tagid").html('<div class="titles">上车准备</div> <p class="mianst">上车准备主要是考核机动车驾驶人在上车前、后的安全检视及后视镜、座椅调整等事项的完成情况，使驾驶人养成行车前做好充分准备的良好习惯。</p>');
+            } else if (id == 12) {
+                this.src([
+                    {
+                        type: "application/x-mpegURL",
+                        src: "http://qiniu-jiaxiao.henbaoli.com/video/san/tgggqcz/index.m3u8"
+                    },
+                ]);
+                $("#tagid").html('<div class="titles">通过公共汽车站</div> <p class="mianst">通过公共汽车站是考核机动车驾驶人通过这些路段时的交通安全意识和应变能力。通过公共汽车站，应降低速度慢行，挂一挡通过，注意左右仔细查看。</p>');
+            } else if (id == 13) {
+                this.src([
+                    {
+                        type: "application/x-mpegURL",
+                        src: "http://qiniu-jiaxiao.henbaoli.com/video/san/tglk/index.m3u8"
+                    },
+                ]);
+                $("#tagid").html('<div class="titles">通过路口</div> <p class="mianst">通过路口是科目三考试中一个十分重要的考试项目，主要考察学员驾驶车辆通过路口时应对各种交通状况的能力。</p>');
+            } else if (id == 14) {
+                this.src([
+                    {
+                        type: "application/x-mpegURL",
+                        src: "http://qiniu-jiaxiao.henbaoli.com/video/san/tgrxhd/index.m3u8"
+                    },
+                ]);
+                $("#tagid").html('<div class="titles">通过有人行横道</div> <p class="mianst">通过人行横道线是考核机动车驾驶人通过这些路段时的交通安全意识和应变能力。遇有行人或牵行非机动车通过人行横道的，应停车让行。</p>');
+            } else if (id == 15) {
+                this.src([
+                    {
+                        type: "application/x-mpegURL",
+                        src: "http://qiniu-jiaxiao.henbaoli.com/video/san/tgxxqy/index.m3u8"
+                    },
+                ]);
+                $("#tagid").html('<div class="titles">通过学校区域</div> <p class="mianst">通过学校区域是考核机动车驾驶人通过这些路段时的交通安全意识和应变能力。通过学校区域应观察前后左右的交通情况，适时减速慢行，不得鸣喇叭和与学生抢行。</p>');
+            } else if (id == 16) {
+                this.src([
+                    {
+                        type: "application/x-mpegURL",
+                        src: "http://qiniu-jiaxiao.henbaoli.com/%20video/san/zzxs/index.m3u8"
+                    },
+                ]);
+                $("#tagid").html('<div class="titles">直线行驶</div> <p class="mianst">直线行驶主要为了使学员能够在行驶时保持稳定，充分理解挡位与动力的联系，合理控制跟车距离，培养敏锐的观察意识，养成良好的驾驶习惯。</p>');
+            } else if (id == 17) {
+                this.src([
+                    {
+                        type: "application/x-mpegURL",
+                        src: "http://qiniu-jiaxiao.henbaoli.com/video/san/wzb/index.m3u8"
+                    },
+                ]);
+                $("#tagid").html('<div class="titles">完整版</div> <p class="mianst">科目三，又称大路考，一般包括：上车准备、起步、直线行驶、加减挡位操作、变更车道、靠边停车、直行通过路口、路口左转弯、路口右转弯、通过人行横道线、通过学校区域、通过公共汽车站、会车、超车、掉头、夜间行驶。</p>');
+            }
+            this.on("error", function () {
+                puopenwin("加载失败，请刷新页面！");
+                videojs.log("加载失败，请刷新页面！");
+            });
+        });
+
+    });
+</script>
+</body>
+</html>
+		

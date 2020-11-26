@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=1024"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <include file="../public/head"/>
+    <meta name="description" content=""/>
+</head>
+<body>
+<include file="../public/nav"/>
+
+<!--内容-->
+
+<div id="postlist" class="main">
+
+
+    <div class="main_one main_post20n">
+        <div class="ws200">
+            <ul class="postlist_l">
+                <foreach name="clist" item="vo">
+                    <if condition="$cid == $vo.id">
+                        <li class="slelct">
+                            <img src="__TMPL__/zbxh/public/assets/images/25.png" width="10">
+                            <a :href="'/zbxh/index/postlist?cid='+{$vo.id}">{$vo.name}</a>
+                        </li>
+                        <else/>
+                        <li>
+                            <img src="__TMPL__/zbxh/public/assets/images/25.png" width="10">
+                            <a :href="'/zbxh/index/postlist?cid='+{$vo.id}">{$vo.name}</a>
+                        </li>
+                    </if>
+                </foreach>
+            </ul>
+        </div>
+
+        <div class="main_postlists">
+            <ul class="postlist">
+                <foreach name="postlist" item="vo">
+                    <li>
+                        <a href="/zbxh/index/post?pid={$vo.post_id}">
+                            <h3><span>{:date("Y-m-d H:i",$vo.published_time)}</span>{$vo.post_title}</h3>
+                        </a>
+                    </li>
+                </foreach>
+            </ul>
+        </div>
+        <div class="bannert_right">
+            <h3 class="titlest">
+                <a href="###">更多</a> 热点关注
+            </h3>
+            <ul class="con_tuju">
+                <li v-for="(item,key) in hotdata">
+                    <span class="bj" v-if="key<=2">{{key+1}}</span>
+                    <span v-if="key>2" class="bj1">{{key+1}}</span>
+                    <a :href="'/zbxh/index/post?pid='+item.post_id">{{item.post_title}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--内容-->
+<ul class="pagination">{$page|default=''}</ul>
+
+
+
+<include file="../public/footer"/>
+
+
+<script>
+    //青秀区
+    var app = new Vue({
+        el: '#postlist',
+        data: {
+            pid: 0,
+            hotdata: [],
+            postdata: [],
+        },
+        created: function () {
+            this.pid = '{$cid}';
+            this.gethot();
+        },
+        methods: {
+            gethot: function () {
+                var _self = this;
+                $.ajax({
+                    type: 'get',
+                    data: {limit: 9},
+                    url: "{:url('/zbxh/index/hotdata')}",
+                    dataType: 'json',
+                    success: function (rs) {
+                        if (rs.code == -1) {
+                            _self.hotdata = rs.data.data;
+                        }
+                    }
+                })
+            },
+        }
+    })
+</script>
+
+</body>
+</html>
+

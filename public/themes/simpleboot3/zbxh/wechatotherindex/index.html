@@ -1,0 +1,548 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
+    <script> document.documentElement.style.fontSize = document.documentElement.clientWidth / 750 * 40 + "px";</script>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>广西珠宝协会</title>
+
+    <include file="../public/wxhead"/>
+
+    <style type="text/css">
+
+        body {
+            background-color: #FFFFFF;
+        }
+
+        .fui-page.fui-page-from-center-to-left,
+        .fui-page-group.fui-page-from-center-to-left,
+        .fui-page.fui-page-from-center-to-right,
+        .fui-page-group.fui-page-from-center-to-right,
+        .fui-page.fui-page-from-right-to-center,
+        .fui-page-group.fui-page-from-right-to-center,
+        .fui-page.fui-page-from-left-to-center,
+        .fui-page-group.fui-page-from-left-to-center {
+            -webkit-animation: pageFromCenterToRight 0ms forwards;
+            animation: pageFromCenterToRight 0ms forwards;
+        }
+
+        .danmu {
+            display: none;
+            opacity: 0;
+        }
+
+        .swiper-container {
+            width: 100%;
+            height: 208px;
+        }
+
+        .swiper-container-horizontal > .swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction {
+            bottom: 5px;
+        }
+
+        .swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            background: #fff;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+    </style>
+
+
+</head>
+
+<body ontouchstart>
+
+<!--top-->
+<include file="../public/wxnav"/>
+<!--top-->
+
+
+<div>
+    <div class='fui-page  shop-index-page fui-page-current member-page' style="top:45px; background-color: #fafafa; ">
+        <div class="fui-content navbar">
+            <!--bannert-->
+            <div class="default-items" id="swiperdiv">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        <div v-for="item in image" class="swiper-slide">
+                            <a class="fui-swipe-item" :href="'/zbxh/wechatotherindex/post?pid='+item.post_id"
+                               data-nocache="true">
+                                <img :src="item.thumbnail"
+                                     style="display: block; width: 100%; height: auto;"/> </a>
+                        </div>
+                    </div>
+                    <div class="swiper-pagination"></div><!--分页器（就是4个点点）-->
+                </div>
+            </div>
+            <!--bannert-->
+            <!--navs-->
+            <include file="../public/wxmenu"/>
+            <!--navs-->
+            <!--indexlist-->
+            <div id="indexstid" class="indexlist">
+                <!--循环-->
+                <div class="htpx3"></div>
+                <div>
+                    <div class="titlst">
+                        <span><a href="javascript:void(0);" v-on:click="changehot();">更多</a></span>热点关注
+                    </div>
+                    <ul :class="['con_tuju',hotclass==0?'shotclass':'longclass']">
+                        <li v-for="(item,key) in hotdata">
+                            <span class="bj" v-if="key<=2">{{key+1}}</span>
+                            <span v-if="key>2" class="bj1">{{key+1}}</span>
+                            <a :href="'/zbxh/wechatotherindex/post?pid='+item.post_id">{{item.post_title}}</a>
+                            <font>{{item.published_time|formatTimer}}</font>
+                        </li>
+                    </ul>
+                </div>
+                <!--循环-->
+                <div class="htpx3"></div>
+                <!--循环-->
+                <div>
+                    <div class="titlst">
+                        认识协会
+                    </div>
+                    <ul class="side_groups">
+                        <li v-for="item in rsxhmenu">
+                            <div class="fix">
+                                <div class="suanmen_img"><a v-if="item.more != ''"
+                                                            :href="'/zbxh/wechatotherindex/postlist?cid='+item.id"><img
+                                        v-if="item.more != ''"
+                                        :src="item.more"
+                                ></a></div>
+                                <div :class="['cell',item.more != ''?'dowtitle':'']">
+                                    <a :href="'/zbxh/wechatotherindex/postlist?cid='+item.id" class="anrong">
+                                        <h3>{{item.name}}</h3>
+                                        <div class="cchdiv" v-if="item.more != ''">{{item.description}}</div>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!--循环-->
+                <div class="htpx3"></div>
+                <!--循环-->
+                <div>
+                    <div class="titlst">
+                        <span><a :href="'/zbxh/wechatotherindex/postlist?cid=3'">更多</a></span>会员活动
+                    </div>
+                    <ul class="side_groups">
+                        <li v-for="item in hyhdlist">
+                            <div class="fix">
+                                <div class="suanmen_img"><a v-if="item.thumbnail != ''"
+                                                            :href="'/zbxh/wechatotherindex/post?pid='+item.post_id"><img
+                                        v-if="item.thumbnail != ''"
+                                        :src="item.thumbnail" style="width: 72px; height: 102px;"
+                                ></a></div>
+                                <div :class="['cell',item.thumbnail != ''?'dowtitle':'']">
+                                    <a :href="'/zbxh/wechatotherindex/post?pid='+item.post_id" class="anrong">
+                                        <h3>{{item.post_title}}</h3>
+                                        <div class="cchdiv" v-if="item.thumbnail != ''">{{item.post_excerpt}}</div>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!--循环-->
+                <div class="htpx3"></div>
+                <!--循环-->
+                <div>
+                    <div class="titlst">
+                        <span><a :href="'/zbxh/wechatotherindex/postlist?cid=8'">更多</a></span>行业资讯
+                    </div>
+                    <ul class="side_groups">
+                        <li v-for="item in zxzxlist">
+                            <div class="fix">
+                                <div class="suanmen_img"><a v-if="item.thumbnail != ''"
+                                                            :href="'/zbxh/wechatotherindex/post?pid='+item.post_id"><img
+                                        v-if="item.thumbnail != ''"
+                                        :src="item.thumbnail"
+                                ></a></div>
+                                <div :class="['cell',item.thumbnail != ''?'dowtitle':'']">
+                                    <a :href="'/zbxh/wechatotherindex/post?pid='+item.post_id" class="anrong">
+                                        <h3>{{item.post_title}}</h3>
+                                        <div class="cchdiv" v-if="item.thumbnail != ''">{{item.post_excerpt}}</div>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!--循环-->
+                <div class="htpx3"></div>
+                <!--循环-->
+                <div>
+                    <div class="titlst">
+                        <span><a :href="'/zbxh/wechatotherindex/postlist?cid=9'">更多</a></span>协会动态
+                    </div>
+                    <ul class="side_groups">
+                        <li v-for="item in xhdtlist">
+                            <div class="fix">
+                                <div class="suanmen_img"><a v-if="item.thumbnail != ''"
+                                                            :href="'/zbxh/wechatotherindex/post?pid='+item.post_id"><img
+                                        v-if="item.thumbnail != ''"
+                                        :src="item.thumbnail"
+                                ></a></div>
+                                <div :class="['cell',item.thumbnail != ''?'dowtitle':'']">
+                                    <a :href="'/zbxh/wechatotherindex/post?pid='+item.post_id" class="anrong">
+                                        <h3>{{item.post_title}}</h3>
+                                        <div class="cchdiv" v-if="item.thumbnail != ''">{{item.post_excerpt}}</div>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!--循环-->
+                <div class="htpx3"></div>
+                <!--循环-->
+                <div>
+                    <div class="titlst">
+                        <span><a :href="'/zbxh/wechatotherindex/postlist?cid=5'">更多</a></span>通知公告
+                    </div>
+                    <ul class="side_groups">
+                        <li v-for="item in tzgglist">
+                            <div class="fix">
+                                <div class="suanmen_img"><a v-if="item.thumbnail != ''"
+                                                            :href="'/zbxh/wechatotherindex/post?pid='+item.post_id"><img
+                                        v-if="item.thumbnail != ''"
+                                        :src="item.thumbnail"
+                                ></a></div>
+                                <div :class="['cell',item.thumbnail != ''?'dowtitle':'']">
+                                    <a :href="'/zbxh/wechatotherindex/post?pid='+item.post_id" class="anrong">
+                                        <h3>{{item.post_title}}</h3>
+                                        <div class="cchdiv" v-if="item.thumbnail != ''">{{item.post_excerpt}}</div>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!--循环-->
+                <div class="htpx3"></div>
+                <!--循环-->
+                <div>
+                    <div class="titlst">
+                        <span><a :href="'/zbxh/wechatotherindex/postlist?cid=13'">更多</a></span>企业文化
+                    </div>
+                    <ul class="side_groups">
+                        <li v-for="item in qywhlist">
+                            <div class="fix">
+                                <div class="suanmen_img"><a v-if="item.thumbnail != ''"
+                                                            :href="'/zbxh/wechatotherindex/post?pid='+item.post_id"><img
+                                        v-if="item.thumbnail != ''"
+                                        :src="item.thumbnail"
+                                ></a></div>
+                                <div :class="['cell',item.thumbnail != ''?'dowtitle':'']">
+                                    <a :href="'/zbxh/wechatotherindex/post?pid='+item.post_id" class="anrong">
+                                        <h3>{{item.post_title}}</h3>
+                                        <div class="cchdiv" v-if="item.thumbnail != ''">{{item.post_excerpt}}</div>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!--循环-->
+                <div class="htpx3"></div>
+                <!--循环-->
+                <div>
+                    <div class="titlst">
+                        <span><a :href="'/zbxh/wechatotherindex/postlist?cid=14'">更多</a></span>放心示范
+                    </div>
+                    <ul class="side_groups">
+                        <li v-for="item in fxsflist">
+                            <div class="fix">
+                                <div class="suanmen_img"><a v-if="item.thumbnail != ''"
+                                                            :href="'/zbxh/wechatotherindex/post?pid='+item.post_id"><img
+                                        v-if="item.thumbnail != ''"
+                                        :src="item.thumbnail"
+                                ></a></div>
+                                <div :class="['cell',item.thumbnail != ''?'dowtitle':'']">
+                                    <a :href="'/zbxh/wechatotherindex/post?pid='+item.post_id" class="anrong">
+                                        <h3>{{item.post_title}}</h3>
+                                        <div class="cchdiv" v-if="item.thumbnail != ''">{{item.post_excerpt}}</div>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!--循环-->
+                <div class="htpx3"></div>
+                <!--循环-->
+                <div>
+                    <div class="titlst">
+                        <span><a :href="'/zbxh/wechatotherindex/postlist?cid=3'">更多</a></span>会展活动
+                    </div>
+                    <ul class="side_groups">
+                        <li v-for="item in hzhdlist">
+                            <div class="fix">
+                                <div class="suanmen_img"><a v-if="item.thumbnail != ''"
+                                                            :href="'/zbxh/wechatotherindex/post?pid='+item.post_id"><img
+                                        v-if="item.thumbnail != ''"
+                                        :src="item.thumbnail"
+                                ></a></div>
+                                <div :class="['cell',item.thumbnail != ''?'dowtitle':'']">
+                                    <a :href="'/zbxh/wechatotherindex/post?pid='+item.post_id" class="anrong">
+                                        <h3>{{item.post_title}}</h3>
+                                        <div class="cchdiv" v-if="item.thumbnail != ''">{{item.post_excerpt}}</div>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!--循环-->
+                <div class="htpx3"></div>
+                <!--循环-->
+                <div>
+                    <div class="titlst">
+                        专业人才
+                    </div>
+                    <div class=" titcy">
+                        <div v-for="item in zyrcmenu">
+
+                            <div class="titcy_l"><a v-if="item.more != ''"
+                                                    :href="'/zbxh/wechatotherindex/postlist?cid=22'"><img
+                                    v-if="item.more != ''"
+                                    :src="item.more"
+                            ></a></div>
+                            <div class="titcy_r">
+                                <a :href="'/zbxh/wechatotherindex/postlist?cid=22'" class="anrong">
+                                    <h3 style="font-weight: bold;">{{item.name}}</h3>
+                                    <div class="nozit">{{item.description}}</div>
+                                </a>
+                            </div>
+
+                        </div>
+                        </ul>
+                    </div>
+                    <!--循环-->
+                    <div class="htpx3"></div>
+                    <!--循环-->
+                    <div>
+                        <div class="titlst">
+                            协会会员
+                        </div>
+                        <ul class="side_groups">
+                            <li v-for="item in zyrcmenu">
+                                <div class="fix">
+                                    <div class="suanmen_img"></div>
+                                    <div class="cell">
+                                        <a :href="'/zbxh/wechatotherindex/postlist?cid=27'" class="anrong">
+                                            <h3>入会指南</h3>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--循环-->
+                    <div class="htpx3"></div>
+                </div>
+                <!--indexlist-->
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- <include file="../public/wxfoot"/> -->
+
+<script>
+    var app = new Vue({
+        el: '#indexstid',
+        data: {
+            hotclass: 0,
+            image: [],
+            hotdata: [],
+            zxzxlist: [],
+            zxzxmenu: [],
+            zyrcmenu: [],
+            zxzxlist: [],
+            rsxhmenu: [],
+            qywhlist: [],
+            fxsflist: [],
+            hyhdlist: [],
+            hzhdlist: [],
+            xhdtlist: [],
+            tzgglist: [],
+        },
+        created: function () {
+            var wxjsonstr = '{$jscode}';
+            var jsonobj = eval('(' + wxjsonstr + ')');
+            wx.config(jsonobj);
+            this.wxshare();
+            this.getalldata();
+        },
+        mounted() {
+        },
+        filters: {
+            formatTimer: function (value) {
+                var date = new Date(value * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+                Y = date.getFullYear() + '-';
+                M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+                D = date.getDate() + ' ';
+                h = date.getHours() + ':';
+                m = date.getMinutes() + ':';
+                s = date.getSeconds();
+                return Y + M + D + h + m + s;
+            },
+        },
+        methods: {
+            getalldata: function () {
+                var _self = this;
+                $.ajax({
+                    type: 'get',
+                    data: {
+                        zxzxmid: 1,
+                        hotlimit: 10,
+                        imglimit: 3,
+                        zxzxcid: 8,
+                        zxzxlimit: 7,
+                        rsxhmid: 4,
+                        qywhcid: 13,
+                        qywhlimit: 5,
+                        fxsfcid: 14,
+                        fxsflimit: 5,
+                        hyhdcid: 15,
+                        hyhdlimit: 2,
+                        hzhdcid: 3,
+                        hzhdlimit: 6,
+                        xhdtcid: 9,
+                        xhdtlimit: 5,
+                        tzggcid: 5,
+                        tzgglimit: 5,
+                        zyrcmid: 21,
+                    },
+                    url: "{:url('/zbxh/wechatotherindex/getAlldate')}",
+                    dataType: 'json',
+                    success: function (rs) {
+                        console.log(rs);
+                        if (rs.code == -1) {
+                            _self.hotdata = rs.data.hotdata.data;
+                            _self.zxzxmenu = rs.data.zxzxmenu;
+                            _self.zxzxlist = rs.data.zxzx.data;
+                            _self.rsxhmenu = rs.data.rsxhmenu;
+                            _self.qywhlist = rs.data.qywhlist.data;
+                            _self.fxsflist = rs.data.fxsflist.data;
+                            _self.hyhdlist = rs.data.hyhdlist.data;
+                            _self.hzhdlist = rs.data.hzhdlist.data;
+                            _self.xhdtlist = rs.data.xhdtlist.data;
+                            _self.tzgglist = rs.data.tzgglist.data;
+                            _self.zyrcmenu = rs.data.zyrcmenu;
+                            var swiper = new Swiper('.swiper-container', {
+                                autoplay: true,//可选选项，自动滑动
+                                observer: true,
+                                navigation: {
+                                    nextEl: '.swiper-button-next',
+                                    prevEl: '.swiper-button-prev',
+                                },
+                                pagination: {
+                                    el: '.swiper-pagination',
+                                },
+                            });
+                        }
+                    }
+                })
+            },
+            changehot: function () {
+                console.log(this.hotclass);
+                if (this.hotclass == 0) {
+                    this.hotclass = 1;
+                } else {
+                    this.hotclass = 0;
+                }
+            },
+            wxshare: function () {
+                wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
+                    wx.updateAppMessageShareData({
+                        title: "广西珠宝协会", // 分享标题
+                        desc: "服务会员、规范行业、发展产业，提升珠宝在人们心中的价值。", // 分享描述
+                        link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                        imgUrl: "{$temphost}/themes/simpleboot3/zbxh/public/assets/images/defaultpic.gif", // 分享图标
+                        success: function () {
+                            // 设置成功
+                        }
+                    });
+                    wx.updateTimelineShareData({
+                        title: "广西珠宝协会", // 分享标题
+                        link: window.location.href, // 分享链接，该链接域名必须与当前企业的可信域名一致
+                        imgUrl: "{$temphost}/themes/simpleboot3/zbxh/public/assets/images/defaultpic.gif", // 分享图标
+                        success: function () {
+                            // 用户确认分享后执行的回调函数
+                        },
+                        cancel: function () {
+                            // 用户取消分享后执行的回调函数
+                        }
+                    });
+                });
+            },
+        }
+    })
+
+    var app = new Vue({
+        el: '#swiperdiv',
+        data: {
+            image: [],
+        },
+        created: function () {
+            this.getImage();
+        },
+        mounted() {
+        },
+        methods: {
+            getImage: function () {
+                var _self = this;
+                $.ajax({
+                    type: 'get',
+                    data: {
+                        imglimit: 3,
+                    },
+                    url: "{:url('/zbxh/wechatotherindex/imglist')}",
+                    dataType: 'json',
+                    success: function (rs) {
+                        console.log(rs);
+                        if (rs.code == -1) {
+                            _self.image = rs.data.image.data;
+                            _self.onepic = _self.image[0]
+                            _self.tagimgid = _self.image[0].id;
+                            var swiper = new Swiper('.swiper-container', {
+                                autoplay: true,//可选选项，自动滑动
+                                observer: true,
+                                navigation: {
+                                    nextEl: '.swiper-button-next',
+                                    prevEl: '.swiper-button-prev',
+                                },
+                                pagination: {
+                                    el: '.swiper-pagination',
+                                },
+                            });
+                        }
+                    }
+                })
+            }
+        }
+    })
+
+</script>
+</body>
+</html>
+		

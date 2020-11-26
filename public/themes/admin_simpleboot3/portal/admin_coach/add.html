@@ -1,0 +1,161 @@
+<include file="public@header"/>
+<style type="text/css">
+    .pic-list li {
+        margin-bottom: 5px;
+    }
+</style>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('AdminCoach/index')}">教练管理</a></li>
+        <li class="active"><a href="{:url('AdminCoach/add')}">添加教练</a></li>
+    </ul>
+    <form action="{:url('AdminCoach/addPost')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
+        <div class="row">
+            <div class="col-md-9">
+                <table class="table table-bordered">
+                    <tr>
+                        <th width="100">驾校<span class="form-required">*</span></th>
+                        <td>
+                            <select id="category" style="width: 300px;">
+                                <option value="0">请选择</option>
+                                <foreach name="category" item="vo">
+                                    <option value="{$vo.id}">{$vo.name}</option>
+                                </foreach>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>姓名<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="text" name="post[user_nickname]"
+                                   id="user_nickname" placeholder="请输入姓名" maxlength="8"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>联系电话<span class="form-required"></span></th>
+                        <td>
+                            <input class="form-control" type="number" name="post[mobile]"
+                                   id="mobile" placeholder="请输入联系电话" maxlength="15"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>驾龄<span class="form-required"></span></th>
+                        <td>
+                            <input class="form-control" type="text" name="post[driving_years]"
+                                   id="driving_years" placeholder="请输入驾龄(年)"/>
+                        </td>
+                    </tr>
+                </table>
+                <hook name="portal_admin_article_edit_view_main"/>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <a href="javascript:void(0);" onclick="javascript:addsub();" class="btn btn-primary">{:lang('ADD')}</a>
+                        <a class="btn btn-default" href="{:url('AdminCoach/index')}">{:lang('BACK')}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <table class="table table-bordered">
+                    <tr>
+                        <th><b>照片</b></th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div style="text-align: center;">
+                                <input type="hidden" name="post[more][thumbnail]" id="thumbnail" value="">
+                                <a href="javascript:uploadOneImage('图片上传','#thumbnail');">
+                                    <img src="__TMPL__/public/assets/images/default-thumbnail.png"
+                                         id="thumbnail-preview"
+                                         width="135" style="cursor: pointer"/>
+                                </a>
+                                <input type="button" class="btn btn-sm btn-cancel-thumbnail" value="取消图片">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+<script type="text/javascript">
+    //编辑器路径定义
+    var editorURL = GV.WEB_ROOT;
+</script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        editorcontent = new baidu.editor.ui.Editor();
+        editorcontent.render('content');
+        try {
+            editorcontent.sync();
+        } catch (err) {
+        }
+
+        $('.btn-cancel-thumbnail').click(function () {
+            $('#thumbnail-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
+            $('#thumbnail').val('');
+        });
+
+    });
+
+    /**
+     * 提交教练信息
+     */
+    function addsub() {
+        var category = $("#category ").val();
+        var user_nickname = $('#user_nickname').val();
+        var mobile = $('#mobile').val();
+        var driving_years = $('#driving_years').val();
+        var thumbnail = $('#thumbnail').val();
+        if (category == 0) {
+            alert("请选择驾校!");
+            return false;
+        }
+        if (user_nickname == '' || user_nickname == undefined || user_nickname == null) {
+            alert("请输入教练姓名");
+            return false;
+        }
+        if (mobile == '' || mobile == undefined || mobile == null) {
+            alert("请输入联系电话");
+            return false;
+        }
+        if (driving_years == '' || driving_years == undefined || driving_years == null) {
+            alert("请输入驾龄");
+            return false;
+        }
+
+        if (thumbnail == '' || thumbnail == undefined || thumbnail == null) {
+            alert("请输上传照片");
+            return false;
+        }
+
+        $.ajax({
+            type: 'post',
+            data: {
+                category: category,
+                user_nickname: user_nickname,
+                mobile: mobile,
+                driving_years: driving_years,
+                thumbnail: thumbnail
+            },
+            url: "{:url('portal/AdminCoach/addsub')}",
+            dataType: 'json',
+            success: function (rs) {
+                console.log(rs);
+                if (rs.code == 1) {
+                    alert("操作成功");
+                } else {
+                    alert("操作失败");
+                }
+            }
+        })
+
+    }
+</script>
+</body>
+</html>

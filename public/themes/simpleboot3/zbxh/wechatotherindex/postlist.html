@@ -1,0 +1,200 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
+    <script> document.documentElement.style.fontSize = document.documentElement.clientWidth / 750 * 40 + "px";</script>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>广西珠宝协会</title>
+
+    <include file="../public/wxhead"/>
+
+    <style type="text/css">
+
+        body {
+            background-color: #FFFFFF;
+        }
+
+        .fui-page.fui-page-from-center-to-left,
+        .fui-page-group.fui-page-from-center-to-left,
+        .fui-page.fui-page-from-center-to-right,
+        .fui-page-group.fui-page-from-center-to-right,
+        .fui-page.fui-page-from-right-to-center,
+        .fui-page-group.fui-page-from-right-to-center,
+        .fui-page.fui-page-from-left-to-center,
+        .fui-page-group.fui-page-from-left-to-center {
+            -webkit-animation: pageFromCenterToRight 0ms forwards;
+            animation: pageFromCenterToRight 0ms forwards;
+        }
+
+        .danmu {
+            display: none;
+            opacity: 0;
+        }
+
+        .swiper-container {
+            width: 100%;
+            height: 152px;
+        }
+
+        .swiper-container-horizontal > .swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction {
+            bottom: 25px;
+        }
+
+        .swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            background: #fff;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+    </style>
+
+
+</head>
+
+<body ontouchstart>
+
+<!--top-->
+<include file="../public/wxnav"/>
+<!--top-->
+
+
+<div>
+    <div class='fui-page  shop-index-page fui-page-current member-page' style="top:45px; background-color: #fafafa; ">
+        <div class="fui-content navbar">
+
+            <!--navs-->
+            <include file="../public/wxmenu"/>
+            <!--navs-->
+            <!--indexlist-->
+            <div id="postlist" class="indexlist">
+
+
+                <div class="htpx3"></div>
+                <!--循环-->
+                <div>
+                    <div class="titlst">
+                        {$cobj.name}
+                    </div>
+                    <ul class="side_groups">
+                        <li v-for="item in dataList">
+                            <div class="fix">
+                                <div class="suanmen_img">
+                                    <a v-if="item.thumbnail != ''"
+                                       :href="'/zbxh/wechatotherindex/post?pid='+item.post_id"><img
+                                            :src="item.thumbnail"></a>
+                                </div>
+                                <div v-if="item.thumbnail != ''" class="cell dowtitle">
+                                    <a :href="'/zbxh/wechatotherindex/post?pid='+item.post_id" class="anrong">
+                                        <h3>{{item.post_title}}</h3>
+                                        <div class="cchdiv">{{item.post_excerpt}}
+                                        </div>
+                                    </a>
+                                </div>
+                                <div v-if="item.thumbnail == ''" class="cell">
+                                    <a :href="'/zbxh/wechatotherindex/post?pid='+item.post_id" class="anrong">
+                                        <h3>{{item.post_title}}</h3>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!--循环-->
+                <div class="listpage">
+                    <a href="javascript:void(0);" class="clickmore" id="loading"
+                       v-on:click="loadData()">{{nexPageText}}</a>
+                </div>
+            </div>
+            <!--indexlist-->
+        </div>
+    </div>
+</div>
+
+<!-- <include file="../public/wxfoot"/> -->
+
+<script>
+    var app = new Vue({
+        el: '#postlist',
+        data: {
+            page: 1,
+            cid: '{$cid}',
+            nexPageText: '下一页',
+            dataList: []
+        },
+        created: function () {
+            var wxjsonstr = '{$jscode}';
+            var jsonobj = eval('(' + wxjsonstr + ')');
+            wx.config(jsonobj);
+            this.wxshare();
+            this.loadData()
+        },
+        mounted() {
+        },
+        filters: {},
+        methods: {
+            loadData: function () {
+                var _self = this;
+                $.ajax({
+                    type: 'get',
+                    data: {
+                        page: _self.page,
+                        cid: _self.cid,
+                    },
+                    url: "{:url('zbxh/wechatotherindex/getpostlistdata')}",
+                    dataType: 'json',
+                    success: function (rs) {
+                        if (rs.code == -1) {
+                            for (var i = 0; i < rs.data.length; i++) {
+                                _self.dataList.push(rs.data[i])
+                            }
+                            if (rs.data.length <= 0) {
+                                _self.nexPageText = '没有更多了'
+                            } else {
+                                _self.page++;
+                            }
+                        }
+                    }
+                })
+            },
+            wxshare: function () {
+                wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
+                    wx.updateAppMessageShareData({
+                        title: "广西珠宝协会", // 分享标题
+                        desc: "服务会员、规范行业、发展产业，提升珠宝在人们心中的价值。", // 分享描述
+                        link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                        imgUrl: "{$temphost}/themes/simpleboot3/zbxh/public/assets/images/defaultpic.gif", // 分享图标
+                        success: function () {
+                            // 设置成功
+                        }
+                    });
+                    wx.updateTimelineShareData({
+                        title: "广西珠宝协会", // 分享标题
+                        link: window.location.href, // 分享链接，该链接域名必须与当前企业的可信域名一致
+                        imgUrl: "{$temphost}/themes/simpleboot3/zbxh/public/assets/images/defaultpic.gif", // 分享图标
+                        success: function () {
+                            // 用户确认分享后执行的回调函数
+                        },
+                        cancel: function () {
+                            // 用户取消分享后执行的回调函数
+                        }
+                    });
+                });
+            },
+        }
+    })
+</script>
+</body>
+</html>

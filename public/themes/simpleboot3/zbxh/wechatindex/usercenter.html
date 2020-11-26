@@ -1,0 +1,174 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
+    <script> document.documentElement.style.fontSize = document.documentElement.clientWidth / 750 * 40 + "px";</script>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>个人中心</title>
+
+    <include file="../public/wxhead"/>
+
+    <style type="text/css">
+        body {
+            position: absolute;;
+            max-width: 750px;
+            margin: auto;
+        }
+
+        .fui-page.fui-page-from-center-to-left,
+        .fui-page-group.fui-page-from-center-to-left,
+        .fui-page.fui-page-from-center-to-right,
+        .fui-page-group.fui-page-from-center-to-right,
+        .fui-page.fui-page-from-right-to-center,
+        .fui-page-group.fui-page-from-right-to-center,
+        .fui-page.fui-page-from-left-to-center,
+        .fui-page-group.fui-page-from-left-to-center {
+            -webkit-animation: pageFromCenterToRight 0ms forwards;
+            animation: pageFromCenterToRight 0ms forwards;
+        }
+
+        .danmu {
+            display: none;
+            opacity: 0;
+        }
+
+
+    </style>
+
+
+</head>
+
+<body ontouchstart>
+
+<!--top-->
+<include file="../public/wxnav"/>
+<!--top-->
+
+<div id="usercenter" class="fui-content navbar" style="top: 40px;">
+    <div class="user_top">
+        <div class="user_over">
+            <div class="leftst">
+                <img src="{$user.avatar}" width="60" height="60"
+                     style="border-radius:30px">
+            </div>
+            <div class="rightst">
+                <p class="usernst">昵称：{$user.user_nickname} </p>
+                <p class="userbh">用户编号：GXZBXH{$user.uid}</p>
+            </div>
+        </div>
+        <div class="usermingp">
+            <ul class="userbkx user_ttcy">
+                <li>
+                    <span class="ab01">会内职位：</span>
+                    <span class="ab02">
+                        <if condition="$user.cstatus == 1">
+                            <if condition="$user.job == 1">会长
+                                <elseif condition="$user.job == 2"/>
+                                监事长
+                                <elseif condition="$user.job == 3"/>
+                                执行会长
+                                <elseif condition="$user.job == 4"/>
+                                常务会长
+                                <elseif condition="$user.job == 5"/>
+                                副会长
+                                <elseif condition="$user.job == 6"/>
+                                理事
+                                <elseif condition="$user.job == 7"/>
+                                监事
+                                <elseif condition="$user.job == 8"/>
+                                会员
+                                <elseif condition="$user.job == 9"/>
+                                员工
+                                <else/>
+                                暂无
+                            </if>
+                            <else/>
+                            暂无
+                        </if>
+					</span>
+                </li>
+                <li><span class="ab01">组织/企业：</span>
+                    <span class="ab02">
+                    <if condition="$user.cname == '' || $user.cname == null">暂无
+                        <else/>
+                        {$user.cname}
+                    </if>
+					</span>
+                </li>
+                <li><span class="ab01">部门名称：</span>
+                    <span class="ab02">
+                    <if condition="$user.department == '' || $user.department == null">暂无
+                        <else/>
+                        {$user.department}
+                    </if>
+					</span>
+                </li>
+                <li><span class="ab01">部门职位：</span>
+                    <span class="ab02">
+                    <if condition="$user.position == '' || $user.position == null">暂无
+                        <else/>
+                        {$user.position}
+                    </if>
+					</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <ul class="fun_list">
+        <li onclick="javascript:window.location.href='/zbxh/usercompanycard/add'"><img
+                src="__TMPL__/zbxh/public/assets/images/suer01.png">组织/企业名片
+        </li>
+        <li onclick="javascript:window.location.href='/zbxh/wechatindex/companycertification'">
+            <img src="__TMPL__/zbxh/public/assets/images/suer02.png">组织/企业认证申请
+        </li>
+        <li onclick="javascript:window.location.href='/zbxh/wechatotherindex/postlist?cid=27'"><img src="__TMPL__/zbxh/public/assets/images/suer03.png">入会指南</li>
+    </ul>
+</div>
+<script>
+    var app = new Vue({
+        el: '#usercenter',
+        data: {}, created: function () {
+            var wxjsonstr = '{$jscode}';
+            var jsonobj = eval('(' + wxjsonstr + ')');
+            wx.config(jsonobj);
+            this.sharecontrol();
+        },
+        methods: {
+            bindphone: function () {
+                layer.open({
+                    type: 2,
+                    title: "绑定手机",
+                    closeBtn: false,
+                    area: ['310px', '353px'],
+                    shade: 0.8,
+                    id: 'LAY_layuipro',
+                    btn: ['关闭窗口'],
+                    btnAlign: 'c',
+                    moveType: 1,
+                    content: "{:url('/jiaxiao/wechatindex/bindphoneweb')}",
+                    yes: function () {
+                        layer.closeAll();
+                    },
+                });
+            },
+            sharecontrol: function () {
+                wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
+                    wx.hideMenuItems({
+                        menuList: [
+                            'menuItem:share:appMessage',
+                            "menuItem:share:timeline",
+                            "menuItem:share:qq",
+                            "menuItem:share:QZone",
+                            "menuItem:copyUrl"
+                        ]
+                    });
+                });
+            }
+        }
+    })
+</script>
+</body>
+</html>
+		

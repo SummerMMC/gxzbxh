@@ -1,0 +1,242 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
+    <script> document.documentElement.style.fontSize = document.documentElement.clientWidth / 750 * 40 + "px";</script>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>附近驾校</title>
+
+    <include file="../public/wxhead"/>
+
+    <style type="text/css">
+        body {
+            position: absolute;;
+            max-width: 750px;
+            margin: auto;
+        }
+
+        .fui-navbar {
+            max-width: 750px;
+        }
+
+        .fui-navbar, .fui-footer {
+            max-width: 750px;
+        }
+
+        .fui-page.fui-page-from-center-to-left,
+        .fui-page-group.fui-page-from-center-to-left,
+        .fui-page.fui-page-from-center-to-right,
+        .fui-page-group.fui-page-from-center-to-right,
+        .fui-page.fui-page-from-right-to-center,
+        .fui-page-group.fui-page-from-right-to-center,
+        .fui-page.fui-page-from-left-to-center,
+        .fui-page-group.fui-page-from-left-to-center {
+            -webkit-animation: pageFromCenterToRight 0ms forwards;
+            animation: pageFromCenterToRight 0ms forwards;
+        }
+
+        .cctvs span {
+            float: right;
+            font-size: 14px;
+            color: #888888;
+            font-weight: normal;
+        }
+
+        .f12_mal {
+            font-size: 16px;
+            font-weight: bold;
+        }
+    </style>
+
+    <style>.danmu {
+        display: none;
+        opacity: 0;
+    }</style>
+</head>
+
+<body ontouchstart>
+
+<div class='fui-page  shop-index-page fui-page-current member-page' style="top: 0; background-color: #fafafa; "
+     id="dangcunid">
+    <div class="fui-content navbar">
+        <div style="display: none" id="container"></div>
+        <!--内容-->
+        <div class="default-items">
+            <div class="fui-swipe">
+                <div class="fui-swipe-wrapper">
+                    <a class="fui-swipe-item" href="http://jiaxiao.henbaoli.com/jiaxiao/activity/earnest"
+                       data-nocache="true">
+                        <img src="http://qiniu-jiaxiao.henbaoli.com/image/bannet/ban01.png?v=02"
+                             style="display: block; width: 100%; height: auto;"/> </a>
+                </div>
+            </div>
+            <div class="fui-notice" style="background: #ffeeb5; border-color: #e2e2e2;" data-speed="3">
+                <div class="image">
+                    <img src="http://qiniu-jiaxiao.henbaoli.com/image/hotdot.png"
+                         onerror="this.src='../addons/baduyu_shop/static/images/hotdot.jpg'"/>
+                </div>
+                <div class="icon">
+                    <i class="icon icon-notification1" style="font-size: 0.7rem; color: #fd5454;"></i>
+                </div>
+                <div class="text" style="color: #000000;">
+                    <ul style="margin-top: 0px;">
+                        <li><a href="" style="color: #000000;" data-nocache="true">特惠 |三人拼团，每人优惠100元</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="fui-icon-group noborder col-4 circle cateboxst" style="background: #ffffff">
+                <span>各大驾校：</span>
+                <a :class="[{'red':cid==0},'']" v-on:click="changestatus(0);">全部</a>
+                <a :class="[{'red':cid==4},'']" v-on:click="changestatus(4);">青秀</a>
+                <a :class="[{'red':cid==2},'']" v-on:click="changestatus(2);">江南</a>
+                <a :class="[{'red':cid==1},'']" v-on:click="changestatus(1);">西乡塘</a>
+                <a :class="[{'red':cid==3},'']" v-on:click="changestatus(3);">兴宁</a>
+                <!-- <a  :class="[{'red':cid==6},'']"  v-on:click="changestatus(5);">良庆</a> -->
+                <a :class="[{'red':cid==5},'']" v-on:click="changestatus(5);">其他</a>
+            </div>
+            <div class="fui-blank" style="height: 5px; background: #fafafa;"></div>
+
+            <ul class="side_groups">
+                <li v-for="item in qxqList">
+                    <div class="fix">
+
+                        <div class="suanmen_img"><a :href="'/jiaxiao/wechatindex/schooldetails/did/'+item.id">
+                            <img :src="item.thumbnail" width="120" height="100">
+                        </a>
+                        </div>
+                        <div class="cell">
+                            <a :href="'/jiaxiao/wechatindex/schooldetails/did/'+item.id">
+                                <div class="f12_mal "> {{item.name}}</div>
+								<div class="cctvs"><span>距离：{{item.mi}}</span>  <code class="red">价格：¥{{item.price}}</code> </div>
+                                <div class="pt_txt_d">{{item.addr}}</div>
+                            </a>
+                        </div>
+
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+        <!--内容-->
+    </div>
+</div>
+
+
+<include file="../public/wxfoot"/>
+</body>
+<script>
+    //青秀区
+    var app = new Vue({
+        el: '#dangcunid',
+        data: {
+            qxqList: [],
+            templist: [],
+            status: 0,
+            cid: 0,
+            jsonobj: Object,
+        },
+        created: function () {
+            var wxjsonstr = '{$jscode}';
+            this.jsonobj = eval('(' + wxjsonstr + ')');
+        },
+        mounted() {
+            openloading();
+            this.qxqListData();
+        },
+        methods: {
+            redywx: function () {
+                var _self = this;
+                console.log("upmap");
+                wx.ready(function () {
+                    console.log("ready");
+                    wx.getLocation({
+                        type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                        success: function (res) {
+                            var x = res.longitude;
+                            var y = res.latitude;
+                            var ggPoint = new BMap.Point(x, y);
+                            var convertor = new BMap.Convertor();
+                            var pointArr = [];
+                            pointArr.push(ggPoint);
+                            convertor.translate(pointArr, 1, 5, _self.translateCallback);
+                        },
+                        fail(err) {
+                            hideloading();
+                            puopenwin("获取定位失败，原因可能是页面没加载完成或者您的手机或者微信未授权开启地理位置,请前往授权才能查看距离!");
+                            _self.qxqList = _self.templist;
+                        },
+                        cancel: function (res) {
+                            hideloading();
+                            puopenwin('用户拒绝授权获取地理位置');
+                        }
+                    });
+                });
+            },
+            translateCallback: function (data) {
+                console.log("translateCallback");
+                if (data.status === 0) {
+                    console.log("status" + data.status);
+                    var map = new BMap.Map("container");
+                    for (i = 0; i < this.templist.length; i++) {
+                        var schoolPoint = new BMap.Point(this.templist[i].lng, this.templist[i].lat);
+                        if (this.templist[i].lng != undefined && this.templist[i].lng != "") {
+                            this.templist[i].mi = (map.getDistance(data.points[0], schoolPoint)).toFixed(0);
+                        } else {
+                            this.templist[i].mi = 10000000;
+                        }
+                    }
+                    this.templist.sort(this.sortId);
+                    for (j = 0; j < this.templist.length; j++) {
+                        var distance = this.templist[j].mi;
+                        if (distance < 1000) {
+                            this.templist[j].mi = (distance + "米");
+                        } else if (distance > 1000) {
+                            this.templist[j].mi = (Math.round(distance / 100) / 10).toFixed(1) + "公里";
+                        }
+                    }
+                    this.qxqList = this.templist;
+                    hideloading();
+                }
+            },
+            sortId: function (a, b) {
+                return a.mi - b.mi
+            },
+            qxqListData: function () {
+                var _self = this;
+                var pobj = {};
+                if (this.cid != 0) {
+                    pobj = {
+                        cid: this.cid
+                    }
+                } else {
+                    pobj = {}
+                }
+
+                $.ajax({
+                    type: 'get',
+                    data: pobj,
+                    url: "{:url('/jiaxiao/index/getdrivinglist')}",
+                    dataType: 'json',
+                    success: function (rs) {
+                        // _self.qxqList = rs.data;
+                        _self.templist = rs.data;
+                        console.log(_self.jsonobj);
+                        wx.config(_self.jsonobj);
+                        _self.redywx();
+                    }
+                })
+            },
+            changestatus: function (tag) {
+                openloading();
+                this.cid = tag;
+                this.qxqListData();
+            }
+
+        }
+    })
+
+
+</script>
+</html>
+		

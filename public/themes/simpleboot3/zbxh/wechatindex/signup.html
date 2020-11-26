@@ -1,0 +1,241 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
+    <script> document.documentElement.style.fontSize = document.documentElement.clientWidth / 750 * 40 + "px";</script>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>在线报名</title>
+
+    <include file="../public/wxhead"/>
+
+
+    <style type="text/css">
+        body {
+            position: absolute;;
+            max-width: 750px;
+            margin: auto;
+			background-color: #FFFFFF;
+        }
+
+        .fui-navbar {
+            max-width: 750px;
+        }
+
+        .fui-navbar, .fui-footer {
+            max-width: 750px;
+        }
+
+        .fui-page.fui-page-from-center-to-left,
+        .fui-page-group.fui-page-from-center-to-left,
+        .fui-page.fui-page-from-center-to-right,
+        .fui-page-group.fui-page-from-center-to-right,
+        .fui-page.fui-page-from-right-to-center,
+        .fui-page-group.fui-page-from-right-to-center,
+        .fui-page.fui-page-from-left-to-center,
+        .fui-page-group.fui-page-from-left-to-center {
+            -webkit-animation: pageFromCenterToRight 0ms forwards;
+            animation: pageFromCenterToRight 0ms forwards;
+        }
+		.danmu {
+		    display: none;
+		    opacity: 0;
+		}
+		.wimg{width: 80%; margin: 10px 10% 0px 10%;}
+		.mt20to{ margin-top: 20px; text-align: center; margin-bottom: 15px;}
+		.mt20to img{height: 35px;}
+		.inputst{ border:none; border-bottom: solid 1px #DDDDDD; height: 40px; line-height: 40px; margin-bottom: 15px;  padding-left: 5px;}
+		.baom .stizm .iniputs {
+		    width: 50%;
+		    overflow: hidden;
+		    float: left;
+		    height: 40px;
+			line-height: 40px; 
+			border:none; border-bottom: solid 1px #DDDDDD;
+			 padding-left: 5px;
+		}
+		.baom .stinyzmtt { padding: 11px;}
+		
+		.stinput { width: 100%; margin-top: 20px; border-radius: 15px; height: 38px; }
+		.styyh {padding: 11px;}
+    </style>
+
+    
+</head>
+
+<body ontouchstart>
+
+<div class='fui-page  shop-index-page fui-page-current member-page' style="top: 0; background-color: #fafafa; "
+     id="jxmian">
+    <div class="fui-content navbar">
+        <!--内容-->
+        <div class="default-items">
+             <div class="mt20to">
+				 <img src="http://qiniu-jiaxiao.henbaoli.com/image/xiaobailogo01.png?v=01" />
+			 </div>
+				
+            <div class="baom" id="sdfsfd">
+                <table border="0" cellspacing="0" cellpadding="0" class="cttable">
+                    <tr>
+                        <td><input type="text" id="userName" class="inputst" placeholder="请输入您的姓名"></td>
+                    </tr>
+                    <tr v-if="hasphone == 'no'">
+                        
+                        <td><input type="text" id="txtPhone" class="inputst" placeholder="请输入您手机号码"></td>
+                    </tr>
+                    <tr v-if="hasphone == 'no'">
+                       
+                        <td>
+                            <div class="stizm ct">
+                                <input type="text" class="iniputs" id="txtsmscode" placeholder="验证码">
+                                <button class="stinyzmtt" v-on:click="resetCode()" id="J_getCode">获取验证码</button>
+                                <button id="J_resetCode" class="styyh" style="display: none;">
+                                    <span id="J_second">60</span>秒后重发
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="button" v-on:click="subapply();" value="立即咨询" class="stinput "/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div v-if="pid == 1">
+                <img src="http://qiniu-jiaxiao.henbaoli.com/image/QwwUWmYpqXN4nBZY0Yqj3jM3Nj4Don.png?v=02" class="wimg"/>
+            </div>
+            <div v-if="pid == 2">
+                <img src="http://qiniu-jiaxiao.henbaoli.com/image/n9p6p2wOWiwQeZe29pW14iM44WI4Pq.png" class="wimg"/>
+            </div>
+        </div>
+        <!--内容-->
+    </div>
+</div>
+
+
+<include file="../public/wxfoot"/>
+
+<script>
+
+    var app = new Vue({
+        el: '#jxmian',
+        data: {
+            drivingprice: [],
+            hasphone: "{$hasphone}",
+            pid: "{$pid}",
+        },
+        created: function () {
+            // this.getdrivingdetailData();
+            console.log(this.hasphone);
+        },
+        methods: {
+            resetCode: function () {
+                var phone = $("#txtPhone").val();
+                var reg_phone = /1\d{10}/;
+
+
+                if (phone == "") {
+                    puopenwin("请输入正确手机号")
+                    return false;
+                } else if (!reg_phone.test(phone)) {   //验证手机是否符合格式
+                    puopenwin("手机号格式不对");
+                    return false;
+                } else {
+                    $('#J_getCode').hide();
+                    $("#J_resetCode").show();
+
+                    var second = 60;
+                    var timer = null;
+                    $('#J_second').html('60');
+
+                    timer = setInterval(function () {
+                        second -= 1;
+                        if (second > 0) {
+                            $('#J_second').html(second);
+                        } else {
+                            clearInterval(timer);
+                            $('#J_getCode').show();
+                            $('#J_resetCode').hide();
+                        }
+                    }, 1000);
+                    $.ajax({
+                        type: 'post',
+                        data: {
+                            phone: phone,
+                        },
+                        url: "{:url('/jiaxiao/index/sendmsgpass')}",
+                        dataType: 'json',
+                        success: function (rs) {
+                            console.log(rs);
+                            if (rs.code == -1) {
+                                puopenwin(rs.msg);
+                            } else {
+                                puopenwin(rs.msg);
+                            }
+                        }
+                    })
+
+                }
+            },
+            subapply: function () {
+                var phone = $("#txtPhone").val();
+                var reg_phone = /1\d{10}/;
+                var name = $("#userName").val();
+                var txtsmscode = $("#txtsmscode").val();
+
+                if (name == "") {
+                    puopenwin("请输入姓名")
+                    return false;
+                }
+                if (this.hasphone == "no") {
+                    if (phone == "") {
+                        puopenwin("请输入正确手机号")
+                        return false;
+                    } else if (!reg_phone.test(phone)) {   //验证手机是否符合格式
+                        puopenwin("手机号格式不对");
+                        return false;
+                    }
+                    if (txtsmscode == "") {
+                        puopenwin("验证码不能为空")
+                        return false;
+                    }
+                }
+                if (this.pid == 1) {
+                    this.subject = "智惠班"
+                }
+                if (this.pid == 2) {
+                    this.subject = "至尊班"
+                }
+                $.ajax({
+                    type: 'post',
+                    data: {
+                        name: name,
+                        phone: phone,
+                        code: txtsmscode,
+                        // sid: this.did,
+                        pid: this.pid,
+                        subject: this.subject,
+                    },
+                    url: "{:url('/jiaxiao/wechatindex/savedrivingapply')}",
+                    dataType: 'json',
+                    success: function (rs) {
+                        console.log(rs);
+                        if (rs.code == -1) {
+                            puopenwin("报名成功！稍后客服直接与你联系！");
+                        } else {
+                            puopenwin(rs.msg);
+                        }
+                    }
+                })
+            },
+
+
+        }
+    })
+</script>
+
+
+</body>
+</html>
+		

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <!-- Set render engine for 360 browser -->
+    <meta name="renderer" content="webkit">
+    <meta charset="utf-8">
+    <title>代理{:lang('ADMIN_CENTER')}</title>
+    <meta name="description" content="This is page-header (.page-header &gt; h1)">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim for IE8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <![endif]-->
+    <link href="__TMPL__/public/assets/themes/{:cmf_get_admin_style()}/bootstrap.min.css" rel="stylesheet">
+    <link href="__TMPL__/public/assets/simpleboot3/css/simplebootadmin.css" rel="stylesheet">
+    <link href="__STATIC__/font-awesome/css/font-awesome.min.css?page=index" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="__TMPL__/public/assets/themes/{:cmf_get_admin_style()}/simplebootadminindex.min.css">
+    <!--[if lt IE 9]>
+    <![endif]-->
+    <style>
+        /*-----------------导航hack--------------------*/
+        .nav-list > li.open {
+            position: relative;
+        }
+
+        .nav-list > li.open .back {
+            display: none;
+        }
+
+        .nav-list > li.open .normal {
+            display: inline-block !important;
+        }
+
+        .nav-list > li.open a {
+            padding-left: 7px;
+        }
+
+        .nav-list > li .submenu > li > a {
+            background: #fff;
+        }
+
+        .nav-list > li .submenu > li a > [class*="fa-"]:first-child {
+            left: 20px;
+        }
+
+        .nav-list > li ul.submenu ul.submenu > li a > [class*="fa-"]:first-child {
+            left: 30px;
+        }
+
+        .agent_uls {
+            width: 100%;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+
+        .agent_uls li {
+            width: 15%;
+            margin-left: 25px;
+            float: left;
+            color: #ffffff;
+            height: 30px;
+            line-height: 30px;
+            text-align: center
+        }
+
+        .agent_uls .luvse {
+            background: #56a36c;
+        }
+
+        .agent_uls .selvse {
+            background: #5e8579;
+        }
+
+        .agent_uls .dalvse {
+            background: #77c34f;
+        }
+
+        /*----------------导航hack--------------------*/
+        .ww_well {
+            width: 100%;
+            overflow: hidden;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .ww_well li {
+            width: 24.2%;
+            float: left;
+            background: #f5f5f5;
+            margin-top: 10px;
+            margin: 10px 0.3% 0.3% 0.3%;
+            list-style: none;
+            padding: 7px;
+        }
+
+        .ww_well li dl {
+            width: 100%;
+            overflow: hidden;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .ww_well li dl dd {
+            width: 23.4%;
+            float: left;
+            margin: 0.8%;
+        }
+
+        .ww_well li dl dd p {
+            margin-bottom: 0px;
+            margin-top: 5px;
+        }
+
+        .text_warning {
+            color: #E74C3C;
+        }
+
+        .text_primary {
+            color: #1654CC;
+        }
+
+        .text_smuted {
+            color: #888;
+        }
+
+        .has_more {
+            text-align: center;
+            background: #f9f9f9;
+            padding: 10px 0;
+            border: #ddd 1px solid;
+            border-top: none;
+            cursor: pointer;
+        }
+
+        .table {
+            margin-bottom: 0px;
+        }
+    </style>
+
+    <script>
+        //全局变量
+        var GV = {
+            HOST: "{$_SERVER['HTTP_HOST']}",
+            ROOT: "__ROOT__/",
+            WEB_ROOT: "__WEB_ROOT__/",
+            JS_ROOT: "static/js/"
+        };
+    </script>
+
+    <if condition="APP_DEBUG">
+        <style>
+            #think_page_trace_open {
+                left: 0 !important;
+                right: initial !important;
+            }
+        </style>
+    </if>
+
+</head>
+
+<body style="min-width:900px;">
+<div id="iframe_top">
+    <foreach name="wxconfig" item="vo">
+        <a href="javascript:getMenu('{$vo.token}');">{$vo.name}</a>
+    </foreach>
+    <div>
+        菜单数据：<textarea id="menudata" rows="10" cols="100"></textarea>
+        <a href="javascript:addmenu();">添加</a>
+    </div>
+</div>
+<div class="main-container container-fluid">
+
+    <!--right-->
+    <div class="wrap">
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>名称</th>
+                <th>URL</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody id="menulist">
+
+            </tbody>
+        </table>
+        <div id="page"></div>
+    </div>
+    <!--right-->
+</div>
+
+<script src="__TMPL__/public/assets/js/jquery-1.10.2.min.js"></script>
+<script src="__TMPL__/public/assets/js/bootstrap.min.js"></script>
+<script src="http://xrbrvzv.manhua.cn/laydate/laydate.js"></script>
+<script src="http://xrbrvzv.manhua.cn/js/layer/layer.js"></script>
+<script>
+    $(function () {
+
+    })
+
+    var token;
+
+    function getMenu(token) {
+        this.token = token;
+        $.ajax({
+            type: 'post',
+            data: {token: token},
+            url: "{:url('portal/wechat_admin/getmenu')}",
+            dataType: 'json',
+            success: function (rs) {
+                console.log(rs);
+                if (rs.code == 1) {
+                    var arra = rs.msg.menu.button;
+                    var html = '';
+                    for (i = 0; i < arra.length; i++) {
+                        html += "<tr>" +
+                            "                <td>" + i + "</td>" +
+                            "                <td>" + arra[i]['name'] + "</td>" +
+                            "                <td>" + arra[i]['url'] + "</td>" +
+                            "                <td><a href='javascript:deletemenu(" + i + ");'>删除</a></td>" +
+                            "            </tr>";
+                    }
+                    $("#menulist").html(html);
+                }
+            }
+        })
+    }
+
+    function addmenu() {
+        var menudata = $("#menudata").val();
+        $.ajax({
+            type: 'post',
+            data: {token: this.token, menudata: menudata},
+            url: "{:url('portal/wechat_admin/addmenu')}",
+            dataType: 'json',
+            success: function (rs) {
+                console.log(rs);
+                if (rs.code == 1) {
+                    alert("添加成功");
+                }
+            }
+        })
+    }
+
+    function deletemenu(menuid) {
+        $.ajax({
+            type: 'post',
+            data: {token: this.token, menuid: menuid},
+            url: "{:url('portal/wechat_admin/deletemenu')}",
+            dataType: 'json',
+            success: function (rs) {
+                console.log(rs);
+                if (rs.code == 1) {
+                    alert("删除成功");
+                }
+            }
+        })
+    }
+</script>
+</body>
+</html>

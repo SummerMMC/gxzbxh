@@ -1,0 +1,99 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="javascript:;">团购</a></li>
+    </ul>
+    <form class="well form-inline margin-top-20" method="post" action="{:url('AdminGroupBuying/index')}">
+        <input class="form-control" type="text" name="gid"
+               id="gid" placeholder="请输入活动编号"
+               oninput="if(value.length>20)value=value.slice(0,20)"/>
+        拼团状态：<select name="status">
+                    <option value="0">请选择</option>
+                    <option value="1">进行中</option>
+                    <option value="2">结束</option>
+                </select>
+        <input type="submit" class="btn btn-primary" value="搜索"/>
+        <a class="btn btn-danger" href="{:url('AdminGroupBuying/index')}">清空</a>
+    </form>
+    <div>
+        <input type="button" class="btn btn-primary" onclick="addpage();" value="创建团购"/>
+    </div>
+    <form class="js-ajax-form" action="" method="post">
+        <div class="table-actions">
+            <!--
+            <notempty name="category">
+                <button class="btn btn-primary btn-sm js-articles-move" type="button">批量移动</button>
+            </notempty>
+            <button class="btn btn-primary btn-sm js-articles-copy" type="button">批量复制</button>
+            -->
+        </div>
+        <table class="table table-hover table-bordered table-list">
+            <tr>
+                <th width="15"><label><input type="checkbox" class="js-check-all" data-direction="x"
+                                             data-checklist="js-check-x"></label></th>
+                <th width="50">ID</th>
+                <th>活动编号</th>
+                <th>活动名称</th>
+                <th>拼团价格</th>
+                <th>拼团人数</th>
+                <th>创建时间</th>
+                <th>拼团时限</th>
+                <th>结束时间</th>
+                <th width="70">状态</th>
+                <th width="190">操作</th>
+            </tr>
+            <foreach name="groupbuying" item="vo">
+                <tr>
+                    <td>
+                        <input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[]"
+                               value="{$vo.id}" title="ID:{$vo.id}">
+                    </td>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.gid}</td>
+                    <td>{$vo.name}</td>
+                    <td>{$vo.g_price}</td>
+                    <td>{$vo.p_count}</td>
+                    <td>
+                        {:date('Y-m-d H:m:s',$vo.ctime)}
+                    </td>
+                    <td>{$vo.p_time}小时</td>
+                    <td>
+                        {:date('Y-m-d H:m:s',$vo.f_time)}
+                    </td>
+                    <td>
+                        <if condition="$vo.status == 1">进行中</if>
+                        <if condition="$vo.status == 2">成功</if>
+                        <if condition="$vo.status == 3">失败</if>
+                    </td>
+                    <td>
+                        <a href="{:url('AdminGroupBuying/edit',array('id'=>$vo['id']))}">编辑</a>
+                        <a href="{:url('AdminGroupBuying/delete',array('id'=>$vo['id']))}">删除</a>
+                    </td>
+                </tr>
+            </foreach>
+        </table>
+        <div class="table-actions">
+        </div>
+        <ul class="pagination">{$page|default=''}</ul>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+<script>
+
+
+    function reloadPage(win) {
+        win.location.reload();
+    }
+
+    $(function () {
+
+    });
+
+    function addpage() {
+        window.location.href = "{:url('AdminGroupBuying/add')}"
+    }
+</script>
+</body>
+</html>

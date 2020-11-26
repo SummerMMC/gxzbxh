@@ -1,0 +1,71 @@
+<include file="public@header"/>
+<style type="text/css">
+    .pic-list li {
+        margin-bottom: 5px;
+    }
+</style>
+
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('AdminOtherService/index')}">其他服务</a></li>
+    </ul>
+    <form action="{:url('AdminOtherService/editPost')}" method="post"
+          class="form-horizontal js-ajax-form margin-top-20">
+        <input name="id" value="{$other.id}" type="hidden"/>
+        <div class="row">
+            <div class="col-md-9">
+                <table class="table table-bordered">
+                    <tr>
+                        <th width="100">服务名称<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="text" name="post[name]"
+                                   id="name" placeholder="服务名称"
+                                   oninput="if(value.length>50)value=value.slice(0,50)" value="{$other.name}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th width="100">服务价格<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="number" name="post[price]"
+                                   id="price" placeholder="请输入服务价格"
+                                   oninput="if(value.length>4)value=value.slice(0,4)" value="{$other.price}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>服务定金</th>
+                        <td>
+                            <input class="form-control" type="number" name="post[deposit]"
+                                   id="deposit" placeholder="请输入服务定金"
+                                   oninput="if(value.length>4)value=value.slice(0,4)" value="{$other.deposit}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th width="100">备注<span class="form-required">*</span></th>
+                        <td>
+                            <textarea name="post[note]" rows="10" cols="120">{$other.note}</textarea>
+                        </td>
+                    </tr>
+                </table>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('EDIT')}</button>
+                        <a class="btn btn-default" href="{:url('AdminOtherService/index')}">{:lang('BACK')}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+<script type="text/javascript">
+    //编辑器路径定义
+    var editorURL = GV.WEB_ROOT;
+</script>
+<script type="text/javascript">
+    $(function () {
+    })
+</script>
+</body>
+</html>

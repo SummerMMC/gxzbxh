@@ -1,0 +1,583 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
+    <script> document.documentElement.style.fontSize = document.documentElement.clientWidth / 750 * 40 + "px";</script>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>小宝学车</title>
+
+    <include file="../public/wxhead"/>
+
+    <style type="text/css">
+        body {
+
+            max-width: 750px;
+            margin: auto;
+            overflow-y: scroll;
+            color: #604A0C;
+        }
+
+        .danmu {
+            display: none;
+            opacity: 0;
+        }
+
+        .inputst {
+            margin: 15px 0px;
+            height: 35px;
+        }
+
+        .baom .stizm {
+            margin-bottom: 15px;
+        }
+
+        .baom .stizm .iniputs {
+            height: 35px;
+        }
+
+        .baom .stinyzmtt {
+            padding: 8px;
+            background-color: #fbbf2e;
+            border: solid 1px #fbbf2e;
+        }
+
+        .styyh {
+            padding: 8px;
+        }
+
+        .earnstcss {
+            width: 92%;
+            margin: 0 auto;
+            background-color: #FFFFFF;
+        }
+
+        .imagewidht img {
+            width: 100%;
+        }
+
+        .mlr15 {
+            padding: 15px 15px 0px 15px;
+        }
+
+        .mlrl15 {
+            padding: 0px 15px 0px 15px;
+        }
+
+        .mlrl15 p {
+            margin-top: 10px;
+        }
+
+        .mlr15 p {
+            margin-top: 10px;
+
+        }
+
+        .hbtitle {
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+            background: url(http://qiniu-jiaxiao.henbaoli.com/image/hbtitle01.png) no-repeat;
+            color: #FFFFFF;
+            text-indent: 25px;
+        }
+
+        .hbtitle span {
+            float: right;
+            color: #007ec2;
+        }
+
+        .mordestc {
+        }
+
+        .mordestc span {
+            margin-right: 15px;
+        }
+
+        .mordestc code {
+            color: red;
+        }
+
+        .mordestc font {
+            color: #0688ce;
+        }
+
+        .dingjin {
+            margin-top: 10px;
+        }
+
+        .dingjin .bottomst {
+            width: 80%;
+            margin: 0 auto;
+            height: 30px;
+            text-align: center;
+            color: #FFFFFF;
+            line-height: 30px;
+            border-radius: 6px;
+            border: solid 1px #F4A85A;
+            display: block;
+            background: #F4A85A;
+            margin-top: 15px;
+        }
+
+        .stinput {
+            width: 100%;
+            display: block;
+            text-align: center;
+            background: #F4A85A;
+            border: solid 1px #F4A85A;
+        }
+
+        .inputst, .iniputs {
+            border: none;
+            border-bottom: solid 1px #EEEEEE;
+        }
+
+        .red {
+            color: red;
+        }
+
+        .dingjin {
+            overflow: hidden;
+        }
+
+        .dingjin li {
+            width: 46%;
+            float: left;
+            padding: 6px;
+            margin: 0px 2%;
+            border-radius: 6px;
+            background-color: #eee;
+            border: solid 1px #F0F0EE;
+            list-style-type: none;
+            font-size: 12px;
+        }
+
+        .dingjin div {
+            overflow: hidden;
+        }
+
+        .dingjin span {
+            float: right;
+            color: #3d2f07;
+        }
+
+        .dingleft  div span {
+            float: none;
+            color: #3d2f07;
+        }
+
+        .dingjin code {
+            color: #777777;
+            text-decoration: line-through;
+        }
+
+        .foot_st {
+            width: 100%;
+            background: #3d2f07;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .fotfilex {
+            height: 50px;
+            width: 50px;
+            margin: 0 8px;
+            border-radius: 24px;
+            text-align: center;
+            line-height: 19px;
+            font-size: 14px;
+            padding: 8px;
+            background: #ff8080;
+            position: fixed;
+            right: 1px;
+
+            z-index: 999;
+        }
+
+        .fotfilex a {
+            color: #FFFFFF;
+        }
+
+        .fotfilexsy {
+            bottom: 176px;
+        }
+
+        .fotfilexsy02 {
+            bottom: 118px;
+        }
+
+        .fotfilexsy03 {
+            bottom: 58px;
+        }
+
+        .cmt10 {
+            margin: 10px 0px
+        }
+
+        .cmt10 label {
+            margin-right: 10px;
+        }
+
+        .cmt10 label input {
+            margin-right: 2px;
+            vertical-align: middle;
+        }
+    </style>
+
+
+</head>
+
+<body>
+<div id="earnest">
+    <div class='' style=" background-color: #fbbf2e;">
+        <!--内容-->
+
+        <div class="earnstcss" style=" background-color: #FFFFFF;">
+            <div class="imagewidht"><img src="http://qiniu-jiaxiao.henbaoli.com/image/gg95344.png"/></div>
+
+            <div class="mlr15">
+                <div class="hbtitle">
+                    活动规则
+                </div>
+                <div class="mlrl15">
+                    <p>1、在2020年8月1日至9月1日活动时间内进行报名并缴纳学车定金的学员即可享受报名优惠并获赠精品小礼品一份。</p>
+                    <p>2、学员报名支付学车定金后，即可马上安排学车体检和提交报名材料。报名全程专车接送。</p>
+                    <p>3、报名定金三年有效。</p>
+                </div>
+            </div>
+            <div class="mlr15">
+                <div class="hbtitle">
+                    平台介绍
+                </div>
+                <div class="mlrl15">
+                    <p>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;小宝学车，直连教练、比价格、看口碑，让学员付更少，教练赚更多，学员分期付款，数字化管理，预约练车。</br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;选择我们，给不了你所谓市场最低价，我们能给你的，是更优质的学车保障，是最合理的学车费用。</p>
+                </div>
+            </div>
+            <div class="mlr15">
+                <div class="hbtitle">
+                    意向报名
+                </div>
+                <div class="">
+                    <p class="red">凭手机号可获得一对一练车体验一次。</p>
+                    <div id="phone_div" class="baom">
+                        <input id="name" type="text" oninput="if(value.length>11)value=value.slice(0,11)"
+                               placeholder="请输入您的姓名"
+                               class="inputst">
+                        <div v-if="hasphone == 0">
+                            <input id="phone" type="number" oninput="if(value.length>11)value=value.slice(0,11)"
+                                   placeholder="请输入您手机号码"
+                                   class="inputst">
+                            <div class="stizm ct">
+                                <input id="code" type="text" placeholder="验证码" class="iniputs">
+                                <button class="stinyzmtt" v-on:click="sendMsn();" id="J_getCode">获取验证码</button>
+                                <button class="styyh" id="J_resetCode" style="display:none;"><span
+                                        id="J_second">60</span>秒后重发
+                                </button>
+                            </div>
+                        </div>
+                        <div class="cmt10">
+                            <label style="margin-right: 30px;"><input type="radio" name="subject" value="经济班C1"/>经济班C1</label>
+                            <label style="margin-right: 30px;"><input type="radio" name="subject" value="经济班C2"/>经济班C2</label>
+                            <label><input type="radio" name="subject" value="至尊班"/>至尊班</label>
+                            <br>
+                            <label style="margin-right: 30px;"><input type="radio" name="subject" value="特惠班C1"/>特惠班C1</label>
+                            <label><input type="radio" name="subject" value="特惠班C2"/>特惠班C2</label>
+                        </div>
+                        <a href="javascript:void(0);" v-on:click="bingphone();" class="stinput ">报名</a>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 15px;">
+                <div class="hbtitle" style="margin-left: 15px;">
+                    经济班：
+                </div>
+                <div class="mlrl15" style="margin-left: 15px;">
+                    <p>1、 含报名费、培训费、场地管理费</p>
+                </div>
+                <ul class="dingjin ">
+                    <li class="dingleft" >
+                        <div style="text-align: left;">
+                            <span>惊爆价：1880元</span>
+                        </div>
+                        <bottom class="bottomst" v-on:click="payjiaxiao(0,59)">
+                            <div>C1，500元定金</div>
+                        </bottom>
+                    </li>
+                    <li class="dingleft">
+                        <div style="text-align: left;">
+                            <span>惊爆价：2180元</span>
+                        </div>
+                        <bottom class="bottomst" v-on:click="payjiaxiao(0,60)">
+                            <div>C2，500元定金</div>
+                        </bottom>
+                    </li>
+                </ul>
+            </div>
+
+            <div style="margin-top: 15px;">
+                <div class="hbtitle" style="margin-left: 15px;">
+                    特惠班：
+                </div>
+                <div class="mlrl15" style="margin-left: 15px;">
+                    <p>1、 含报名费、培训费、场地管理费、挂科保险费、人身保险、场地适应费</p>
+                    <p>2、 一人一车一教练</p>
+                </div>
+                <ul class="dingjin">
+                    <li>
+                        <div>
+                            <span>现价：3980元</span>
+                            <code>￥4480</code>
+                        </div>
+                        <bottom class="bottomst" v-on:click="payjiaxiao(0,56)">
+                            <div>C1，500元定金</div>
+                        </bottom>
+                    </li>
+                    <li>
+                        <div>
+                            <span>现价：4280元</span>
+                            <code>￥4780元</code>
+                        </div>
+                        <bottom class="bottomst" v-on:click="payjiaxiao(0,57)">
+                            <div>C2，500元定金</div>
+                        </bottom>
+                    </li>
+                </ul>
+            </div>
+
+            <div style="margin-top: 15px; padding-bottom: 15px;">
+                <div class="hbtitle" style="margin-left: 15px;">
+                    至尊班：
+                </div>
+                <div class="mlrl15" style="margin-left: 15px;">
+                    <p>1、 含报名费、培训费、场地管理费、场地适应费、打证费、不限学时、5公里包接送学车</p>
+                    <p>2、 一人一车一教练</p>
+                </div>
+                <ul class="dingjin">
+                    <li>
+                        <div>
+                            <span>现价：4880元</span>
+                            <code>￥5380</code>
+                        </div>
+                        <bottom class="bottomst" v-on:click="payjiaxiao(0,58)">
+                            <div>C1\C2,500元定金</div>
+                        </bottom>
+                    </li>
+                    <!--                    <li>-->
+                    <!--                        <div>-->
+                    <!--                            <span>现价：4600元</span>-->
+                    <!--                            <code>￥3400元</code>-->
+                    <!--                        </div>-->
+                    <!--                        <bottom class="bottomst" v-on:click="payjiaxiao(0,4)">C2，500元定金</bottom>-->
+                    <!--                    </li>-->
+                </ul>
+            </div>
+
+
+            <div class="foot_st">
+                <div style="margin-left: 15px;">
+                    <img src="http://qiniu-jiaxiao.henbaoli.com/image/xiaobailogo02.png" width="100">
+                </div>
+                <div style="margin-left: 15px; margin-top: 15px; color: #FFFFFF;">
+                    <p>联系人：蒙先生</p>
+                    <p>电话：1825485858</p>
+                    <p>地址：南宁市青秀区品诚驾校</p>
+                </div>
+            </div>
+
+            <div class="fotfilex fotfilexsy">
+                <a href="javascript:void(0);" onclick="openkefu();">
+                    活动咨询
+                </a>
+            </div>
+            <div class="fotfilex fotfilexsy02">
+                <a href="http://jiaxiao.henbaoli.com/jiaxiao/wechatindex/index">
+                    进入首页
+                </a>
+            </div>
+            <div class="fotfilex fotfilexsy03">
+                <a href="javascript:void(0);" onclick="wechatqrcode();">
+                    学车教学
+                </a>
+            </div>
+        </div>
+
+
+        <!-- <div>
+             活动时间5月27日 至 6月27日，在此时间内报名并支付定金，即可享受以下优惠。
+         </div>
+         <div>
+             定金一旦收取如因学员方原因无法完成考试，定金概不退回。
+         </div>
+         <div>
+             介绍驾校，放一些各大驾校图片
+         </div>
+         <div>定金：500，学费总费用：原价3000，优惠价2800【点击直接支付】</div>
+         <img src="http://qiniu-jiaxiao.henbaoli.com/image/QwwUWmYpqXN4nBZY0Yqj3jM3Nj4Don.png"
+              v-on:click="payjiaxiao(0,1)" style="width: 100%">
+         <div>定金：500，学费总费用：原价3800，优惠价2500【点击直接支付】</div>
+         <img src="http://qiniu-jiaxiao.henbaoli.com/image/n9p6p2wOWiwQeZe29pW14iM44WI4Pq.png"
+              v-on:click="payjiaxiao(0,2)" style="width: 100%">
+         <a href="https://jiaxiaokefu.henbaoli.com/mobile/welive-new.php?a=621276866&group=NaN&gid=&id=&fn=&r=0.3807399308968944&url=aHR0cDovL2ppYXhpYW9rZWZ1LmhlbmJhb2xpLmNvbS8='">活动资讯</a> -->
+        <!--内容-->
+    </div>
+</div>
+
+<script>
+    var app = new Vue({
+        el: '#earnest',
+        data: {
+            hasphone: "{$hasphone}",
+            pid: "{$pid}",
+        },
+        created: function () {
+            var jsonStr = '{$jssdk}';
+            console.log(jsonStr);
+            if (jsonStr != '' && jsonStr != undefined) {
+                console.log(eval('(' + jsonStr + ')'));
+                wx.config(eval('(' + jsonStr + ')'));
+                var url = "";
+                if (this.pid != 0) {
+                    url = "http://jiaxiao.henbaoli.com/jiaxiao/activity/earnest?pid=" + this.pid;
+                } else {
+                    url = "http://jiaxiao.henbaoli.com/jiaxiao/activity/earnest";
+                }
+                wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
+                    wx.updateAppMessageShareData({
+                        title: '报名优惠', // 分享标题
+                        desc: '报名优惠', // 分享描述
+                        link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                        imgUrl: 'http://qiniu-jiaxiao.henbaoli.com/image/xiaobailogo.png', // 分享图标
+                        success: function () {
+                            // 设置成功
+                        }
+                    })
+                    wx.updateTimelineShareData({
+                        title: '报名优惠', // 分享标题
+                        link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                        imgUrl: 'http://qiniu-jiaxiao.henbaoli.com/image/xiaobailogo.png', // 分享图标
+                        success: function () {
+                            // 设置成功
+                        }
+                    })
+                });
+            }
+        },
+        methods: {
+            sendMsn: function () {
+                var phone = $("#phone").val();
+                var reg_phone = /1\d{10}/;
+
+                if (phone == "") {
+                    puopenwin("请输入正确手机号")
+                    return false;
+                } else if (!reg_phone.test(phone)) {   //验证手机是否符合格式
+                    puopenwin("手机号格式不对");
+                    return false;
+                } else {
+                    $('#J_getCode').hide();
+                    $('#J_resetCode').show();
+                    var second = 60;
+                    var timer = null;
+                    $('#J_second').html('60');
+
+                    timer = setInterval(function () {
+                        second -= 1;
+                        if (second > 0) {
+                            $('#J_second').html(second);
+                        } else {
+                            clearInterval(timer);
+                            $('#J_getCode').show();
+                            $('#J_resetCode').hide();
+                        }
+                    }, 1000);
+
+                    $.ajax({
+                        type: 'post',
+                        data: {
+                            phone: phone,
+                        },
+                        url: "{:url('/jiaxiao/wechatindex/sendmsgpass')}",
+                        dataType: 'json',
+                        success: function (rs) {
+                            console.log(rs);
+                            if (rs.code == -1) {
+                                puopenwin(rs.msg);
+                            } else {
+                                puopenwin(rs.msg);
+                            }
+                        }
+                    })
+                }
+            },
+            bingphone: function () {
+                var _self = this;
+                var name = $("#name").val();
+                var phone = $("#phone").val();
+                var code = $("#code").val();
+                var subject = $("input[name='subject']:checked").val();
+                var reg_phone = /1\d{10}/;
+                if (name == "") {
+                    puopenwin("请输入姓名")
+                    return false;
+                }
+                if (this.hasphone == 0) {
+                    if (phone == "") {
+                        puopenwin("请输入正确手机号")
+                        return false;
+                    }
+                    if (!reg_phone.test(phone)) {   //验证手机是否符合格式
+                        puopenwin("手机号格式不对");
+                        return false;
+                    }
+                }
+                if (code == '') {
+                    puopenwin("请输入验证码")
+                    return false;
+                }
+                if (subject == '' || subject == undefined) {
+                    puopenwin("请选择报名科目");
+                    return false;
+                }
+                $.ajax({
+                    type: 'post',
+                    data: {
+                        subject, subject,
+                        name: name,
+                        aid: 1,
+                        phone: phone,
+                        code: code,
+                    },
+                    url: "{:url('/jiaxiao/wechatindex/savedrivingapply')}",
+                    dataType: 'json',
+                    success: function (rs) {
+                        console.log(rs);
+                        if (rs.code == -1) {
+                            _self.hasphone = 1;
+                            puopenwin("报名成功！");
+                        } else {
+                            puopenwin(rs.msg);
+                        }
+                    }
+                })
+            },
+            payjiaxiao: function (tag, id) {
+                if (this.hasphone == 0) {
+                    puopenwin("请先报名绑定手机号码！");
+                    $("#baomtty").show();
+                    return false;
+                }
+                window.location.href = '/jiaxiao/wechatindex/rechargeorder?tag=' + tag + '&pid=' + id + '&actid={$aid}';
+            },
+        }
+    })
+</script>
+
+</body>
+</html>
+		

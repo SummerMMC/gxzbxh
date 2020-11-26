@@ -1,0 +1,156 @@
+<include file="public@header"/>
+<style type="text/css">
+    .pic-list li {
+        margin-bottom: 5px;
+    }
+</style>
+
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('AdminActivity/index')}">团购</a></li>
+    </ul>
+    <form action="{:url('AdminActivity/addPost')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
+        <div class="row">
+            <div class="col-md-9">
+                <table class="table table-bordered">
+                    <tr>
+                        <th width="100">活动名称<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="text" name="post[name]"
+                                   id="name" placeholder="请输入活动名称"
+                                   oninput="if(value.length>20)value=value.slice(0,50)"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th width="100">活动地址<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="text" name="post[url]"
+                                   id="url" placeholder="请输入活动地址"
+                                   oninput="if(value.length>20)value=value.slice(0,100)"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>驾校</th>
+                        <td>
+                            <input type="radio" value="0" name="schoolobj" onchange="getpid(0,0)"/>通用
+                            <foreach name="school" item="vo">
+                                <input type="radio" value="{$vo.id}" name="schoolobj"
+                                       onchange="getpid(1,'{$vo.id}')"/>{$vo.name}
+                            </foreach>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th width="100">产品<span class="form-required">*</span></th>
+                        <td>
+                            <div id="pdiv"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th width="100">活动产品<span class="form-required">*</span></th>
+                        <td>
+                            <div id="padiv"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th width="100">二维码<span class="form-required">*</span></th>
+                        <td>
+                            <div id="qrcode"></div>
+                            <input type="hidden" id="fqrcode" name="post[qrcode]">
+                            <a href="javascript:void(0);" onclick="createqrcode();">生成二维码</a>
+                        </td>
+                    </tr>
+                </table>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('ADD')}</button>
+                        <a class="btn btn-default" href="{:url('AdminDriving/index')}">{:lang('BACK')}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+<script type="text/javascript">
+    //编辑器路径定义
+    var editorURL = GV.WEB_ROOT;
+</script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript" src="__TMPL__/public/assets/js/qrcode.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+    });
+    var formtag = 0;
+
+    /**
+     * 获取驾校下的产品
+     */
+    function getpid(tag, v, did) {
+        $.ajax({
+            type: 'post',
+            data: {
+                tag: tag,
+                sid: v
+            },
+            url: "{:url('portal/AdminActivity/getpid')}",
+            dataType: 'json',
+            success: function (rs) {
+                console.log(rs);
+                if (rs.code == 1) {
+                    if (rs.data.length <= 0) {
+                        alert("驾校无产品，请添加");
+                    } else {
+                        var html = "";
+                        for (i = 0; i < rs.data.length; i++) {
+                            html += "<div>" + rs.data[i].name + "---" + rs.data[i].price + "<a href='javascript:void(0);' onclick=\"addap(" + rs.data[i].id + ",'" + rs.data[i].name + "'," + rs.data[i].did + ");\">添加</a>" + "</div>";
+                        }
+                        $("#pdiv").html(html);
+                    }
+                } else {
+                    alert("操作失败");
+                }
+            }
+        })
+    }
+
+    function addap(id, name, did) {
+        this.formtag += 1;
+        var pddiv = "<div style='float: left;' id='paobjdiv_" + id + "'>" +
+            "<input type='hidden' name='paobj[" + this.formtag + "][apid]' value='" + id + "'/>" +
+            "<input type='hidden' name='paobj[" + this.formtag + "][adid]' value='" + did + "'/>" +
+            "<div>" + name + "</div>" +
+            "<div>上传图片[七牛]: <input name='paobj[" + this.formtag + "][apimg]' type='text'/></div>" +
+            "<div>定金: <input name='paobj[" + this.formtag + "][adeposit]'/></div>" +
+            "<div>活动价格: <input name='paobj[" + this.formtag + "][aprice]' type='text'/></div>" +
+            "<a href='javascript:void(0);' onclick='deletepa(\"paobjdiv_" + id + "\")'>删除</a>" +
+            "</div>";
+        $("#padiv").append(pddiv);
+    }
+
+    function deletepa(id) {
+        $("#" + id).remove();
+    }
+
+    function createqrcode() {
+        $url = $("#url").val();
+        $("#qrcode").html('');
+        if ($url == '' || $url == undefined) {
+            alert("活动地址不能为空");
+            return false;
+        }
+        var qrcode = new QRCode(document.getElementById("qrcode"), {
+            width: 320,//设置宽高
+            height: 320
+        });
+        qrcode.makeCode($url);
+        var canvas = $('#qrcode').find("canvas").get(0);
+        var url = canvas.toDataURL('image/jpeg');
+        $("#fqrcode").val(url);
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<div id="appnavs" class="haerh">
+    <div class="logo">
+        <div class="logo_left"><img src="__TMPL__/zbxh/public/assets/images/logo.png"></div>
+        <div class="logo_right">
+            <!--            <a href="javascript:void(0);" onclick="setHome(this,window.location)">设为首页</a> |-->
+            <a href="javascript:void(0);">联系电话：0771-5719066</a> |
+            <a href="javascript:void(0);" @mouseover="qrcode(1);" @mouseover="qrcode(1);"
+               @mouseout="qrcode(0);">扫码关注公众号</a>
+        </div>
+        <div :style="{display: showqr == 0?'none':'block'}" class="cxianshiyc">
+            <img src="__TMPL__/zbxh/public/assets/images/qrcode.jpg">
+        </div>
+    </div>
+
+
+    <div class="navbj">
+        <div class="nav">
+            <ul class="topnav">
+                <li :class="[{'moren':topcid==0},'']"><a href="/">网站首页</a></li>
+                <li v-for="item in menu" :class="[{'moren':topcid==item.topmenu.id},'']"
+                    @mouseover="conSonMenu($event,item.topmenu.id)" @mouseout="conSonMenuout()">
+                    <a v-if="item.topmenu.is_hit == 1" :href="'/zbxh/index/postlist?cid='+item.topmenu.id">{{item.topmenu.name}}</a>
+                    <a v-if="item.topmenu.is_hit == 2" href="javascript:void(0);">{{item.topmenu.name}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="items" :style="{display: (isshow==0?'none':'block')}" @mouseover="conSonMenu($event,menutag)"
+         @mouseout="conSonMenuout()">
+        <div class="items_sub">
+            <a v-for="item in sonmenu" :href="'/zbxh/index/postlist?cid='+item.id">{{item.name}}</a>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+    new Vue({
+        el: "#appnavs",
+        data: {
+            topcid: 0,
+            menu: [],
+            sonmenu: [],
+            isshow: 0,
+            menutag: 0,
+            showqr: 0,
+        },
+        methods: {
+            // ck(mx) {
+            //   this.activeName = mx;
+            // }
+        },
+        created() {
+            var tag = "{$topcid}";
+            console.log(tag)
+            if (tag !== null) {
+                this.topcid = tag;
+            }
+            this.getMenu();
+        },
+        methods: {
+            getMenu: function () {
+                var _self = this;
+                $.ajax({
+                    type: 'get',
+                    data: {},
+                    url: "{:url('/zbxh/index/getmenuajax')}",
+                    dataType: 'json',
+                    success: function (rs) {
+                        var tempmenulist = rs.data;
+                        var finalmenu = [];
+                        for (i = 0; i < tempmenulist.length; i++) {
+                            var topmenu;
+                            if (tempmenulist[i].parent_id == 0) {
+                                topmenu = tempmenulist[i];
+                                var temparra = [];
+                                for (j = 0; j < tempmenulist.length; j++) {
+                                    if (tempmenulist[j].parent_id == tempmenulist[i].id) {
+                                        temparra.push(tempmenulist[j]);
+                                    }
+                                }
+                                finalmenu.push({
+                                    'topmenu': topmenu,
+                                    'sonmenu': temparra
+                                })
+                            } else {
+                                continue;
+                            }
+                        }
+                        _self.menu = finalmenu;
+                    }
+                })
+            },
+            conSonMenu: function ($event, id) {
+                for (i = 0; i < this.menu.length; i++) {
+                    if (this.menu[i].topmenu.id == id) {
+                        if (this.menu[i].sonmenu.length > 0) {
+                            this.isshow = 1;
+                            this.menutag = id;
+                            this.sonmenu = this.menu[i].sonmenu;
+                        } else {
+                            this.isshow = 0;
+                        }
+                    }
+                }
+
+            },
+            conSonMenuout: function () {
+                this.isshow = 0;
+            },
+            qrcode: function (tag) {
+                this.showqr = tag;
+            }
+
+        }
+    })
+</script>
