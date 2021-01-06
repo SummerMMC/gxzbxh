@@ -46,7 +46,7 @@
                     <li v-for="(item,key) in hotdata">
                         <span class="bj" v-if="key<=2">{{key+1}}</span>
                         <span v-if="key>2" class="bj1">{{key+1}}</span>
-                        <a :href="'/zbxh/index/post?pid='+item.post_id">{{item.post_title}}</a>
+                        <a :href="'/zbxh/index/post/pid/'+item.post_id+'.html'">{{item.post_title}}</a>
                     </li>
                 </ul>
             </div>

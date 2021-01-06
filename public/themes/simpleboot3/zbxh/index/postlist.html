@@ -22,12 +22,12 @@
                     <if condition="$cid == $vo.id">
                         <li class="slelct">
                             <img src="__TMPL__/zbxh/public/assets/images/25.png" width="10">
-                            <a :href="'/zbxh/index/postlist?cid='+{$vo.id}">{$vo.name}</a>
+                            <a :href="'/zbxh/index/postlist/cid/'+{$vo.id}+'.html'">{$vo.name}</a>
                         </li>
                         <else/>
                         <li>
                             <img src="__TMPL__/zbxh/public/assets/images/25.png" width="10">
-                            <a :href="'/zbxh/index/postlist?cid='+{$vo.id}">{$vo.name}</a>
+                            <a :href="'/zbxh/index/postlist/cid/'+{$vo.id}+'.html'">{$vo.name}</a>
                         </li>
                     </if>
                 </foreach>
@@ -38,7 +38,7 @@
             <ul class="postlist">
                 <foreach name="postlist" item="vo">
                     <li>
-                        <a href="/zbxh/index/post?pid={$vo.post_id}">
+                        <a href="/zbxh/index/post/pid/{$vo.post_id}.html">
                             <h3><span>{:date("Y-m-d H:i",$vo.published_time)}</span>{$vo.post_title}</h3>
                         </a>
                     </li>
@@ -53,7 +53,7 @@
                 <li v-for="(item,key) in hotdata">
                     <span class="bj" v-if="key<=2">{{key+1}}</span>
                     <span v-if="key>2" class="bj1">{{key+1}}</span>
-                    <a :href="'/zbxh/index/post?pid='+item.post_id">{{item.post_title}}</a>
+                    <a :href="'/zbxh/index/post/pid/'+item.post_id+'.html'">{{item.post_title}}</a>
                 </li>
             </ul>
         </div>
