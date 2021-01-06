@@ -19,7 +19,7 @@
                 <li :class="[{'moren':topcid==0},'']"><a href="/">网站首页</a></li>
                 <li v-for="item in menu" :class="[{'moren':topcid==item.topmenu.id},'']"
                     @mouseover="conSonMenu($event,item.topmenu.id)" @mouseout="conSonMenuout()">
-                    <a v-if="item.topmenu.is_hit == 1" :href="'/zbxh/index/postlist?cid='+item.topmenu.id">{{item.topmenu.name}}</a>
+                    <a v-if="item.topmenu.is_hit == 1" :href="'/zbxh/index/postlist/cid/'+item.topmenu.id+'.html'">{{item.topmenu.name}}</a>
                     <a v-if="item.topmenu.is_hit == 2" href="javascript:void(0);">{{item.topmenu.name}}</a>
                 </li>
             </ul>
@@ -29,7 +29,7 @@
     <div class="items" :style="{display: (isshow==0?'none':'block')}" @mouseover="conSonMenu($event,menutag)"
          @mouseout="conSonMenuout()">
         <div class="items_sub">
-            <a v-for="item in sonmenu" :href="'/zbxh/index/postlist?cid='+item.id">{{item.name}}</a>
+            <a v-for="item in sonmenu" :href="'/zbxh/index/postlist/cid/'+item.id+'.html'">{{item.name}}</a>
         </div>
     </div>
 
