@@ -195,7 +195,7 @@
 <script type="text/javascript">
     $(function () {
         editorcontent = new baidu.editor.ui.Editor();
-        editorcontentwx = new baidu.editor.ui.Editor({initialFrameWidth:415});
+        editorcontentwx = new baidu.editor.ui.Editor({initialFrameWidth:415,maximumWords:65535,});
         editorcontent.render('content');
         editorcontentwx.render('wxcontent');
         try {
