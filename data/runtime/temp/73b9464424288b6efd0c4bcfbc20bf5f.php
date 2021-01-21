@@ -1,14 +1,198 @@
+<?php /*a:5:{s:82:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/index/index.html";i:1609906608;s:85:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/head.html";i:1609907678;s:81:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/public/function.html";i:1586872333;s:84:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/nav.html";i:1609907115;s:87:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/footer.html";i:1602490153;}*/ ?>
 <!doctype html>
 <html>
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=1024"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <include file="../public/head"/>
+    
+<?php 
+    /*可以加多个方法哟！*/
+    if (!function_exists('_sp_helloworld')) {
+        function _sp_helloworld(){
+        echo "hello ThinkCMF!";
+        }
+    }
+
+    if (!function_exists('_sp_helloworld2')) {
+        function _sp_helloworld2(){
+        echo "hello ThinkCMF2!";
+        }
+    }
+
+    if (!function_exists('_sp_helloworld3')) {
+        function _sp_helloworld3(){
+        echo "hello ThinkCMF3!";
+        }
+    }
+ ?>
+<meta name="author" content="ThinkCMF">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<!-- Set render engine for 360 browser -->
+<meta name="renderer" content="webkit">
+
+<!-- No Baidu Siteapp-->
+<meta http-equiv="Cache-Control" content="no-siteapp"/>
+<title><?php echo $site_info['site_name']; ?></title>
+<meta name="keywords" content="广西珠宝,广西珠宝行业,广西珠宝协会">
+<meta name="description" content="为“广西珠宝协会”，简称“桂宝协”，英文名称“Jewelry Association of GuangXi”缩写为“JAG”。是由广西珠宝玉石首饰行业的企业、相关机构及珠宝界的知名人士、珠宝爱好者自愿结成的广西全区性、行业性社会团体，是非营利性社会组织。">
+<!-- HTML5 shim for IE8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<![endif]-->
+<link rel="icon" href="/themes/simpleboot3/public/assets/images/favicon.png" type="image/png">
+<link rel="shortcut icon" href="/themes/simpleboot3/public/assets/images/favicon.png" type="image/png">
+
+<!--[if IE 7]>
+<link rel="stylesheet" href="/themes/simpleboot3/public/assets/simpleboot3/font-awesome/4.4.0/css/font-awesome-ie7.min.css">
+<![endif]-->
+
+
+<script type="text/javascript">
+    //全局变量
+    var GV = {
+        ROOT: "/",
+        WEB_ROOT: "/",
+        JS_ROOT: "static/js/"
+    };
+</script>
+
+
+<link rel="stylesheet" type="text/css" href="/themes/simpleboot3/zbxh/public/assets/css/css.css?v=001"/>
+<script src="http://qiniu-jiaxiao.henbaoli.com/js/jquery-1.11.0.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="http://qiniu-jiaxiao.henbaoli.com/js/vue.js"></script>
+
+<script src="/themes/simpleboot3/zbxh/public/assets/js/tab_dongt.min.js"  type="text/javascript"></script>
+
+
+
+
+	
     <meta name="description" content=""/>
 </head>
 <body>
-<include file="../public/nav"/>
+<div id="appnavs" class="haerh">
+    <div class="logo">
+        <div class="logo_left"><img src="/themes/simpleboot3/zbxh/public/assets/images/logo.png"></div>
+        <div class="logo_right">
+            <!--            <a href="javascript:void(0);" onclick="setHome(this,window.location)">设为首页</a> |-->
+            <a href="javascript:void(0);">联系电话：0771-5719066</a> |
+            <a href="javascript:void(0);" @mouseover="qrcode(1);" @mouseover="qrcode(1);"
+               @mouseout="qrcode(0);">扫码关注公众号</a>
+        </div>
+        <div :style="{display: showqr == 0?'none':'block'}" class="cxianshiyc">
+            <img src="/themes/simpleboot3/zbxh/public/assets/images/qrcode.jpg">
+        </div>
+    </div>
+
+
+    <div class="navbj">
+        <div class="nav">
+            <ul class="topnav">
+                <li :class="[{'moren':topcid==0},'']"><a href="/">网站首页</a></li>
+                <li v-for="item in menu" :class="[{'moren':topcid==item.topmenu.id},'']"
+                    @mouseover="conSonMenu($event,item.topmenu.id)" @mouseout="conSonMenuout()">
+                    <a v-if="item.topmenu.is_hit == 1" :href="'/zbxh/index/postlist/cid/'+item.topmenu.id+'.html'">{{item.topmenu.name}}</a>
+                    <a v-if="item.topmenu.is_hit == 2" href="javascript:void(0);">{{item.topmenu.name}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="items" :style="{display: (isshow==0?'none':'block')}" @mouseover="conSonMenu($event,menutag)"
+         @mouseout="conSonMenuout()">
+        <div class="items_sub">
+            <a v-for="item in sonmenu" :href="'/zbxh/index/postlist/cid/'+item.id+'.html'">{{item.name}}</a>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+    new Vue({
+        el: "#appnavs",
+        data: {
+            topcid: 0,
+            menu: [],
+            sonmenu: [],
+            isshow: 0,
+            menutag: 0,
+            showqr: 0,
+        },
+        methods: {
+            // ck(mx) {
+            //   this.activeName = mx;
+            // }
+        },
+        created() {
+            var tag = "<?php echo $topcid; ?>";
+            console.log(tag)
+            if (tag !== null) {
+                this.topcid = tag;
+            }
+            this.getMenu();
+        },
+        methods: {
+            getMenu: function () {
+                var _self = this;
+                $.ajax({
+                    type: 'get',
+                    data: {},
+                    url: "<?php echo url('/zbxh/index/getmenuajax'); ?>",
+                    dataType: 'json',
+                    success: function (rs) {
+                        var tempmenulist = rs.data;
+                        var finalmenu = [];
+                        for (i = 0; i < tempmenulist.length; i++) {
+                            var topmenu;
+                            if (tempmenulist[i].parent_id == 0) {
+                                topmenu = tempmenulist[i];
+                                var temparra = [];
+                                for (j = 0; j < tempmenulist.length; j++) {
+                                    if (tempmenulist[j].parent_id == tempmenulist[i].id) {
+                                        temparra.push(tempmenulist[j]);
+                                    }
+                                }
+                                finalmenu.push({
+                                    'topmenu': topmenu,
+                                    'sonmenu': temparra
+                                })
+                            } else {
+                                continue;
+                            }
+                        }
+                        _self.menu = finalmenu;
+                    }
+                })
+            },
+            conSonMenu: function ($event, id) {
+                for (i = 0; i < this.menu.length; i++) {
+                    if (this.menu[i].topmenu.id == id) {
+                        if (this.menu[i].sonmenu.length > 0) {
+                            this.isshow = 1;
+                            this.menutag = id;
+                            this.sonmenu = this.menu[i].sonmenu;
+                        } else {
+                            this.isshow = 0;
+                        }
+                    }
+                }
+
+            },
+            conSonMenuout: function () {
+                this.isshow = 0;
+            },
+            qrcode: function (tag) {
+                this.showqr = tag;
+            }
+
+        }
+    })
+</script>
 
 <div id="index">
     <div class="bannert">
@@ -103,7 +287,7 @@
                     </li>
                     <li v-for="(item,key) in rsxhmenu" v-if="key > 0" class="bj_jkh"><a
                             :href="'/zbxh/index/postlist/cid/'+item.id+'.html'"><img
-                            src="__TMPL__/zbxh/public/assets/images/25.png" width="10"> {{item.name}}</a></li>
+                            src="/themes/simpleboot3/zbxh/public/assets/images/25.png" width="10"> {{item.name}}</a></li>
                 </ul>
             </div>
         </div>
@@ -257,7 +441,7 @@
                 </h3>
                 <ul class="main_lists">
                     <li class="bj_jkh">
-                        <a :href="'/zbxh/index/postlist/cid/27.html'"><img src="__TMPL__/zbxh/public/assets/images/25.png"
+                        <a :href="'/zbxh/index/postlist/cid/27.html'"><img src="/themes/simpleboot3/zbxh/public/assets/images/25.png"
                                                                       width="10"> 入会指南 </a>
                     </li>
                     </li>
@@ -334,7 +518,20 @@
 </div>
 
 <!--内容-->
-<include file="../public/footer"/>
+
+ <!--footer-->
+  <div class="footer">
+ 	 <div>版权所有©广西珠宝协会，All Rights Reserved，桂ICP备11005654号</div>
+ 	 <div>地址：南宁市兴宁区苏州路15号南方大厦4楼</div>
+ 	 <div>电话：0771-5719066 传真：0771-5719066 邮编:530022 电子邮箱：2510909513@qq.com</div>
+ 	 <div class="imagesty"><img src="/themes/simpleboot3/zbxh/public/assets/images/110.jpg"> <img src="/themes/simpleboot3/zbxh/public/assets/images/zx.jpg"></div>
+  </div>
+ <!--footer-->
+ 
+
+ 
+<script>
+</script>
 <script>
     //青秀区
     var app = new Vue({
@@ -356,7 +553,7 @@
             tzgglist: [],
         },
         created: function () {
-            // this.getalldata();
+            this.getalldata();
         },
         methods: {
             getalldata: function () {
@@ -384,7 +581,7 @@
                         tzgglimit: 5,
                         zyrcmid: 21,
                     },
-                    url: "{:url('/zbxh/index/getAlldate')}",
+                    url: "<?php echo url('/zbxh/index/getAlldate'); ?>",
                     dataType: 'json',
                     success: function (rs) {
                         console.log(rs);
@@ -412,7 +609,7 @@
                 $.ajax({
                     type: 'get',
                     data: {mid: 21},
-                    url: "{:url('/zbxh/index/getMenuAjax')}",
+                    url: "<?php echo url('/zbxh/index/getMenuAjax'); ?>",
                     dataType: 'json',
                     success: function (rs) {
                         if (rs.code == -1) {

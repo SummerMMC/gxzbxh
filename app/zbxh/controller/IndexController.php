@@ -34,6 +34,11 @@ class IndexController extends HomeOtherBaseController
         return $this->fetch('index');
     }
 
+    public function test()
+    {
+        return $this->fetch("test");
+    }
+
     public function getAlldate()
     {
         $param = $this->request->param();
@@ -79,11 +84,10 @@ class IndexController extends HomeOtherBaseController
         //通知公告
         $alldata['tzgglist'] = $this->getlistdata($param['tzggcid'], $param['tzgglimit']);
         //专业人才
-        if (array_key_exists("zyrcmid", $param)) {
-            $alldata['zyrcmenu'] = $this->getMenu($param["zyrcmid"]);
-        } else {
-            $alldata['zyrcmenu'] = $this->getMenu(0);
-        }
+        $alldata['zyrcmenu'] = $this->getMenu(21);
+
+        $this->assign("alldata", $alldata);
+
         return $this->echoSuccess($alldata);
     }
 
