@@ -1,4 +1,4 @@
-<?php /*a:5:{s:82:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/index/index.html";i:1609906608;s:85:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/head.html";i:1609907678;s:81:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/public/function.html";i:1586872333;s:84:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/nav.html";i:1609907115;s:87:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/footer.html";i:1602490153;}*/ ?>
+<?php /*a:5:{s:82:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/index/index.html";i:1611373389;s:85:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/head.html";i:1609907678;s:81:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/public/function.html";i:1586872333;s:84:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/nav.html";i:1609907115;s:87:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/footer.html";i:1602490153;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -222,11 +222,16 @@
                 热点关注
             </h3>
             <ul class="con_tuju">
-                <li v-for="(item,key) in hotdata">
-                    <span class="bj" v-if="key<=2">{{key+1}}</span>
-                    <span v-if="key>2" class="bj1">{{key+1}}</span>
-                    <a :href="'/zbxh/index/post/pid/'+item.post_id+'.html'">{{item.post_title}}</a>
-                </li>
+                <?php if(is_array($alldata['hotdata']) || $alldata['hotdata'] instanceof \think\Collection || $alldata['hotdata'] instanceof \think\Paginator): if( count($alldata['hotdata'])==0 ) : echo "" ;else: foreach($alldata['hotdata'] as $key=>$vo): ?>
+                    <li>
+                        <?php if($key <= 2): ?>
+                            <span class="bj"><?php echo $key+1; ?></span>
+                            <?php else: ?>
+                            <span class="bj1"><?php echo $key+1; ?></span>
+                        <?php endif; ?>
+                        <a :href="'/zbxh/index/post/pid/'+<?php echo $vo['post_id']; ?>+'.html'"><?php echo $vo['post_title']; ?></a>
+                    </li>
+                <?php endforeach; endif; else: echo "" ;endif; ?>
             </ul>
         </div>
     </div>
@@ -236,33 +241,48 @@
             <div class="main_one_l">
                 <ul class="main_title">
                     <li class="morest"><a href="java:script:void(0);">资讯中心</a></li>
-                    <li v-for="item in zxzxmenu"><a :href="'/zbxh/index/postlist/cid/'+item.id+'.html'">{{item.name}}</a></li>
+                    <?php if(is_array($alldata['zxzxmenu']) || $alldata['zxzxmenu'] instanceof \think\Collection || $alldata['zxzxmenu'] instanceof \think\Paginator): if( count($alldata['zxzxmenu'])==0 ) : echo "" ;else: foreach($alldata['zxzxmenu'] as $key=>$vo): ?>
+                        <li><a
+                                :href="'/zbxh/index/postlist/cid/'+<?php echo $vo['id']; ?>+'.html'"><?php echo $vo['name']; ?></a></li>
+                    <?php endforeach; endif; else: echo "" ;endif; ?>
                 </ul>
 
                 <div class="main_sub">
                     <div class="main_sub_l">
-                        <dl class="imgst" v-for="(item,key) in zxzxlist" v-if="key == 0">
-                            <dd><a :href="'/zbxh/index/post/pid/'+item.post_id+'.html'"><img :src="item.thumbnail"></a></dd>
-                            <dt><a :href="'/zbxh/index/post/pid/'+item.post_id+'.html'">{{item.post_title}}</a></dt>
-                        </dl>
+                        <?php if(is_array($alldata['zxzx']['data']) || $alldata['zxzx']['data'] instanceof \think\Collection || $alldata['zxzx']['data'] instanceof \think\Paginator): if( count($alldata['zxzx']['data'])==0 ) : echo "" ;else: foreach($alldata['zxzx']['data'] as $key=>$vo): if($key == 0): ?>
+                                <dl class="imgst">
+                                    <dd>
+                                        <a href="/zbxh/index/post/pid/<?php echo $vo['post_id']; ?>.html"><img
+                                                src="<?php echo $vo['thumbnail']; ?>"></a>
+                                    </dd>
+                                    <dt><a :href="'/zbxh/index/post/pid/'+<?php echo $vo['post_id']; ?>+'.html'"><?php echo $vo['post_title']; ?></a>
+                                    </dt>
+                                </dl>
+                            <?php endif; ?>
+                        <?php endforeach; endif; else: echo "" ;endif; ?>
                         <ul class="imgst_foot imgst_footmar">
-                            <li class="fl" v-for="(item,key) in zxzxlist" v-if="key >0 && key <= 2">
-                                <a :href="'/zbxh/index/post/pid/'+item.post_id+'.html'">
-                                    <img :src="item.thumbnail">
-                                    <div class="tit">{{item.post_title}}</div>
-                                </a>
-                            </li>
+                            <?php if(is_array($alldata['zxzx']['data']) || $alldata['zxzx']['data'] instanceof \think\Collection || $alldata['zxzx']['data'] instanceof \think\Paginator): if( count($alldata['zxzx']['data'])==0 ) : echo "" ;else: foreach($alldata['zxzx']['data'] as $zxzx_tag=>$vo): if(($zxzx_tag <= 2)): if(($zxzx_tag != 0)): ?>
+                                        <li class="fl">
+                                            <a href="/zbxh/index/post/pid/<?php echo $vo['post_id']; ?>.html">
+                                                <img src="<?php echo $vo['thumbnail']; ?>">
+                                                <div class="tit"><?php echo $vo['post_title']; ?></div>
+                                            </a>
+                                        </li>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                            <?php endforeach; endif; else: echo "" ;endif; ?>
                         </ul>
                     </div>
                     <div class="main_sub_r">
                         <ul class="main_lists">
-                            <li v-for="(item,key) in zxzxlist" v-if="key > 2">
-                                <a :href="'/zbxh/index/post/pid/'+item.post_id+'.html'">
-                                    <h3>{{item.post_title}}</h3>
-                                    <p>{{item.post_excerpt}}</p>
-                                </a>
-                            </li>
-
+                            <?php if(is_array($alldata['zxzx']['data']) || $alldata['zxzx']['data'] instanceof \think\Collection || $alldata['zxzx']['data'] instanceof \think\Paginator): if( count($alldata['zxzx']['data'])==0 ) : echo "" ;else: foreach($alldata['zxzx']['data'] as $zxzx_tag=>$vo): ?>
+                                <li v-if="<?php echo $zxzx_tag; ?> > 2">
+                                    <a href="'/zbxh/index/post/pid/item.post_id.html">
+                                        <h3><?php echo $vo['post_title']; ?></h3>
+                                        <p><?php echo $vo['post_excerpt']; ?></p>
+                                    </a>
+                                </li>
+                            <?php endforeach; endif; else: echo "" ;endif; ?>
                         </ul>
                     </div>
                 </div>
@@ -273,21 +293,26 @@
                     认识协会
                 </h3>
                 <ul class="side_groups">
-                    <li v-for="(item,key) in rsxhmenu" v-if="key == 0">
-                        <div class="fix">
-                            <div class="suanmen_img"><a href="#"><img id="targetImage" :src="item.more"
-                                                                      width="75" height="102"></a></div>
-                            <div class="cell">
-                                <a :href="'/zbxh/index/postlist/cid/'+item.id+'.html'" class="anrong">
-                                    <h3>{{item.name}}</h3>
-                                    <p>{{item.description}}</p>
-                                </a>
-                            </div>
-                        </div>
-                    </li>
-                    <li v-for="(item,key) in rsxhmenu" v-if="key > 0" class="bj_jkh"><a
-                            :href="'/zbxh/index/postlist/cid/'+item.id+'.html'"><img
-                            src="/themes/simpleboot3/zbxh/public/assets/images/25.png" width="10"> {{item.name}}</a></li>
+                    <?php if(is_array($alldata['rsxhmenu']) || $alldata['rsxhmenu'] instanceof \think\Collection || $alldata['rsxhmenu'] instanceof \think\Paginator): if( count($alldata['rsxhmenu'])==0 ) : echo "" ;else: foreach($alldata['rsxhmenu'] as $key=>$vo): if($key == 0): ?>
+                            <li>
+                                <div class="fix">
+                                    <div class="suanmen_img"><a href="#"><img id="targetImage" src="<?php echo $vo['more']; ?>"
+                                                                              width="75" height="102"></a></div>
+                                    <div class="cell">
+                                        <a :href="'/zbxh/index/postlist/cid/'+<?php echo $vo['id']; ?>+'.html'" class="anrong">
+                                            <h3><?php echo $vo['name']; ?></h3>
+                                            <p><?php echo $vo['description']; ?></p>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                        <?php endif; ?>
+                    <?php endforeach; endif; else: echo "" ;endif; if(is_array($alldata['rsxhmenu']) || $alldata['rsxhmenu'] instanceof \think\Collection || $alldata['rsxhmenu'] instanceof \think\Paginator): if( count($alldata['rsxhmenu'])==0 ) : echo "" ;else: foreach($alldata['rsxhmenu'] as $key=>$vo): if($key != 0): ?>
+                            <li class="bj_jkh"><a
+                                    :href="'/zbxh/index/postlist/cid/'+<?php echo $vo['id']; ?>+'.html'"><img
+                                    src="/themes/simpleboot3/zbxh/public/assets/images/25.png" width="10"> <?php echo $vo['name']; ?></a></li>
+                        <?php endif; ?>
+                    <?php endforeach; endif; else: echo "" ;endif; ?>
                 </ul>
             </div>
         </div>
@@ -296,29 +321,34 @@
         <!--公告-->
         <div class="main_one">
             <div class="main_one_l">
-
-
                 <div class="index_suer_float">
                     <h3 class="titlest">
                         <a :href="'/zbxh/index/postlist/cid/9.html'">更多</a> 协会动态
                     </h3>
-<!--                    <ul class="main_lists">-->
-<!--                        <li v-for="(item,key) in xhdtlist" class="notes mst16"><a-->
-<!--                                :href="'/zbxh/index/post?pid='+item.post_id">{{item.post_title}}</a>-->
-<!--                        </li>-->
-<!--                    </ul>-->
-                    <dl class="imgst useryh_l" v-for="(item,key) in xhdtlist" v-if="key == 0">
-                        <dd><a :href="'/zbxh/index/post/pid/'+item.post_id+'.html'"><img :src="item.thumbnail"
-                                                                                 style="width:180px ; height: 192px;"></a>
-                        </dd>
-                        <dt class="titlstno"><a :href="'/zbxh/index/post/pid/'+item.post_id+'.html'">{{item.post_title}}</a>
-                        </dt>
-                    </dl>
+                    <!--                    <ul class="main_lists">-->
+                    <!--                        <li v-for="(item,key) in xhdtlist" class="notes mst16"><a-->
+                    <!--                                :href="'/zbxh/index/post?pid='+item.post_id">{{item.post_title}}</a>-->
+                    <!--                        </li>-->
+                    <!--                    </ul>-->
+                    <?php if(is_array($alldata['xhdtlist']) || $alldata['xhdtlist'] instanceof \think\Collection || $alldata['xhdtlist'] instanceof \think\Paginator): if( count($alldata['xhdtlist'])==0 ) : echo "" ;else: foreach($alldata['xhdtlist'] as $key=>$vo): if($key == 0): ?>
+                            <dl class="imgst useryh_l">
+                                <dd><a :href="'/zbxh/index/post/pid/'+<?php echo $vo['post_id']; ?>+'.html'"><img src="<?php echo $vo['thumbnail']; ?>"
+                                                                                                  style="width:180px ; height: 192px;"></a>
+                                </dd>
+                                <dt class="titlstno"><a
+                                        :href="'/zbxh/index/post/pid/'+<?php echo $vo['post_id']; ?>+'.html'"><?php echo $vo['post_title']; ?></a>
+                                </dt>
+                            </dl>
+                        <?php endif; ?>
+                    <?php endforeach; endif; else: echo "" ;endif; ?>
                     <div class="useryh_r">
                         <ul class="main_lists">
-                            <li v-for="(item,key) in xhdtlist" v-if="key > 0" class="notes"><a
-                                    :href="'/zbxh/index/post/pid/'+item.post_id+'.html'">{{item.post_title}}</a>
-                            </li>
+                            <?php if(is_array($alldata['xhdtlist']) || $alldata['xhdtlist'] instanceof \think\Collection || $alldata['xhdtlist'] instanceof \think\Paginator): if( count($alldata['xhdtlist'])==0 ) : echo "" ;else: foreach($alldata['xhdtlist'] as $key=>$vo): if($key != 0): ?>
+                                    <li class="notes"><a
+                                            :href="'/zbxh/index/post/pid/'+<?php echo $vo['post_id']; ?>+'.html'"><?php echo $vo['post_title']; ?></a>
+                                    </li>
+                                <?php endif; ?>
+                            <?php endforeach; endif; else: echo "" ;endif; ?>
                         </ul>
                     </div>
                 </div>
@@ -327,23 +357,30 @@
                     <h3 class="titlest">
                         <a :href="'/zbxh/index/postlist/cid/5.html'">更多</a> 通知公告
                     </h3>
-<!--                    <ul class="main_lists  ">-->
-<!--                        <li v-for="(item,key) in tzgglist" class="notes mst16"><a-->
-<!--                                :href="'/zbxh/index/post?pid='+item.post_id">{{item.post_title}}</a>-->
-<!--                        </li>-->
-<!--                    </ul>-->
-                    <dl class="imgst useryh_l" v-for="(item,key) in tzgglist" v-if="key == 0">
-                        <dd><a :href="'/zbxh/index/post/pid/'+item.post_id+'.html'"><img :src="item.thumbnail"
-                                                                                 style="width:180px ; height: 192px;"></a>
-                        </dd>
-                        <dt class="titlstno"><a :href="'/zbxh/index/post/pid/'+item.post_id+'.html'">{{item.post_title}}</a>
-                        </dt>
-                    </dl>
+                    <!--                    <ul class="main_lists  ">-->
+                    <!--                        <li v-for="(item,key) in tzgglist" class="notes mst16"><a-->
+                    <!--                                :href="'/zbxh/index/post?pid='+item.post_id">{{item.post_title}}</a>-->
+                    <!--                        </li>-->
+                    <!--                    </ul>-->
+                    <?php if(is_array($alldata['tzgglist']) || $alldata['tzgglist'] instanceof \think\Collection || $alldata['tzgglist'] instanceof \think\Paginator): if( count($alldata['tzgglist'])==0 ) : echo "" ;else: foreach($alldata['tzgglist'] as $key=>$vo): if($key == 0): ?>
+                            <dl class="imgst useryh_l">
+                                <dd><a :href="'/zbxh/index/post/pid/'+<?php echo $vo['post_id']; ?>+'.html'"><img src="<?php echo $vo['thumbnail']; ?>"
+                                                                                                  style="width:180px ; height: 192px;"></a>
+                                </dd>
+                                <dt class="titlstno"><a
+                                        :href="'/zbxh/index/post/pid/'+<?php echo $vo['post_id']; ?>+'.html'"><?php echo $vo['post_title']; ?></a>
+                                </dt>
+                            </dl>
+                        <?php endif; ?>
+                    <?php endforeach; endif; else: echo "" ;endif; ?>
                     <div class="useryh_r">
                         <ul class="main_lists">
-                            <li v-for="(item,key) in tzgglist" v-if="key > 0" class="notes"><a
-                                    :href="'/zbxh/index/post/pid/'+item.post_id+'.html'">{{item.post_title}}</a>
-                            </li>
+                            <?php if(is_array($alldata['tzgglist']) || $alldata['tzgglist'] instanceof \think\Collection || $alldata['tzgglist'] instanceof \think\Paginator): if( count($alldata['tzgglist'])==0 ) : echo "" ;else: foreach($alldata['tzgglist'] as $key=>$vo): if($key != 0): ?>
+                                    <li class="notes"><a
+                                            :href="'/zbxh/index/post/pid/'+<?php echo $vo['post_id']; ?>+'.html'"><?php echo $vo['post_title']; ?></a>
+                                    </li>
+                                <?php endif; ?>
+                            <?php endforeach; endif; else: echo "" ;endif; ?>
                         </ul>
                     </div>
                 </div>
@@ -353,19 +390,21 @@
                     <a :href="'/zbxh/index/postlist/cid/15.html'">更多</a> 会员活动
                 </h3>
                 <ul class="side_groups">
-                    <li v-for="(item,key) in hyhdlist">
-                        <div class="fix">
-                            <div class="suanmen_img"><a :href="'/zbxh/index/post/pid/'+item.post_id+'.html'"><img
-                                    id="targetImage" :src="item.thumbnail"
-                                    width="75" height="102"></a></div>
-                            <div class="cell">
-                                <a :href="'/zbxh/index/post/pid/'+item.post_id+'.html'" class="anrong">
-                                    <h3>{{item.post_title}}</h3>
-                                    <p class="jieduan">{{item.post_excerpt}}</p>
-                                </a>
+                    <?php if(is_array($alldata['hyhdlist']) || $alldata['hyhdlist'] instanceof \think\Collection || $alldata['hyhdlist'] instanceof \think\Paginator): if( count($alldata['hyhdlist'])==0 ) : echo "" ;else: foreach($alldata['hyhdlist'] as $key=>$vo): ?>
+                        <li>
+                            <div class="fix">
+                                <div class="suanmen_img"><a :href="'/zbxh/index/post/pid/'+<?php echo $vo['post_id']; ?>+'.html'"><img
+                                        id="targetImage" src="<?php echo $vo['thumbnail']; ?>"
+                                        width="75" height="102"></a></div>
+                                <div class="cell">
+                                    <a :href="'/zbxh/index/post/pid/'+<?php echo $vo['post_id']; ?>+'.html'" class="anrong">
+                                        <h3><?php echo $vo['post_title']; ?></h3>
+                                        <p class="jieduan"><?php echo $vo['post_excerpt']; ?></p>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                    </li>
+                        </li>
+                    <?php endforeach; endif; else: echo "" ;endif; ?>
                 </ul>
             </div>
         </div>
@@ -381,38 +420,50 @@
 
                 <div class="index_suer_float">
                     <h4 class="tisubt"><font><a :href="'/zbxh/index/postlist/cid/13.html'">更多</a></font>企业文化</h4>
-
-                    <dl class="imgst useryh_l" v-for="(item,key) in qywhlist" v-if="key == 0">
-                        <dd><a :href="'/zbxh/index/post/pid/'+item.post_id+'.html'"><img :src="item.thumbnail"
-                                                                                 style="width:180px ; height: 192px;"></a>
-                        </dd>
-                        <dt class="titlstno"><a :href="'/zbxh/index/post/pid/'+item.post_id+'.html'">{{item.post_title}}</a>
-                        </dt>
-                    </dl>
+                    <?php if(is_array($alldata['qywhlist']) || $alldata['qywhlist'] instanceof \think\Collection || $alldata['qywhlist'] instanceof \think\Paginator): if( count($alldata['qywhlist'])==0 ) : echo "" ;else: foreach($alldata['qywhlist'] as $key=>$vo): if($key == 0): ?>
+                            <dl class="imgst useryh_l">
+                                <dd><a :href="'/zbxh/index/post/pid/'+<?php echo $vo['post_id']; ?>+'.html'"><img src="<?php echo $vo['thumbnail']; ?>"
+                                                                                                  style="width:180px ; height: 192px;"></a>
+                                </dd>
+                                <dt class="titlstno"><a
+                                        :href="'/zbxh/index/post/pid/'+<?php echo $vo['post_id']; ?>+'.html'"><?php echo $vo['post_title']; ?></a>
+                                </dt>
+                            </dl>
+                        <?php endif; ?>
+                    <?php endforeach; endif; else: echo "" ;endif; ?>
                     <div class="useryh_r">
                         <ul class="main_lists">
-                            <li v-for="(item,key) in qywhlist" v-if="key > 0" class="notes"><a
-                                    :href="'/zbxh/index/post/pid/'+item.post_id+'.html'">{{item.post_title}}</a>
-                            </li>
+                            <?php if(is_array($alldata['qywhlist']) || $alldata['qywhlist'] instanceof \think\Collection || $alldata['qywhlist'] instanceof \think\Paginator): if( count($alldata['qywhlist'])==0 ) : echo "" ;else: foreach($alldata['qywhlist'] as $key=>$vo): if($key != 0): ?>
+                                    <li class="notes"><a
+                                            :href="'/zbxh/index/post/pid/'+<?php echo $vo['post_id']; ?>+'.html'"><?php echo $vo['post_title']; ?></a>
+                                    </li>
+                                <?php endif; ?>
+                            <?php endforeach; endif; else: echo "" ;endif; ?>
                         </ul>
                     </div>
                 </div>
 
                 <div class="index_suer_r">
                     <h4 class="tisubt"><font><a :href="'/zbxh/index/postlist/cid/14.html'">更多</a></font> 放心示范店</h4>
-
-                    <dl class="imgst useryh_l" v-for="(item,key) in fxsflist" v-if="key == 0">
-                        <dd><a :href="'/zbxh/index/post/pid/'+item.post_id+'.html'"><img :src="item.thumbnail"
-                                                                                 style="width:180px ; height: 192px;"></a>
-                        </dd>
-                        <dt class="titlstno"><a :href="'/zbxh/index/post/pid/'+item.post_id+'.html'">{{item.post_title}}</a>
-                        </dt>
-                    </dl>
+                    <?php if(is_array($alldata['fxsflist']) || $alldata['fxsflist'] instanceof \think\Collection || $alldata['fxsflist'] instanceof \think\Paginator): if( count($alldata['fxsflist'])==0 ) : echo "" ;else: foreach($alldata['fxsflist'] as $key=>$vo): if($key == 0): ?>
+                            <dl class="imgst useryh_l">
+                                <dd><a :href="'/zbxh/index/post/pid/'+<?php echo $vo['post_id']; ?>+'.html'"><img src="<?php echo $vo['thumbnail']; ?>"
+                                                                                                  style="width:180px ; height: 192px;"></a>
+                                </dd>
+                                <dt class="titlstno"><a
+                                        :href="'/zbxh/index/post/pid/'+<?php echo $vo['post_id']; ?>+'.html'"><?php echo $vo['post_title']; ?></a>
+                                </dt>
+                            </dl>
+                        <?php endif; ?>
+                    <?php endforeach; endif; else: echo "" ;endif; ?>
                     <div class="useryh_r">
                         <ul class="main_lists  ">
-                            <li v-for="(item,key) in fxsflist" v-if="key > 0" class="notes"><a
-                                    :href="'/zbxh/index/post/pid/'+item.post_id+'.html'">{{item.post_title}}</a>
-                            </li>
+                            <?php if(is_array($alldata['fxsflist']) || $alldata['fxsflist'] instanceof \think\Collection || $alldata['fxsflist'] instanceof \think\Paginator): if( count($alldata['fxsflist'])==0 ) : echo "" ;else: foreach($alldata['fxsflist'] as $key=>$vo): if($key != 0): ?>
+                                    <li class="notes"><a
+                                            :href="'/zbxh/index/post/pid/'+<?php echo $vo['post_id']; ?>+'.html'"><?php echo $vo['post_title']; ?></a>
+                                    </li>
+                                <?php endif; ?>
+                            <?php endforeach; endif; else: echo "" ;endif; ?>
                         </ul>
                     </div>
                 </div>
@@ -422,18 +473,20 @@
                     专业人才
                 </h3>
                 <ul class="side_groups">
-                    <li v-for="item in zyrcmenu">
-                        <div class="fix">
-                            <div class="suanmen_img"><a href="#"><img :src="item.more"
-                                                                      width="75" height="102"></a></div>
-                            <div class="cell">
-                                <a :href="'/zbxh/index/postlist/cid/'+item.id+'.html'" class="anrong">
-                                    <h3>{{item.name}}</h3>
-                                    <p class="ovhidec"> {{item.description}}</p>
-                                </a>
+                    <?php if(is_array($alldata['zyrcmenu']) || $alldata['zyrcmenu'] instanceof \think\Collection || $alldata['zyrcmenu'] instanceof \think\Paginator): if( count($alldata['zyrcmenu'])==0 ) : echo "" ;else: foreach($alldata['zyrcmenu'] as $key=>$vo): ?>
+                        <li>
+                            <div class="fix">
+                                <div class="suanmen_img"><a href="#"><img src="<?php echo $vo['more']; ?>"
+                                                                          width="75" height="102"></a></div>
+                                <div class="cell">
+                                    <a :href="'/zbxh/index/postlist/cid/'+<?php echo $vo['id']; ?>+'.html'" class="anrong">
+                                        <h3><?php echo $vo['name']; ?></h3>
+                                        <p class="ovhidec"><?php echo $vo['description']; ?></p>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                    </li>
+                        </li>
+                    <?php endforeach; endif; else: echo "" ;endif; ?>
                 </ul>
 
                 <h3 class="titlest" style="margin-top: 35px;">
@@ -441,8 +494,9 @@
                 </h3>
                 <ul class="main_lists">
                     <li class="bj_jkh">
-                        <a :href="'/zbxh/index/postlist/cid/27.html'"><img src="/themes/simpleboot3/zbxh/public/assets/images/25.png"
-                                                                      width="10"> 入会指南 </a>
+                        <a :href="'/zbxh/index/postlist/cid/27.html'"><img
+                                src="/themes/simpleboot3/zbxh/public/assets/images/25.png"
+                                width="10"> 入会指南 </a>
                     </li>
                     </li>
                 </ul>
@@ -459,51 +513,68 @@
             </ul>
             <div class="hdong">
                 <div class="hdong_l">
-
-                    <dl class="imgst hdong_l_l" v-for="(item,key) in hzhdlist" v-if="key == 0">
-                        <dd><a :href="'/zbxh/index/post/pid/'+item.post_id+'.html'"><img :src="item.thumbnail"
-                                                                                 style="width: 240px ;"></a></dd>
-                        <dt class="titlstno240"><a :href="'/zbxh/index/post/pid/'+item.post_id+'.html'">{{item.post_title}}</a>
-                        </dt>
-                    </dl>
+                    <?php if(is_array($alldata['hzhdlist']) || $alldata['hzhdlist'] instanceof \think\Collection || $alldata['hzhdlist'] instanceof \think\Paginator): if( count($alldata['hzhdlist'])==0 ) : echo "" ;else: foreach($alldata['hzhdlist'] as $key=>$vo): if($key == 0): ?>
+                            <dl class="imgst hdong_l_l">
+                                <dd><a :href="'/zbxh/index/post/pid/'+<?php echo $vo['post_id']; ?>+'.html'"><img src="<?php echo $vo['thumbnail']; ?>"
+                                                                                                  style="width: 240px ;"></a>
+                                </dd>
+                                <dt class="titlstno240"><a :href="'/zbxh/index/post/pid/'+<?php echo $vo['post_id']; ?>+'.html'"><?php echo $vo['post_title']; ?></a>
+                                </dt>
+                            </dl>
+                        <?php endif; ?>
+                    <?php endforeach; endif; else: echo "" ;endif; ?>
                     <div class="hdong_l_r">
                         <ul class="main_lists mtlist30 ">
-                            <li v-for="(item,key) in hzhdlist" v-if="key == 2">
-                                <a :href="'/zbxh/index/post/pid/'+item.post_id+'.html'">
-                                    <h3>{{item.post_title}}</h3>
-                                    <p>{{item.post_excerpt}}</p>
-                                </a>
-                            </li>
-                            <li v-for="(item,key) in hzhdlist" v-if="key == 3">
-                                <a :href="'/zbxh/index/post/pid/'+item.post_id+'.html'">
-                                    <h3>{{item.post_title}}</h3>
-                                    <p>{{item.post_excerpt}}</p>
-                                </a>
-                            </li>
+                            <?php if(is_array($alldata['hzhdlist']) || $alldata['hzhdlist'] instanceof \think\Collection || $alldata['hzhdlist'] instanceof \think\Paginator): if( count($alldata['hzhdlist'])==0 ) : echo "" ;else: foreach($alldata['hzhdlist'] as $key=>$vo): if($key == 2): ?>
+                                    <li>
+                                        <a :href="'/zbxh/index/post/pid/'+<?php echo $vo['post_id']; ?>+'.html'">
+                                            <h3><?php echo $vo['post_title']; ?></h3>
+                                            <p><?php echo $vo['post_excerpt']; ?></p>
+                                        </a>
+                                    </li>
+                                <?php endif; ?>
+                            <?php endforeach; endif; else: echo "" ;endif; if(is_array($alldata['hzhdlist']) || $alldata['hzhdlist'] instanceof \think\Collection || $alldata['hzhdlist'] instanceof \think\Paginator): if( count($alldata['hzhdlist'])==0 ) : echo "" ;else: foreach($alldata['hzhdlist'] as $key=>$vo): if($key == 3): ?>
+                                    <li>
+                                        <a :href="'/zbxh/index/post/pid/'+<?php echo $vo['post_id']; ?>+'.html'">
+                                            <h3><?php echo $vo['post_title']; ?></h3>
+                                            <p><?php echo $vo['post_excerpt']; ?></p>
+                                        </a>
+                                    </li>
+                                <?php endif; ?>
+                            <?php endforeach; endif; else: echo "" ;endif; ?>
                         </ul>
                     </div>
                 </div>
                 <div class="hdong_r">
-
-                    <dl class="imgst hdong_l_l" v-for="(item,key) in hzhdlist" v-if="key == 1">
-                        <dd><a :href="'/zbxh/index/post/pid/'+item.post_id+'.html'"><img :src="item.thumbnail"
-                                                                                 style="width: 240px ;"></a></dd>
-                        <dt class="titlstno240"><a href="###">{{item.post_title}}</a></dt>
-                    </dl>
+                    <?php if(is_array($alldata['hzhdlist']) || $alldata['hzhdlist'] instanceof \think\Collection || $alldata['hzhdlist'] instanceof \think\Paginator): if( count($alldata['hzhdlist'])==0 ) : echo "" ;else: foreach($alldata['hzhdlist'] as $key=>$vo): if($key == 1): ?>
+                            <dl class="imgst hdong_l_l">
+                                <dd><a :href="'/zbxh/index/post/pid/'+<?php echo $vo['post_id']; ?>+'.html'"><img src="<?php echo $vo['thumbnail']; ?>"
+                                                                                                  style="width: 240px ;"></a>
+                                </dd>
+                                <dt class="titlstno240"><a :href="'/zbxh/index/post/pid/'+<?php echo $vo['post_id']; ?>+'.html'"><?php echo $vo['post_title']; ?></a>
+                                </dt>
+                            </dl>
+                        <?php endif; ?>
+                    <?php endforeach; endif; else: echo "" ;endif; ?>
                     <div class="hdong_l_r">
                         <ul class="main_lists mtlist30 ">
-                            <li v-for="(item,key) in hzhdlist" v-if="key == 4">
-                                <a :href="'/zbxh/index/post/pid/'+item.post_id+'.html'">
-                                    <h3>{{item.post_title}}</h3>
-                                    <p>{{item.post_excerpt}}</p>
-                                </a>
-                            </li>
-                            <li v-for="(item,key) in hzhdlist" v-if="key == 5">
-                                <a :href="'/zbxh/index/post/pid/'+item.post_id+'.html'">
-                                    <h3>{{item.post_title}}</h3>
-                                    <p>{{item.post_excerpt}}</p>
-                                </a>
-                            </li>
+                            <?php if(is_array($alldata['hzhdlist']) || $alldata['hzhdlist'] instanceof \think\Collection || $alldata['hzhdlist'] instanceof \think\Paginator): if( count($alldata['hzhdlist'])==0 ) : echo "" ;else: foreach($alldata['hzhdlist'] as $key=>$vo): if($key == 4): ?>
+                                    <li>
+                                        <a :href="'/zbxh/index/post/pid/'+<?php echo $vo['post_id']; ?>+'.html'">
+                                            <h3><?php echo $vo['post_title']; ?></h3>
+                                            <p><?php echo $vo['post_excerpt']; ?></p>
+                                        </a>
+                                    </li>
+                                <?php endif; ?>
+                            <?php endforeach; endif; else: echo "" ;endif; if(is_array($alldata['hzhdlist']) || $alldata['hzhdlist'] instanceof \think\Collection || $alldata['hzhdlist'] instanceof \think\Paginator): if( count($alldata['hzhdlist'])==0 ) : echo "" ;else: foreach($alldata['hzhdlist'] as $key=>$vo): if($key == 5): ?>
+                                    <li>
+                                        <a :href="'/zbxh/index/post/pid/'+<?php echo $vo['post_id']; ?>+'.html'">
+                                            <h3><?php echo $vo['post_title']; ?></h3>
+                                            <p><?php echo $vo['post_excerpt']; ?></p>
+                                        </a>
+                                    </li>
+                                <?php endif; ?>
+                            <?php endforeach; endif; else: echo "" ;endif; ?>
                         </ul>
                     </div>
                 </div>
@@ -586,20 +657,20 @@
                     success: function (rs) {
                         console.log(rs);
                         if (rs.code == -1) {
-                            _self.hotdata = rs.data.hotdata.data;
+                            // _self.hotdata = rs.data.hotdata.data;
                             _self.image = rs.data.image.data;
                             _self.onepic = _self.image[0]
                             _self.tagimgid = _self.image[0].id;
-                            _self.zxzxmenu = rs.data.zxzxmenu;
-                            _self.zxzxlist = rs.data.zxzx.data;
-                            _self.rsxhmenu = rs.data.rsxhmenu;
-                            _self.qywhlist = rs.data.qywhlist.data;
-                            _self.fxsflist = rs.data.fxsflist.data;
-                            _self.hyhdlist = rs.data.hyhdlist.data;
-                            _self.hzhdlist = rs.data.hzhdlist.data;
-                            _self.xhdtlist = rs.data.xhdtlist.data;
-                            _self.tzgglist = rs.data.tzgglist.data;
-                            _self.zyrcmenu = rs.data.zyrcmenu;
+                            // _self.zxzxmenu = rs.data.zxzxmenu;
+                            // _self.zxzxlist = rs.data.zxzx.data;
+                            // _self.rsxhmenu = rs.data.rsxhmenu;
+                            // _self.qywhlist = rs.data.qywhlist.data;
+                            // _self.fxsflist = rs.data.fxsflist.data;
+                            // _self.hyhdlist = rs.data.hyhdlist.data;
+                            // _self.hzhdlist = rs.data.hzhdlist.data;
+                            // _self.xhdtlist = rs.data.xhdtlist.data;
+                            // _self.tzgglist = rs.data.tzgglist.data;
+                            // _self.zyrcmenu = rs.data.zyrcmenu;
                         }
                     }
                 })

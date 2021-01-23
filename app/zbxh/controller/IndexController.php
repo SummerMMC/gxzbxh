@@ -31,6 +31,41 @@ class IndexController extends HomeOtherBaseController
         } else {
             $this->assign("topcid", 0);
         }
+
+        $alldata = [];
+        //资讯中心菜单
+        $alldata['zxzxmenu'] = $this->getMenu(1);
+        //热点数据
+        $postmodel = new PortalPostModel();
+        $hotdatapostlist = $postmodel->getPortalHotList(10, "p.is_top desc,pcp.list_order desc,p.published_time desc");
+        $alldata['hotdata'] = $hotdatapostlist;
+
+        //资讯中心
+        $zxzxpostlist = $postmodel->getPortalListByCid(8, 7, "p.is_top desc,pcp.list_order desc,p.published_time desc");
+        foreach ($zxzxpostlist as $item) {
+            $item["thumbnail"] = cmf_get_image_url($item["thumbnail"]);
+        }
+        $alldata['zxzx'] = $zxzxpostlist->toArray();
+        //认识协会
+        $alldata['rsxhmenu'] = $this->getMenu(4);
+        //企业文化
+        $alldata['qywhlist'] = $this->getlistdata(13, 5);
+        //放心示范店
+        $alldata['fxsflist'] = $this->getlistdata(14, 5);
+        //会员活动
+        $alldata['hyhdlist'] = $this->getlistdata(15, 2);
+        //会展活动
+        $alldata['hzhdlist'] = $this->getlistdata(3, 6);
+        //协会动态
+        $alldata['xhdtlist'] = $this->getlistdata(9, 5);
+        //通知公告
+        $alldata['tzgglist'] = $this->getlistdata(5, 5);
+        //专业人才
+        $alldata['zyrcmenu'] = $this->getMenu(21);
+
+
+        $this->assign("alldata", $alldata);
+
         return $this->fetch('index');
     }
 
@@ -44,15 +79,15 @@ class IndexController extends HomeOtherBaseController
         $param = $this->request->param();
         $alldata = [];
         //资讯中心菜单
-        if (array_key_exists("zxzxmid", $param)) {
-            $alldata['zxzxmenu'] = $this->getMenu($param["zxzxmid"]);
-        } else {
-            $alldata['zxzxmenu'] = $this->getMenu(0);
-        }
+//        if (array_key_exists("zxzxmid", $param)) {
+//            $alldata['zxzxmenu'] = $this->getMenu($param["zxzxmid"]);
+//        } else {
+//            $alldata['zxzxmenu'] = $this->getMenu(0);
+//        }
         //热点数据
         $postmodel = new PortalPostModel();
-        $hotdatapostlist = $postmodel->getPortalHotList($param['hotlimit'], "p.is_top desc,pcp.list_order desc,p.published_time desc");
-        $alldata['hotdata'] = $hotdatapostlist;
+//        $hotdatapostlist = $postmodel->getPortalHotList($param['hotlimit'], "p.is_top desc,pcp.list_order desc,p.published_time desc");
+//        $alldata['hotdata'] = $hotdatapostlist;
         //首页图片
         $imagepostlist = $postmodel->getPortalImgList($param['imglimit'], "p.is_top desc,pcp.list_order desc,p.published_time desc");
         foreach ($imagepostlist as $item) {
@@ -60,31 +95,31 @@ class IndexController extends HomeOtherBaseController
         }
         $alldata['image'] = $imagepostlist;
         //资讯中心
-        $zxzxpostlist = $postmodel->getPortalListByCid($param['zxzxcid'], $param['zxzxlimit'], "p.is_top desc,pcp.list_order desc,p.published_time desc");
-        foreach ($zxzxpostlist as $item) {
-            $item["thumbnail"] = cmf_get_image_url($item["thumbnail"]);
-        }
-        $alldata['zxzx'] = $zxzxpostlist;
-        //认识协会
-        if (array_key_exists("rsxhmid", $param)) {
-            $alldata['rsxhmenu'] = $this->getMenu($param["rsxhmid"]);
-        } else {
-            $alldata['rsxhmenu'] = $this->getMenu(0);
-        }
-        //企业文化
-        $alldata['qywhlist'] = $this->getlistdata($param['qywhcid'], $param['qywhlimit']);
-        //放心示范店
-        $alldata['fxsflist'] = $this->getlistdata($param['fxsfcid'], $param['fxsflimit']);
-        //会员活动
-        $alldata['hyhdlist'] = $this->getlistdata($param['hyhdcid'], $param['hyhdlimit']);
-        //会展活动
-        $alldata['hzhdlist'] = $this->getlistdata($param['hzhdcid'], $param['hzhdlimit']);
-        //协会动态
-        $alldata['xhdtlist'] = $this->getlistdata($param['xhdtcid'], $param['xhdtlimit']);
-        //通知公告
-        $alldata['tzgglist'] = $this->getlistdata($param['tzggcid'], $param['tzgglimit']);
-        //专业人才
-        $alldata['zyrcmenu'] = $this->getMenu(21);
+//        $zxzxpostlist = $postmodel->getPortalListByCid($param['zxzxcid'], $param['zxzxlimit'], "p.is_top desc,pcp.list_order desc,p.published_time desc");
+//        foreach ($zxzxpostlist as $item) {
+//            $item["thumbnail"] = cmf_get_image_url($item["thumbnail"]);
+//        }
+//        $alldata['zxzx'] = $zxzxpostlist;
+//        //认识协会
+//        if (array_key_exists("rsxhmid", $param)) {
+//            $alldata['rsxhmenu'] = $this->getMenu($param["rsxhmid"]);
+//        } else {
+//            $alldata['rsxhmenu'] = $this->getMenu(0);
+//        }
+//        //企业文化
+//        $alldata['qywhlist'] = $this->getlistdata($param['qywhcid'], $param['qywhlimit']);
+//        //放心示范店
+//        $alldata['fxsflist'] = $this->getlistdata($param['fxsfcid'], $param['fxsflimit']);
+//        //会员活动
+//        $alldata['hyhdlist'] = $this->getlistdata($param['hyhdcid'], $param['hyhdlimit']);
+//        //会展活动
+//        $alldata['hzhdlist'] = $this->getlistdata($param['hzhdcid'], $param['hzhdlimit']);
+//        //协会动态
+//        $alldata['xhdtlist'] = $this->getlistdata($param['xhdtcid'], $param['xhdtlimit']);
+//        //通知公告
+//        $alldata['tzgglist'] = $this->getlistdata($param['tzggcid'], $param['tzgglimit']);
+//        //专业人才
+//        $alldata['zyrcmenu'] = $this->getMenu(21);
 
         $this->assign("alldata", $alldata);
 
