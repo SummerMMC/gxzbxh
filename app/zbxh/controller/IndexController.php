@@ -263,4 +263,28 @@ class IndexController extends HomeOtherBaseController
         $reurl = str_replace('.html', '', $reurl);
         return $this->redirect($reurl);
     }
+
+    public function baidutuisongapi()
+    {
+        $urls = array(
+            'http://www.gxzbxh.com/zbxh/index/index.html',
+            'http://www.gxzbxh.com/zbxh/index/postlist/cid/8.html',
+            'http://www.gxzbxh.com/zbxh/index/post/pid/168.html',
+        );
+        //新增一个数组
+        $urlsss = home_url(add_query_arg(array()));//WordPress的获取本页面url
+        $urls[0] = $urlsss; //向新数组中第零位新增一条数据
+        $api = 'http://data.zz.baidu.com/urls?site=www.gxzbxh.com&token=yLVT2XyHRceCxZZ3';//"xxx"为百度推送api的秘钥，人手一个
+        $ch = curl_init();
+        $options = array(
+            CURLOPT_URL => $api,
+            CURLOPT_POST => true,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POSTFIELDS => implode("\n", $urls),
+            CURLOPT_HTTPHEADER => array('Content-Type: text/plain'),
+        );
+        curl_setopt_array($ch, $options);
+        $result = curl_exec($ch);//上边这段是百度推送官方代码
+        var_dump($result);
+    }
 }
