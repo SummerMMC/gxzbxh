@@ -270,6 +270,11 @@ class IndexController extends HomeOtherBaseController
             'http://www.gxzbxh.com/zbxh/index/index.html',
             'http://www.gxzbxh.com/zbxh/index/postlist/cid/8.html',
             'http://www.gxzbxh.com/zbxh/index/post/pid/168.html',
+            'http://www.gxzbxh.com/zbxh/index/post/pid/186.html',
+            'http://www.gxzbxh.com/zbxh/index/post/pid/187.html',
+            'http://www.gxzbxh.com/zbxh/index/post/pid/185.html',
+            'http://www.gxzbxh.com/zbxh/index/post/pid/184.html',
+            'http://www.gxzbxh.com/zbxh/index/post/pid/178.html',
         );
         //新增一个数组
 //        $urlsss = home_url(add_query_arg(array()));//WordPress的获取本页面url
