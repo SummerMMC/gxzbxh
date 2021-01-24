@@ -272,8 +272,8 @@ class IndexController extends HomeOtherBaseController
             'http://www.gxzbxh.com/zbxh/index/post/pid/168.html',
         );
         //新增一个数组
-        $urlsss = home_url(add_query_arg(array()));//WordPress的获取本页面url
-        $urls[0] = $urlsss; //向新数组中第零位新增一条数据
+//        $urlsss = home_url(add_query_arg(array()));//WordPress的获取本页面url
+//        $urls[0] = $urlsss; //向新数组中第零位新增一条数据
         $api = 'http://data.zz.baidu.com/urls?site=www.gxzbxh.com&token=yLVT2XyHRceCxZZ3';//"xxx"为百度推送api的秘钥，人手一个
         $ch = curl_init();
         $options = array(
