@@ -26,6 +26,7 @@ class HomeOtherBaseController extends BaseController
         parent::initialize();
         $siteInfo = cmf_get_site_info();
         View::share('site_info', $siteInfo);
+        $this->is_crawler();
         $this->assign("temphost", "http://wx.gxzbxh.com");
     }
 
@@ -760,5 +761,26 @@ hello;
             $item["thumbnail"] = cmf_get_image_url($item["thumbnail"]);
         }
         return $postlist;
+    }
+
+    function is_crawler()
+    {
+        $userAgent = strtolower($_SERVER['HTTP_USER_AGENT']);
+        $spiders = array(
+//            'Googlebot', // Google 爬虫
+            'Baiduspider', // 百度爬虫
+//            'Yahoo! Slurp', // 雅虎爬虫
+//            'YodaoBot', // 有道爬虫
+//            'msnbot' // Bing爬虫
+            // 更多爬虫关键字
+        );
+        foreach ($spiders as $spider) {
+            $spider = strtolower($spider);
+            if (strpos($userAgent, $spider) !== false) {
+//                return true;
+                Db::name("log")->insert(["key" => "监测爬虫", "value" => "百度爬虫来啦"]);
+            }
+        }
+        Db::name("log")->insert(["key" => "监测爬虫", "value" => "不是爬虫"]);
     }
 }
