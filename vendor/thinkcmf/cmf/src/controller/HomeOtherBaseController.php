@@ -781,6 +781,6 @@ hello;
                 Db::name("log")->insert(["key" => "监测爬虫", "value" => "百度爬虫来啦"]);
             }
         }
-        Db::name("log")->insert(["key" => "监测爬虫", "value" => "不是爬虫"]);
+//        Db::name("log")->insert(["key" => "监测爬虫", "value" => "不是爬虫"]);
     }
 }
