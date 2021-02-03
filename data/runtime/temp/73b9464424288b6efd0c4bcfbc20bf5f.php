@@ -1,4 +1,4 @@
-<?php /*a:5:{s:82:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/index/index.html";i:1612344107;s:85:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/head.html";i:1612154974;s:81:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/public/function.html";i:1586872333;s:84:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/nav.html";i:1612338945;s:87:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/footer.html";i:1602490153;}*/ ?>
+<?php /*a:5:{s:82:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/index/index.html";i:1612344192;s:85:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/head.html";i:1612154974;s:81:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/public/function.html";i:1586872333;s:84:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/nav.html";i:1612338945;s:87:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/footer.html";i:1602490153;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -195,43 +195,6 @@
         }
     })
 </script>
-
-<div id="appnavs" class="haerh">
-    <div class="logo">
-        <div class="logo_left"><img src="/themes/simpleboot3/zbxh/public/assets/images/logo.png"></div>
-        <div class="logo_right">
-            <!--            <a href="javascript:void(0);" onclick="setHome(this,window.location)">设为首页</a> |-->
-            <a href="javascript:void(0);">联系电话：0771-5719066</a> |
-            <a href="javascript:void(0);" @mouseover="qrcode(1);" @mouseover="qrcode(1);"
-               @mouseout="qrcode(0);">扫码关注公众号</a>
-        </div>
-        <div :style="{display: showqr == 0?'none':'block'}" class="cxianshiyc">
-            <img src="/themes/simpleboot3/zbxh/public/assets/images/qrcode.jpg">
-        </div>
-    </div>
-
-
-    <div class="navbj">
-        <div class="nav">
-            <ul class="topnav">
-                <li :class="[{'moren':topcid==0},'']"><a href="/">网站首页</a></li>
-                <li v-for="item in menu" :class="[{'moren':topcid==item.topmenu.id},'']"
-                    @mouseover="conSonMenu($event,item.topmenu.id)" @mouseout="conSonMenuout()">
-                    <a v-if="item.topmenu.is_hit == 1" :href="'/zbxh/index/postlist/cid/'+item.topmenu.id+'.html'">{{item.topmenu.name}}</a>
-                    <a v-if="item.topmenu.is_hit == 2" href="javascript:void(0);">{{item.topmenu.name}}</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="items" :style="{display: (isshow==0?'none':'block')}" @mouseover="conSonMenu($event,menutag)"
-         @mouseout="conSonMenuout()">
-        <div class="items_sub">
-            <a v-for="item in sonmenu" :href="'/zbxh/index/postlist/cid/'+item.id+'.html'">{{item.name}}</a>
-        </div>
-    </div>
-
-</div>
 
 <div id="index">
     <div class="bannert">
