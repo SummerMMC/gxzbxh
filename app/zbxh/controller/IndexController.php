@@ -63,7 +63,6 @@ class IndexController extends HomeOtherBaseController
         //专业人才
         $alldata['zyrcmenu'] = $this->getMenu(21);
 
-
         $this->assign("alldata", $alldata);
 
         return $this->fetch('index');
