@@ -1,11 +1,11 @@
-<?php /*a:5:{s:82:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/index/index.html";i:1612344014;s:85:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/head.html";i:1612154974;s:81:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/public/function.html";i:1586872333;s:84:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/nav.html";i:1612338945;s:87:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/footer.html";i:1602490153;}*/ ?>
+<?php /*a:5:{s:82:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/index/index.html";i:1612344107;s:85:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/head.html";i:1612154974;s:81:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/public/function.html";i:1586872333;s:84:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/nav.html";i:1612338945;s:87:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/footer.html";i:1602490153;}*/ ?>
 <!doctype html>
 <html>
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=1024"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <meta name="keywords" content="广西珠宝,广西珠宝行业,广西珠宝协会,桂宝协,Jewelry Association of GuangXi,广西珠宝玉石首饰行业的企业">
+    <meta name="keywords" content="桂宝协,广西珠宝,广西珠宝行业,广西珠宝协会,Jewelry Association of GuangXi,广西珠宝玉石首饰行业的企业">
     <meta name="description"
           content="为“广西珠宝协会”，简称“桂宝协”，英文名称“Jewelry Association of GuangXi”缩写为“JAG”。是由广西珠宝玉石首饰行业的企业、相关机构及珠宝界的知名人士、珠宝爱好者自愿结成的广西全区性、行业性社会团体，是非营利性社会组织。">
     
