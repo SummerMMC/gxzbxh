@@ -4,10 +4,19 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=1024"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <meta name="keywords" content="广西珠宝,广西珠宝行业,广西珠宝协会">
-    <meta name="description" content="为“广西珠宝协会”，简称“桂宝协”，英文名称“Jewelry Association of GuangXi”缩写为“JAG”。是由广西珠宝玉石首饰行业的企业、相关机构及珠宝界的知名人士、珠宝爱好者自愿结成的广西全区性、行业性社会团体，是非营利性社会组织。">
+    <meta name="keywords" content="桂宝协,广西珠宝,广西珠宝行业,广西珠宝协会,Jewelry Association of GuangXi,广西珠宝玉石首饰行业的企业">
+    <meta name="description"
+          content="为“广西珠宝协会”，简称“桂宝协”，英文名称“Jewelry Association of GuangXi”缩写为“JAG”。是由广西珠宝玉石首饰行业的企业、相关机构及珠宝界的知名人士、珠宝爱好者自愿结成的广西全区性、行业性社会团体，是非营利性社会组织。">
     <include file="../public/head"/>
     <meta name="description" content=""/>
+    <title>
+        <foreach name="clist" item="vo">
+            <if condition="$cid == $vo.id">
+                {$vo.name}
+            </if>
+        </foreach>
+        -广西珠宝协会
+    </title>
 </head>
 <body>
 <include file="../public/nav"/>
@@ -63,7 +72,6 @@
 </div>
 <!--内容-->
 <ul class="pagination">{$page|default=''}</ul>
-
 
 
 <include file="../public/footer"/>
