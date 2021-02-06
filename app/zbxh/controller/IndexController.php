@@ -174,6 +174,8 @@ class IndexController extends HomeOtherBaseController
         }
         $this->assign("cid", session("pid"));
         $this->assign("topcid", $this->getTopcid(session("pid"))['cid']);
+        $postobj = Db::name("portal_category")->where(["delete_time" => 0, "status" => 1, "id" => session("pid")])->find();
+        $this->assign("postname", $postobj['name']);
         if (0 == $this->getTopcid(session("pid"))["post_id"]) {
             $clist = $this->getMenu($this->getTopcid(session("pid"))['cid']);
             $this->assign("clist", $clist);
