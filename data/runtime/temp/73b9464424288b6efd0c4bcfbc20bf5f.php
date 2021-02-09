@@ -1,4 +1,4 @@
-<?php /*a:5:{s:82:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/index/index.html";i:1612344192;s:85:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/head.html";i:1612154974;s:81:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/public/function.html";i:1586872333;s:84:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/nav.html";i:1612338945;s:87:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/footer.html";i:1602490153;}*/ ?>
+<?php /*a:5:{s:82:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/index/index.html";i:1612579962;s:85:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/head.html";i:1612579926;s:81:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/public/function.html";i:1586872333;s:84:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/nav.html";i:1612338945;s:87:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/footer.html";i:1602490153;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -39,7 +39,7 @@
 
 <!-- No Baidu Siteapp-->
 <meta http-equiv="Cache-Control" content="no-siteapp"/>
-<title><?php echo $site_info['site_name']; ?></title>
+
 
 <!-- HTML5 shim for IE8 support of HTML5 elements -->
 <!--[if lt IE 9]>
@@ -73,7 +73,7 @@
 
 
 	
-    <meta name="description" content=""/>
+    <title>广西珠宝协会-广西自治区民政厅批准成立的省级珠宝玉石首饰行业协会</title>
 </head>
 <body>
 <div id="appnavs" class="haerh">
