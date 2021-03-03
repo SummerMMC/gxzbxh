@@ -29,6 +29,7 @@
                     <li v-for="(item,key) in image" @mouseover="imgmover(item.id)"
                         :class="item.id == tagimgid?'cur':''">
                         <a href="#"><img :src="item.thumbnail"/></a>
+
                     </li>
                 </ul>
             </div>
@@ -36,10 +37,27 @@
         <!--bannert_left end-->
 
         <div class="bannert_right">
-            <ul class="qygg_list">
+            <ul class="con_tuju">
                 <foreach name="alldata['qygglist']" item="vo" key="key">
                     <li>
-                        <a target="_blank" href="{$vo.post_excerpt}" title="{$vo.post_title}"><img src="{$vo.thumbnail}" width="300px" height="90px;"></a>
+                        <a href="{$vo.post_excerpt}"><img src="{$vo.thumbnail}"></a>
+                    </li>
+                </foreach>
+            </ul>
+        </div>
+        <div class="bannert_right">
+            <h3 class="titlest">
+                热点关注
+            </h3>
+            <ul class="con_tuju">
+                <foreach name="alldata['hotdata']" item="vo" key="key">
+                    <li>
+                        <if condition="$key <= 2">
+                            <span class="bj">{$key+1}</span>
+                            <else/>
+                            <span class="bj1">{$key+1}</span>
+                        </if>
+                        <a :href="'/zbxh/index/post/pid/'+{$vo.post_id}+'.html'">{$vo.post_title}</a>
                     </li>
                 </foreach>
             </ul>

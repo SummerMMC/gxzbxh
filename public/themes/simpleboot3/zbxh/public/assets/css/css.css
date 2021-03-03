@@ -49,6 +49,8 @@ a:hover{color:#888;}
 .titlest{ height: 35px; border-top: solid 3px #d61010; border-bottom:  solid 1px #EDEDED; line-height: 35px; padding: 0px 10px; color: #d61010;}
 .titlest a{ float: right; color: #888; font-weight: normal; font-size: 12px;  }
 
+.qygg_list {}
+
 .con_tuju { margin-top:12px;}
 .con_tuju  li{  line-height:35px; height:35px; overflow: hidden; }
 .con_tuju  li a{width: 235px; line-height:35px; height:35px; float:left; margin-left:12px; overflow: hidden;

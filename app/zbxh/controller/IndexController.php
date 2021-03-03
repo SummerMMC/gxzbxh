@@ -37,8 +37,11 @@ class IndexController extends HomeOtherBaseController
         $alldata['zxzxmenu'] = $this->getMenu(1);
         //热点数据
         $postmodel = new PortalPostModel();
-        $hotdatapostlist = $postmodel->getPortalHotList(10, "p.is_top desc,pcp.list_order desc,p.published_time desc");
-        $alldata['hotdata'] = $hotdatapostlist;
+//        $hotdatapostlist = $postmodel->getPortalHotList(10, "p.is_top desc,pcp.list_order desc,p.published_time desc");
+//        $alldata['hotdata'] = $hotdatapostlist;
+
+        //企业广告
+        $alldata['qygglist'] = $this->getlistdata(29, 4);
 
         //资讯中心
         $zxzxpostlist = $postmodel->getPortalListByCid(8, 7, "p.is_top desc,pcp.list_order desc,p.published_time desc");
