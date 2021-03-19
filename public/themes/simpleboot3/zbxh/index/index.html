@@ -48,7 +48,7 @@
                             <else/>
                             <span class="bj1">{$key+1}</span>
                         </if>
-                        <a :href="'/zbxh/index/post/pid/'+{$vo.post_id}+'.html'">{$vo.post_title}</a>
+                        <a :href="'/zbxh/index/post/pid/'+{$vo.post_id}+'.html'"><div style="width: 50px;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;">{$vo.post_title}</div></a>
                     </li>
                 </foreach>
             </ul>
