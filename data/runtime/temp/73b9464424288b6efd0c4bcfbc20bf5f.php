@@ -1,4 +1,4 @@
-<?php /*a:5:{s:82:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/index/index.html";i:1614702932;s:85:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/head.html";i:1612880382;s:81:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/public/function.html";i:1586872333;s:84:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/nav.html";i:1612338945;s:87:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/footer.html";i:1602490153;}*/ ?>
+<?php /*a:5:{s:82:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/index/index.html";i:1616144476;s:85:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/head.html";i:1612880382;s:81:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/public/function.html";i:1586872333;s:84:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/nav.html";i:1612338945;s:87:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/footer.html";i:1602490153;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -212,6 +212,7 @@
                     <li v-for="(item,key) in image" @mouseover="imgmover(item.id)"
                         :class="item.id == tagimgid?'cur':''">
                         <a href="#"><img :src="item.thumbnail"/></a>
+
                     </li>
                 </ul>
             </div>
@@ -219,10 +220,18 @@
         <!--bannert_left end-->
 
         <div class="bannert_right">
-            <ul class="qygg_list">
-                <?php if(is_array($alldata['qygglist']) || $alldata['qygglist'] instanceof \think\Collection || $alldata['qygglist'] instanceof \think\Paginator): if( count($alldata['qygglist'])==0 ) : echo "" ;else: foreach($alldata['qygglist'] as $key=>$vo): ?>
+            <h3 class="titlest">
+                热点关注
+            </h3>
+            <ul class="con_tuju">
+                <?php if(is_array($alldata['hotdata']) || $alldata['hotdata'] instanceof \think\Collection || $alldata['hotdata'] instanceof \think\Paginator): if( count($alldata['hotdata'])==0 ) : echo "" ;else: foreach($alldata['hotdata'] as $key=>$vo): ?>
                     <li>
-                        <a target="_blank" href="<?php echo $vo['post_excerpt']; ?>" title="<?php echo $vo['post_title']; ?>"><img src="<?php echo $vo['thumbnail']; ?>" width="300px" height="90px;"></a>
+                        <?php if($key <= 2): ?>
+                            <span class="bj"><?php echo $key+1; ?></span>
+                            <?php else: ?>
+                            <span class="bj1"><?php echo $key+1; ?></span>
+                        <?php endif; ?>
+                        <a :href="'/zbxh/index/post/pid/'+<?php echo $vo['post_id']; ?>+'.html'"><?php echo $vo['post_title']; ?></a>
                     </li>
                 <?php endforeach; endif; else: echo "" ;endif; ?>
             </ul>
