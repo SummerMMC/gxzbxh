@@ -65,7 +65,7 @@ class PortalPostModel extends Model
     public function getPortalHotList($limit, $order)
     {
         if (cache("hotdata") === false) {
-            $hotdata = $this->alias("p")->leftJoin("portal_category_post pcp", "pcp.post_id = p.id")->order($order)->where(["p.recommended" => 1, "p.post_status" => 1])->paginate($limit);
+            $hotdata = $this->alias("p")->leftJoin("portal_category_post pcp", "pcp.post_id = p.id")->group("p.id")->order($order)->where(["p.recommended" => 1, "p.post_status" => 1])->paginate($limit);
             cache("hotdata", $hotdata, 3600);
             return $hotdata;
         } else {

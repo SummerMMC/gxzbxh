@@ -1,4 +1,4 @@
-<?php /*a:5:{s:82:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/index/index.html";i:1616144476;s:85:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/head.html";i:1612880382;s:81:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/public/function.html";i:1586872333;s:84:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/nav.html";i:1612338945;s:87:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/footer.html";i:1602490153;}*/ ?>
+<?php /*a:5:{s:82:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/index/index.html";i:1616152186;s:85:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/head.html";i:1612880382;s:81:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/public/function.html";i:1586872333;s:84:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/nav.html";i:1612338945;s:87:"/Volumes/MMD/project/github/gxzbxh/public/themes/simpleboot3/zbxh/../public/footer.html";i:1602490153;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -267,7 +267,11 @@
                                         <li class="fl">
                                             <a href="/zbxh/index/post/pid/<?php echo $vo['post_id']; ?>.html">
                                                 <img src="<?php echo $vo['thumbnail']; ?>">
-                                                <div class="tit"><?php echo $vo['post_title']; ?></div>
+                                                <div class="tit">
+                                                    <div style="text-align:center;width: 170px;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;">
+                                                        <?php echo $vo['post_title']; ?>
+                                                    </div>
+                                                </div>
                                             </a>
                                         </li>
                                     <?php endif; ?>
@@ -510,76 +514,15 @@
 
         <div class="main_two">
             <ul class="main_title">
-                <li class="morest"><a href="javascript:void(0);">会展活动</a></li>
-                <a :href="'/zbxh/index/postlist/cid/3.html'" class="gengduo">更多</a>
+                <li class="morest"><a href="javascript:void(0);">会员单位</a></li>
             </ul>
             <div class="hdong">
-                <div class="hdong_l">
-                    <?php if(is_array($alldata['hzhdlist']) || $alldata['hzhdlist'] instanceof \think\Collection || $alldata['hzhdlist'] instanceof \think\Paginator): if( count($alldata['hzhdlist'])==0 ) : echo "" ;else: foreach($alldata['hzhdlist'] as $key=>$vo): if($key == 0): ?>
-                            <dl class="imgst hdong_l_l">
-                                <dd><a :href="'/zbxh/index/post/pid/'+<?php echo $vo['post_id']; ?>+'.html'"><img src="<?php echo $vo['thumbnail']; ?>"
-                                                                                                  style="width: 240px ;"></a>
-                                </dd>
-                                <dt class="titlstno240"><a :href="'/zbxh/index/post/pid/'+<?php echo $vo['post_id']; ?>+'.html'"><?php echo $vo['post_title']; ?></a>
-                                </dt>
-                            </dl>
-                        <?php endif; ?>
+                    <?php if(is_array($alldata['qygglist']) || $alldata['qygglist'] instanceof \think\Collection || $alldata['qygglist'] instanceof \think\Paginator): if( count($alldata['qygglist'])==0 ) : echo "" ;else: foreach($alldata['qygglist'] as $key=>$vo): ?>
+                        <div style="float: left;margin:10px 5px 5px">
+                            <a target="_blank" href="<?php echo $vo['post_excerpt']; ?>" title="<?php echo $vo['post_title']; ?>"><img
+                                    src="<?php echo $vo['thumbnail']; ?>" width="390px" height="114px;"></a>
+                        </div>
                     <?php endforeach; endif; else: echo "" ;endif; ?>
-                    <div class="hdong_l_r">
-                        <ul class="main_lists mtlist30 ">
-                            <?php if(is_array($alldata['hzhdlist']) || $alldata['hzhdlist'] instanceof \think\Collection || $alldata['hzhdlist'] instanceof \think\Paginator): if( count($alldata['hzhdlist'])==0 ) : echo "" ;else: foreach($alldata['hzhdlist'] as $key=>$vo): if($key == 2): ?>
-                                    <li>
-                                        <a :href="'/zbxh/index/post/pid/'+<?php echo $vo['post_id']; ?>+'.html'">
-                                            <h3><?php echo $vo['post_title']; ?></h3>
-                                            <p><?php echo $vo['post_excerpt']; ?></p>
-                                        </a>
-                                    </li>
-                                <?php endif; ?>
-                            <?php endforeach; endif; else: echo "" ;endif; if(is_array($alldata['hzhdlist']) || $alldata['hzhdlist'] instanceof \think\Collection || $alldata['hzhdlist'] instanceof \think\Paginator): if( count($alldata['hzhdlist'])==0 ) : echo "" ;else: foreach($alldata['hzhdlist'] as $key=>$vo): if($key == 3): ?>
-                                    <li>
-                                        <a :href="'/zbxh/index/post/pid/'+<?php echo $vo['post_id']; ?>+'.html'">
-                                            <h3><?php echo $vo['post_title']; ?></h3>
-                                            <p><?php echo $vo['post_excerpt']; ?></p>
-                                        </a>
-                                    </li>
-                                <?php endif; ?>
-                            <?php endforeach; endif; else: echo "" ;endif; ?>
-                        </ul>
-                    </div>
-                </div>
-                <div class="hdong_r">
-                    <?php if(is_array($alldata['hzhdlist']) || $alldata['hzhdlist'] instanceof \think\Collection || $alldata['hzhdlist'] instanceof \think\Paginator): if( count($alldata['hzhdlist'])==0 ) : echo "" ;else: foreach($alldata['hzhdlist'] as $key=>$vo): if($key == 1): ?>
-                            <dl class="imgst hdong_l_l">
-                                <dd><a :href="'/zbxh/index/post/pid/'+<?php echo $vo['post_id']; ?>+'.html'"><img src="<?php echo $vo['thumbnail']; ?>"
-                                                                                                  style="width: 240px ;"></a>
-                                </dd>
-                                <dt class="titlstno240"><a :href="'/zbxh/index/post/pid/'+<?php echo $vo['post_id']; ?>+'.html'"><?php echo $vo['post_title']; ?></a>
-                                </dt>
-                            </dl>
-                        <?php endif; ?>
-                    <?php endforeach; endif; else: echo "" ;endif; ?>
-                    <div class="hdong_l_r">
-                        <ul class="main_lists mtlist30 ">
-                            <?php if(is_array($alldata['hzhdlist']) || $alldata['hzhdlist'] instanceof \think\Collection || $alldata['hzhdlist'] instanceof \think\Paginator): if( count($alldata['hzhdlist'])==0 ) : echo "" ;else: foreach($alldata['hzhdlist'] as $key=>$vo): if($key == 4): ?>
-                                    <li>
-                                        <a :href="'/zbxh/index/post/pid/'+<?php echo $vo['post_id']; ?>+'.html'">
-                                            <h3><?php echo $vo['post_title']; ?></h3>
-                                            <p><?php echo $vo['post_excerpt']; ?></p>
-                                        </a>
-                                    </li>
-                                <?php endif; ?>
-                            <?php endforeach; endif; else: echo "" ;endif; if(is_array($alldata['hzhdlist']) || $alldata['hzhdlist'] instanceof \think\Collection || $alldata['hzhdlist'] instanceof \think\Paginator): if( count($alldata['hzhdlist'])==0 ) : echo "" ;else: foreach($alldata['hzhdlist'] as $key=>$vo): if($key == 5): ?>
-                                    <li>
-                                        <a :href="'/zbxh/index/post/pid/'+<?php echo $vo['post_id']; ?>+'.html'">
-                                            <h3><?php echo $vo['post_title']; ?></h3>
-                                            <p><?php echo $vo['post_excerpt']; ?></p>
-                                        </a>
-                                    </li>
-                                <?php endif; ?>
-                            <?php endforeach; endif; else: echo "" ;endif; ?>
-                        </ul>
-                    </div>
-                </div>
             </div>
         </div>
 

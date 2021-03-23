@@ -87,11 +87,7 @@
                                         <li class="fl">
                                             <a href="/zbxh/index/post/pid/{$vo['post_id']}.html">
                                                 <img src="{$vo['thumbnail']}">
-                                                <div class="tit">
-                                                    <div style="text-align:center;width: 170px;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;">
-                                                        {$vo['post_title']}
-                                                    </div>
-                                                </div>
+                                                <div class="tit"><div style="text-align:center;width: 170px;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;">{$vo['post_title']}</div></div>
                                             </a>
                                         </li>
                                     </if>
@@ -345,15 +341,84 @@
 
         <div class="main_two">
             <ul class="main_title">
-                <li class="morest"><a href="javascript:void(0);">会员单位</a></li>
+                <li class="morest"><a href="javascript:void(0);">会展活动</a></li>
+                <a :href="'/zbxh/index/postlist/cid/3.html'" class="gengduo">更多</a>
             </ul>
             <div class="hdong">
-                    <foreach name="alldata['qygglist']" item="vo" key="key">
-                        <div style="float: left;margin:10px 5px 5px">
-                            <a target="_blank" href="{$vo.post_excerpt}" title="{$vo.post_title}"><img
-                                    src="{$vo.thumbnail}" width="390px" height="114px;"></a>
-                        </div>
+                <div class="hdong_l">
+                    <foreach name="alldata['hzhdlist']" item="vo" key="key">
+                        <if condition="$key == 0">
+                            <dl class="imgst hdong_l_l">
+                                <dd><a :href="'/zbxh/index/post/pid/'+{$vo.post_id}+'.html'"><img src="{$vo.thumbnail}"
+                                                                                                  style="width: 240px ;"></a>
+                                </dd>
+                                <dt class="titlstno240"><a :href="'/zbxh/index/post/pid/'+{$vo.post_id}+'.html'">{$vo.post_title}</a>
+                                </dt>
+                            </dl>
+                        </if>
                     </foreach>
+                    <div class="hdong_l_r">
+                        <ul class="main_lists mtlist30 ">
+                            <foreach name="alldata['hzhdlist']" item="vo" key="key">
+                                <if condition="$key == 2">
+                                    <li>
+                                        <a :href="'/zbxh/index/post/pid/'+{$vo.post_id}+'.html'">
+                                            <h3>{$vo.post_title}</h3>
+                                            <p>{$vo.post_excerpt}</p>
+                                        </a>
+                                    </li>
+                                </if>
+                            </foreach>
+                            <foreach name="alldata['hzhdlist']" item="vo" key="key">
+                                <if condition="$key == 3">
+                                    <li>
+                                        <a :href="'/zbxh/index/post/pid/'+{$vo.post_id}+'.html'">
+                                            <h3>{$vo.post_title}</h3>
+                                            <p>{$vo.post_excerpt}</p>
+                                        </a>
+                                    </li>
+                                </if>
+                            </foreach>
+                        </ul>
+                    </div>
+                </div>
+                <div class="hdong_r">
+                    <foreach name="alldata['hzhdlist']" item="vo" key="key">
+                        <if condition="$key == 1">
+                            <dl class="imgst hdong_l_l">
+                                <dd><a :href="'/zbxh/index/post/pid/'+{$vo.post_id}+'.html'"><img src="{$vo.thumbnail}"
+                                                                                                  style="width: 240px ;"></a>
+                                </dd>
+                                <dt class="titlstno240"><a :href="'/zbxh/index/post/pid/'+{$vo.post_id}+'.html'">{$vo.post_title}</a>
+                                </dt>
+                            </dl>
+                        </if>
+                    </foreach>
+                    <div class="hdong_l_r">
+                        <ul class="main_lists mtlist30 ">
+                            <foreach name="alldata['hzhdlist']" item="vo" key="key">
+                                <if condition="$key == 4">
+                                    <li>
+                                        <a :href="'/zbxh/index/post/pid/'+{$vo.post_id}+'.html'">
+                                            <h3>{$vo.post_title}</h3>
+                                            <p>{$vo.post_excerpt}</p>
+                                        </a>
+                                    </li>
+                                </if>
+                            </foreach>
+                            <foreach name="alldata['hzhdlist']" item="vo" key="key">
+                                <if condition="$key == 5">
+                                    <li>
+                                        <a :href="'/zbxh/index/post/pid/'+{$vo.post_id}+'.html'">
+                                            <h3>{$vo.post_title}</h3>
+                                            <p>{$vo.post_excerpt}</p>
+                                        </a>
+                                    </li>
+                                </if>
+                            </foreach>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
 

@@ -18,7 +18,10 @@
 <div id="post">
     <div class="hotstitle nav ">
         <h1>{$post.post_title}</h1>
-        <p>发布时间：{:date("Y-m-d H:i",$post.published_time)}</p>
+        <p>发布时间：{:date("Y-m-d H:i",$post.published_time)} &nbsp;&nbsp;
+            <if condition="$post.post_source != ''">文章涞源：{$post.post_source}</if>
+            <if condition="$post.post_source == ''">文章涞源：广西珠宝协会</if>
+        </p>
     </div>
     <div class="ht01"></div>
 
