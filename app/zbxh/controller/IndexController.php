@@ -41,7 +41,7 @@ class IndexController extends HomeOtherBaseController
         $alldata['hotdata'] = $hotdatapostlist;
 
         //企业广告
-        $alldata['qygglist'] = $this->getlistdata(29, 4);
+        $alldata['qygglist'] = $this->getlistdata(29, 9);
 
         //资讯中心
         $zxzxpostlist = $postmodel->getPortalListByCid(8, 7, "p.is_top desc,pcp.list_order desc,p.published_time desc");
