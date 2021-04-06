@@ -34,7 +34,7 @@ class PortalPostModel extends Model
     public function getPortalListByCid($cid, $limit, $order)
     {
         if (cache($cid . "_PortalListByCid") === false) {
-            $postlist = $this->alias("p")->leftJoin("portal_category_post pcp", "pcp.post_id = p.id")->order($order)->where(["pcp.category_id" => $cid, "p.post_status" => 1])->paginate($limit);
+            $postlist = $this->alias("p")->leftJoin("portal_category_post pcp", "pcp.post_id = p.id")->order($order)->where(["pcp.category_id" => $cid, "p.post_status" => 1, "p.delete_time" => 0])->paginate($limit);
             cache($cid . "_PortalListByCid", $postlist, 3600);
             return $postlist;
         } else {
@@ -52,7 +52,7 @@ class PortalPostModel extends Model
      */
     public function getPortalListByCidForPage($cid, $limit, $order)
     {
-        return $this->alias("p")->leftJoin("portal_category_post pcp", "pcp.post_id = p.id")->order($order)->where(["pcp.category_id" => $cid, "p.post_status" => 1])->paginate($limit);
+        return $this->alias("p")->leftJoin("portal_category_post pcp", "pcp.post_id = p.id")->order($order)->where(["pcp.category_id" => $cid, "p.post_status" => 1, "p.delete_time" => 0])->paginate($limit);
     }
 
     /**

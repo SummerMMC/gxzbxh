@@ -75,7 +75,7 @@
                                         <a href="/zbxh/index/post/pid/{$vo['post_id']}.html"><img
                                                 src="{$vo['thumbnail']}"></a>
                                     </dd>
-                                    <dt><a :href="'/zbxh/index/post/pid/'+{$vo.post_id}+'.html'">{$vo.post_title}</a>
+                                    <dt><a href="/zbxh/index/post/pid/{$vo.post_id}.html">{$vo.post_title}</a>
                                     </dt>
                                 </dl>
                             </if>
@@ -103,7 +103,7 @@
                         <ul class="main_lists">
                             <foreach name="alldata['zxzx']['data']" item="vo" key="zxzx_tag">
                                 <li v-if="{$zxzx_tag} > 2">
-                                    <a href="'/zbxh/index/post/pid/item.post_id.html">
+                                    <a href="/zbxh/index/post/pid/{$vo.post_id}.html">
                                         <h3>{$vo.post_title}</h3>
                                         <p>{$vo.post_excerpt}</p>
                                     </a>
